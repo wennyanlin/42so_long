@@ -1,8 +1,8 @@
-NAME = so.long
+NAME = so_long
 
-INCLUDES = so.long.h
+INCLUDES = so_long.h
 
-SRCS = so.long.c\
+SRCS = so_long.c string_utils.c playground_check.c playground_utils.c read_file.c\
 
 OBJS = $(SRCS:.c=.o)
 
