@@ -2,7 +2,7 @@
 
 typedef struct s_line
 {
-	char	*storage;
+	char	*remaining_storage;
 	char	*line;
 
 }	t_line;
@@ -15,91 +15,74 @@ typedef struct s_line
 
 
 
-// t_line	get_next_line(char *storage)
-// {
-
-// 	return ();
-// }
-
-char	*ft_strjoin(char *str1, char *str2)
+t_line	get_next_line(char *storage)
 {
+	t_line	line;
 	int		i;
-	int		str1_len;
-	int		str2_len;
-	char	*result;
+	int		newline_i;
 
+    line.line = NULL;
+	if (!storage)
+		return (line);
 	i = 0;
-	str1_len = ft_strlen(str1);
-	str2_len = ft_strlen(str2);
-	result = malloc(sizeof(char) * (str1_len + str2_len + 1));
-	if (!result)
-		return (NULL);
-	str1_len = 0;
-	str2_len = 0;
-	while (str1[str1_len])
-		result[i++] = str1[str1_len++];
-	while (str2[str2_len])
-		result[i++] = str2[str2_len++];
-	result[i] = '\0';
-	return (result);
-}
-
-int	string_contain(char *str, char target)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
+	newline_i = 0;
+	while (storage[i])
 	{
-		if (str[i] == target)
-			return (1);
+		if (storage[i] == '\n')
+			newline_i = i;
 		i++;
 	}
-	return (0);
-}
-
-size_t	ft_strlen(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while(str[i])
-		i++;
-	return (i);
+	line.line = malloc(sizeof(char) * (newline_i + 1));
+	if (!line.line)
+		return (line);
+	line.line = ft_strdup(storage, (newline_i));
+	if (!line.line)
+	{
+		free(storage);
+		return (line);
+	}
+	return (line);
 }
 
 char	*read_file(char *filepath)
 {
+	int     BUFFER_SIZE = 5;
 	int		fd;
 	int		bytes_read;
-	char	buffer[4];
+	char	*buffer;
 	char	*storage;
 
 	fd = open(filepath, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
+	storage = malloc(sizeof(char));
+	if (!storage)
+		return (NULL);
+	storage[0] = '\0';
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (NULL);
+	buffer[0] = '\0';
 	bytes_read = 1;
 	while (bytes_read > 0 && string_contain(buffer, '\n') == 0)
 	{
-		bytes_read = read(fd, buffer, 3);
-		printf("\n----\n\nread '%d' bytes, content read: '%s'\n\n-----\n", bytes_read, buffer);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 		{
-			// free(buffer);
 			free(storage);
+			free(buffer);
 			return (NULL);
 		}
 		buffer[bytes_read] = '\0';
 		storage = ft_strjoin(storage, buffer);
 	}
+	free(buffer);
 	close(fd);
-	// free(buffer);
-	return (storage);
+	return (get_next_line(storage).line);
+
 }
 
-int	main()
+void test_read()
 {
-	printf("result: '%s'\n", read_file("./Makefile"));
+	printf("result: '%s'\n", read_file("./maps/test.txt"));
 }

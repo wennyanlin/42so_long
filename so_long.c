@@ -1,6 +1,8 @@
-#include <stdio.h>
+#include "so_long.h"
 
 int	main()
 {
-	printf("Hello World!\n");
+	test_read();
+	// test_string_utils();
+	return (0);
 }
