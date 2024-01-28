@@ -34,6 +34,7 @@ char **buildPlayground(int height, int width)
 		playground[i][width] = '\0';
 		i++;
 	}
+	playground[i] = NULL;
 	return (playground);
 }
 

@@ -8,9 +8,12 @@
 
 typedef struct s_play
 {
-	char	*storage;
-	int		cursor;
-
+	char	*playground;
+	int 	width;
+	int 	num_collectable;
+	int		is_exit_open;
+	int		player_x;
+	int		player_y;
 }	t_play;
 
 //string_utils
@@ -34,5 +37,7 @@ void 	write_playground(int fd, char **playground, int width);
 void	test_read();
 void	test_string_utils();
 void	test_split();
+void	test_playground_check();
+
 
 #endif
