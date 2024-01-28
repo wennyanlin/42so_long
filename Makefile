@@ -3,6 +3,7 @@ NAME = so_long
 INCLUDES = so_long.h
 
 SRCS = so_long.c string_utils.c playground_check.c playground_utils.c read_file.c\
+		ft_split.c\
 
 OBJS = $(SRCS:.c=.o)
 
