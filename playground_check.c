@@ -6,7 +6,7 @@
  * 	- 1 exit
  *  - at least one collectible
  * - make sure playground is rectangular (all rows same length) - DONE
- * - make sure playground is surrounded by walls
+ * - make sure playground is surrounded by walls                - DONE
  * - make sure there is valid route for player to reach the exit
 */
 int	is_playground_shape_valid(char **arr)
@@ -20,8 +20,21 @@ int	is_playground_shape_valid(char **arr)
 	width = 0;
 	while (arr[i])
 	{
+		j = 0;
 		while (arr[i][j])
+		{
+			if (i == 0 || arr[i + 1] == NULL) //is first or last row?
+			{
+				if (arr[i][j] != '1')
+					return (0);
+			}
+			else
+			{
+				if (arr[i][0] != '1' || arr[i][width - 1] != '1')
+					return (0);
+			}
 			j++;
+		}
 		if (i == 0)
 			width = j;
 		if (j != width)
@@ -56,6 +69,11 @@ void	test_playground_check()
 	printf("\nShould return error code when playground is not a rectangle:\n");
 	write_playground(STDOUT_FILENO, playground, 7);
 	printf("expected: 0, actual result: %d\n", is_playground_shape_valid(playground));
+
+	playground = read_file("maps/invalid_wall.ber");
+	printf("\nShould return error code when playground wall is not valid:\n");
+	write_playground(STDOUT_FILENO, playground, 5);
+	printf("expected: '0', actual result: '%d'\n", is_playground_shape_valid(playground));
 }
 
 
