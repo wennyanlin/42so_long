@@ -1,5 +1,18 @@
 #include "so_long.h"
 
+t_play empty_playground()
+{
+	t_play playground;
+	playground.playground = NULL;
+	playground.width = 0;
+	playground.num_collectable = 0;
+	playground.player_x = 0;
+	playground.player_y = 0;
+	playground.is_exit_open = 0;
+
+	return (playground);
+}
+
 /**
  * playground contains:
  * 	- 1 player
@@ -21,19 +34,21 @@ int	is_playground_shape_valid(char **arr)
 	while (arr[i])
 	{
 		j = 0;
-		while (arr[i][j])
+		if (i == 0 || arr[i + 1] == NULL) //is first or last row?
 		{
-			if (i == 0 || arr[i + 1] == NULL) //is first or last row?
+			while (arr[i][j])
 			{
 				if (arr[i][j] != '1')
 					return (0);
+				j++;
 			}
-			else
-			{
-				if (arr[i][0] != '1' || arr[i][width - 1] != '1')
-					return (0);
-			}
-			j++;
+		}
+		else
+		{
+			if (arr[i][0] != '1' || arr[i][width - 1] != '1')
+				return (0);
+			while (arr[i][j])
+				j++;
 		}
 		if (i == 0)
 			width = j;
