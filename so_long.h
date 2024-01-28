@@ -8,9 +8,12 @@
 
 typedef struct s_play
 {
-	char	*storage;
-	int		cursor;
-
+	char	*playground;
+	int 	width;
+	int		player_x;
+	int		player_y;
+	int		is_exit_open;
+	int 	num_collectable;
 }	t_play;
 
 //string_utils
@@ -24,7 +27,7 @@ char	**ft_split(char *str, char seperator);
 char	**read_file(char *filepath);
 
 //playground_check
-int		is_playground_shape_valid(char **arr);
+t_play	is_playground_shape_valid(char **arr);
 
 //playground_utils
 char 	**buildPlayground(int height, int width);
@@ -34,5 +37,7 @@ void 	write_playground(int fd, char **playground, int width);
 void	test_read();
 void	test_string_utils();
 void	test_split();
+void	test_playground_check();
+
 
 #endif
