@@ -8,7 +8,7 @@
 
 typedef struct s_play
 {
-	char	*playground;
+	char	**playground;
 	int 	width;
 	int		player_x;
 	int		player_y;
@@ -38,6 +38,7 @@ void	test_read();
 void	test_string_utils();
 void	test_split();
 void	test_playground_check();
+void 	print_playground(t_play playground);
 
 
 #endif

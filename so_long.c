@@ -22,14 +22,101 @@ char	validate_direction_command(char command)
 	return (0);
 }
 
+t_play	get_playground_new_status(t_play playground_state, char command)
+{
+	int	x;
+	int	y;
+	char **playground;
+	int	num_collectable;
+
+
+	x = playground_state.player_x;
+	y = playground_state.player_y;
+	playground = playground_state.playground;
+	num_collectable = playground_state.num_collectable;
+	if (command == 'W')
+	{
+		if (playground[x - 1][y] == '0' || playground[x - 1][y] == 'C'
+			|| (playground[x - 1][y] == 'E' && num_collectable == 0))
+		{
+			if (playground[x - 1][y] == 'C')
+				playground_state.num_collectable--;
+			if (playground[x - 1][y] == 'E' && num_collectable == 0)
+				playground_state.is_exit_open = 1;
+			playground[x][y] = '0';
+			playground[x - 1][y] = 'P';
+			playground_state.player_x = x - 1;
+		}
+	}
+	else if (command == 'S')
+	{
+		if (playground[x + 1][y] == '0' || playground[x + 1][y] == 'C'
+			|| (playground[x + 1][y] == 'E' && num_collectable == 0))
+		{
+			if (playground[x + 1][y] == 'C')
+				playground_state.num_collectable--;
+			if (playground[x + 1][y] == 'E' && num_collectable == 0)
+				playground_state.is_exit_open = 1;
+			playground[x][y] = '0';
+			playground[x + 1][y] = 'P';
+			playground_state.player_x = x + 1;
+		}
+	}
+	else if (command == 'A')
+	{
+		if (playground[x][y - 1] == '0' || playground[x][y - 1] == 'C'
+			|| (playground[x][y - 1] == 'E' && num_collectable == 0))
+		{
+			if (playground[x][y - 1] == 'C')
+				playground_state.num_collectable--;
+			if (playground[x][y - 1] == 'E' && num_collectable == 0)
+				playground_state.is_exit_open = 1;
+			playground[x][y] = '0';
+			playground[x][y - 1] = 'P';
+			playground_state.player_y = y - 1;
+
+		}
+	}
+	else if (command == 'D')
+	{
+		if (playground[x][y + 1] == '0' || playground[x][y + 1] == 'C'
+			|| (playground[x][y + 1] == 'E' && num_collectable == 0))
+		{
+			if (playground[x][y + 1] == 'C')
+				playground_state.num_collectable--;
+			if (playground[x][y + 1] == 'E' && num_collectable == 0)
+				playground_state.is_exit_open = 1;
+			playground[x][y] = '0';
+			playground[x][y + 1] = 'P';
+			playground_state.player_y = y + 1;
+
+		}
+	}
+	return (playground_state);
+}
+
 int	main()
 {
 	// test_read();
 	// test_string_utils();
 	// test_split();
 	// test_playground_check();
-	validate_direction_command(read_direction_command(STDIN_FILENO));
+	char	command;
+	char 	**arr;
+	t_play	playground_state;
 
+	arr = read_file("maps/playground_detail.ber");
+	playground_state = is_playground_shape_valid(arr);
+	playground_state.playground = arr;
+	while (playground_state.is_exit_open != 1)
+	{
+		write_playground(STDOUT_FILENO, playground_state.playground, 16);
+		command = validate_direction_command(read_direction_command(STDIN_FILENO));
+		printf("command before: '%c'\n", command);
+		playground_state = get_playground_new_status(playground_state, command);
+		printf("command after: '%c'\n", command);
+		print_playground(playground_state);
+	}
 	/**
 	 * read the map
 	 * validate the map
@@ -38,6 +125,9 @@ int	main()
 	 * 	 - read the direction command
 	 * 	 - validate the direction command
 	 * 	 - if valid make the move
+	 * 		- recieve correct command
+	 * 		- update new playground state
+
 	 * 	 - otherwise don't move
 	 *   - update state
 	 * 		- if on collectible, update collectible count
