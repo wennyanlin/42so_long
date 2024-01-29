@@ -9,10 +9,17 @@ char	read_direction_command(int input_fd)
 	if (!buffer)
 		return (0);
 	read(input_fd, buffer, 1);
-	printf("command: %c\n", buffer[0]);
+	// printf("command: %c\n", buffer[0]);
 	command = buffer[0];
 	free(buffer);
 	return (command);
+}
+
+char	validate_direction_command(char command)
+{
+	if (command == 'W' || command == 'A' || command == 'S' || command == 'D')
+		return (command);
+	return (0);
 }
 
 int	main()
@@ -21,7 +28,7 @@ int	main()
 	// test_string_utils();
 	// test_split();
 	// test_playground_check();
-	read_direction_command(STDIN_FILENO);
+	validate_direction_command(read_direction_command(STDIN_FILENO));
 
 	/**
 	 * read the map
