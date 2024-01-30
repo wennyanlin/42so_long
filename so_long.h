@@ -32,6 +32,7 @@ t_play	is_playground_shape_valid(char **arr);
 //playground_utils
 char 	**buildPlayground(int height, int width);
 void 	write_playground(int fd, char **playground, int width);
+t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y);
 
 //test functions
 void	test_read();

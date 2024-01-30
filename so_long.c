@@ -26,71 +26,42 @@ t_play	get_playground_new_status(t_play playground_state, char command)
 {
 	int	x;
 	int	y;
-	char **playground;
-	int	num_collectable;
-
 
 	x = playground_state.player_x;
 	y = playground_state.player_y;
-	playground = playground_state.playground;
-	num_collectable = playground_state.num_collectable;
 	if (command == 'W')
-	{
-		if (playground[x - 1][y] == '0' || playground[x - 1][y] == 'C'
-			|| (playground[x - 1][y] == 'E' && num_collectable == 0))
-		{
-			if (playground[x - 1][y] == 'C')
-				playground_state.num_collectable--;
-			if (playground[x - 1][y] == 'E' && num_collectable == 0)
-				playground_state.is_exit_open = 1;
-			playground[x][y] = '0';
-			playground[x - 1][y] = 'P';
-			playground_state.player_x = x - 1;
-		}
-	}
+		playground_state = update_command(playground_state, (x - 1), y);
 	else if (command == 'S')
-	{
-		if (playground[x + 1][y] == '0' || playground[x + 1][y] == 'C'
-			|| (playground[x + 1][y] == 'E' && num_collectable == 0))
-		{
-			if (playground[x + 1][y] == 'C')
-				playground_state.num_collectable--;
-			if (playground[x + 1][y] == 'E' && num_collectable == 0)
-				playground_state.is_exit_open = 1;
-			playground[x][y] = '0';
-			playground[x + 1][y] = 'P';
-			playground_state.player_x = x + 1;
-		}
-	}
+		playground_state = update_command(playground_state, (x + 1), y);
 	else if (command == 'A')
-	{
-		if (playground[x][y - 1] == '0' || playground[x][y - 1] == 'C'
-			|| (playground[x][y - 1] == 'E' && num_collectable == 0))
-		{
-			if (playground[x][y - 1] == 'C')
-				playground_state.num_collectable--;
-			if (playground[x][y - 1] == 'E' && num_collectable == 0)
-				playground_state.is_exit_open = 1;
-			playground[x][y] = '0';
-			playground[x][y - 1] = 'P';
-			playground_state.player_y = y - 1;
-
-		}
-	}
+		playground_state = update_command(playground_state, x, (y - 1));
 	else if (command == 'D')
-	{
-		if (playground[x][y + 1] == '0' || playground[x][y + 1] == 'C'
-			|| (playground[x][y + 1] == 'E' && num_collectable == 0))
-		{
-			if (playground[x][y + 1] == 'C')
-				playground_state.num_collectable--;
-			if (playground[x][y + 1] == 'E' && num_collectable == 0)
-				playground_state.is_exit_open = 1;
-			playground[x][y] = '0';
-			playground[x][y + 1] = 'P';
-			playground_state.player_y = y + 1;
+		playground_state = update_command(playground_state, x, (y + 1));
+	return (playground_state);
+}
 
-		}
+t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
+{
+	char	**playground;
+	int		num_collectable;
+	int		x;
+	int		y;
+
+	x = playground_state.player_x;
+	y = playground_state.player_y;
+	num_collectable = playground_state.num_collectable;
+	playground = playground_state.playground;
+	if (playground[newplayer_x][newplayer_y] == '0' || playground[newplayer_x][newplayer_y] == 'C'
+		|| (playground[newplayer_x][newplayer_y] == 'E' && num_collectable == 0))
+	{
+		if (playground[newplayer_x][newplayer_y] == 'C')
+			playground_state.num_collectable--;
+		if (playground[newplayer_x][newplayer_y] == 'E' && num_collectable == 0)
+			playground_state.is_exit_open = 1;
+		playground[x][y] = '0';
+		playground[newplayer_x][newplayer_y] = 'P';
+		playground_state.player_x = newplayer_x;
+		playground_state.player_y = newplayer_y;
 	}
 	return (playground_state);
 }
@@ -110,7 +81,7 @@ int	main()
 	playground_state.playground = arr;
 	while (playground_state.is_exit_open != 1)
 	{
-		write_playground(STDOUT_FILENO, playground_state.playground, 16);
+		write_playground(STDOUT_FILENO, playground_state.playground, 21);
 		command = validate_direction_command(read_direction_command(STDIN_FILENO));
 		printf("command before: '%c'\n", command);
 		playground_state = get_playground_new_status(playground_state, command);
