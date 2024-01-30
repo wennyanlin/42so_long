@@ -8,7 +8,7 @@
 
 typedef struct s_play
 {
-	char	*playground;
+	char	**playground;
 	int 	width;
 	int		player_x;
 	int		player_y;
@@ -32,12 +32,14 @@ t_play	is_playground_shape_valid(char **arr);
 //playground_utils
 char 	**buildPlayground(int height, int width);
 void 	write_playground(int fd, char **playground, int width);
+t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y);
 
 //test functions
 void	test_read();
 void	test_string_utils();
 void	test_split();
 void	test_playground_check();
+void 	print_playground(t_play playground);
 
 
 #endif

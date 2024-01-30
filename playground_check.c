@@ -21,15 +21,6 @@ void print_playground(t_play playground)
 	printf("is_exit_open: %d\n", playground.is_exit_open);
 }
 
-/**
- * playground contains:
- * 	- 1 player
- * 	- 1 exit
- *  - at least one collectible
- * - make sure playground is rectangular (all rows same length) - DONE
- * - make sure playground is surrounded by walls                - DONE
- * - make sure there is valid route for player to reach the exit
-*/
 t_play	is_playground_shape_valid(char **arr)
 {
 	int	i;
