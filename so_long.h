@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include "./mlx/mlx.h"
 
 typedef struct s_play
 {
@@ -15,6 +16,15 @@ typedef struct s_play
 	int		is_exit_open;
 	int 	num_collectable;
 }	t_play;
+
+typedef struct s_data
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_data;
 
 //string_utils
 size_t	ft_strlen(char *str);
@@ -40,6 +50,10 @@ void	test_string_utils();
 void	test_split();
 void	test_playground_check();
 void 	print_playground(t_play playground);
+
+//frontend
+void	start();
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 
 #endif

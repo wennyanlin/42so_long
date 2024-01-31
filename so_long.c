@@ -72,32 +72,34 @@ int	main()
 	// test_string_utils();
 	// test_split();
 	// test_playground_check();
-	char	command;
-	char 	**arr;
-	t_play	playground_state;
+	// char	command;
+	// char 	**arr;
+	// t_play	playground_state;
 
-	arr = read_file("maps/playground_detail.ber");
-	playground_state = is_playground_shape_valid(arr);
-	playground_state.playground = arr;
-	while (playground_state.is_exit_open != 1)
-	{
-		write_playground(STDOUT_FILENO, playground_state.playground, 21);
-		command = validate_direction_command(read_direction_command(STDIN_FILENO));
-		printf("command before: '%c'\n", command);
-		playground_state = get_playground_new_status(playground_state, command);
-		printf("command after: '%c'\n", command);
-		print_playground(playground_state);
-	}
+
+	// arr = read_file("maps/playground_detail.ber");
+	// playground_state = is_playground_shape_valid(arr);
+	// playground_state.playground = arr;
+	// while (playground_state.is_exit_open != 1)
+	// {
+	// 	write_playground(STDOUT_FILENO, playground_state.playground, 21);
+	// 	command = validate_direction_command(read_direction_command(STDIN_FILENO));
+	// 	printf("command before: '%c'\n", command);
+	// 	playground_state = get_playground_new_status(playground_state, command);
+	// 	printf("command after: '%c'\n", command);
+	// 	print_playground(playground_state);
+	// }
+	start();
 	/**
 	 * read the map
 	 * validate the map
 	 *	- a valid route to exit
-	 * play the game
-	 * 	 - read the direction command
-	 * 	 - validate the direction command
-	 * 	 - if valid make the move
-	 * 		- recieve correct command
-	 * 		- update new playground state
+	 * play the game -DONE
+	 * 	 - read the direction command -DONE
+	 * 	 - validate the direction command -DONE
+	 * 	 - if valid make the move -DONE
+	 * 		- recieve correct command -DONE
+	 * 		- update new playground state -DONE
 
 	 * 	 - otherwise don't move
 	 *   - update state
