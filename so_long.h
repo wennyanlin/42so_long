@@ -6,11 +6,13 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include "./mlx/mlx.h"
+#include <math.h>
 
 typedef struct s_play
 {
 	char	**playground;
 	int 	width;
+	int		height;
 	int		player_x;
 	int		player_y;
 	int		is_exit_open;
@@ -24,8 +26,9 @@ typedef struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	int		size_x;
-	int		size_y;
+	int		width;
+	int		height;
+	t_play	playground_state;
 }	t_data;
 
 //string_utils

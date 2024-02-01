@@ -90,22 +90,5 @@ int	main()
 	// 	print_playground(playground_state);
 	// }
 	start(playground_state);
-	/**
-	 * read the map
-	 * validate the map
-	 *	- a valid route to exit
-	 * play the game -DONE
-	 * 	 - read the direction command -DONE
-	 * 	 - validate the direction command -DONE
-	 * 	 - if valid make the move -DONE
-	 * 		- recieve correct command -DONE
-	 * 		- update new playground state -DONE
-
-	 * 	 - otherwise don't move
-	 *   - update state
-	 * 		- if on collectible, update collectible count
-	 * 	 - if exit and no collectibles left, end the game
-	 * 	 - if exit and there are collectible, you can't leave!
-	*/
 	return (0);
 }
