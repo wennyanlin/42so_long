@@ -15,10 +15,18 @@ char	read_direction_command(int input_fd)
 	return (command);
 }
 
-char	validate_direction_command(char command)
+char	validate_direction_command(int keycode)
 {
-	if (command == 'W' || command == 'A' || command == 'S' || command == 'D')
-		return (command);
+	if (keycode == 13)
+		return ('W');
+	else if (keycode == 1)
+		return ('S');
+	else if (keycode == 0)
+		return ('A');
+	else if (keycode == 2)
+		return ('D');
+	// if (command == 'W' || command == 'A' || command == 'S' || command == 'D')
+	// 	return (command);
 	return (0);
 }
 
