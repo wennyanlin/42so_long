@@ -1,16 +1,27 @@
 #include "so_long.h"
 
-/**
- * 400 x 400
- *
- * 1111
- * 1001
- * 1001
- * 1111
- *
- * img_heigh = image.size_x / i;
-	img_width = image.size_y / j;
-*/
+
+void	calculate_window_size(t_play playground, t_data *image)
+{
+	int WINDOW_SIZE = 800;
+
+	if (playground.width < playground.height)
+	{
+		image->width = round(((float)playground.width / (float)playground.height) * WINDOW_SIZE);
+		image->height = WINDOW_SIZE;
+	}
+	else if (playground.height < playground.width)
+	{
+		image->height = round(((float)playground.height / (float)playground.width) * WINDOW_SIZE);
+		image->width = WINDOW_SIZE;
+	}
+	else
+	{
+		image->height = WINDOW_SIZE;
+		image->width = WINDOW_SIZE;
+	}
+}
+
 void	draw_map(t_play playground_state, t_data *image)
 {
 	char	**playground;
@@ -22,19 +33,9 @@ void	draw_map(t_play playground_state, t_data *image)
 	int		img_height;
 	int		img_width;
 
-
 	playground = playground_state.playground;
-	// img = image.img;
-	i = 0;
-	j = 0;
-	while (playground[i])
-	{
-		while (playground[i][j])
-			j++;
-		i++;
-	}
-	img_height = image->size_x / i;
-	img_width = image->size_y / j;
+	img_height = image->height / playground_state.height;
+	img_width = image->width / playground_state.width;
 	i = 0;
 	j = 0;
 	while (playground[i])
@@ -48,7 +49,16 @@ void	draw_map(t_play playground_state, t_data *image)
 				m = 0;
 				while (m < img_width)
 				{
-					my_mlx_pixel_put(image, ((i * img_height) + n), ((j * img_width) + m), 0x00FF0000);
+					if (playground[i][j] == '1')
+						my_mlx_pixel_put(image, ((j * img_width) + m), ((i * img_height) + n), 0x00808080);
+					else if (playground[i][j] == 'C')
+						my_mlx_pixel_put(image, ((j * img_width) + m), ((i * img_height) + n), 0xFFDA03);
+					else if (playground[i][j] == 'E')
+					my_mlx_pixel_put(image, ((j * img_width) + m), ((i * img_height) + n), 0xCC7722);
+					else if (playground[i][j] == 'P')
+						my_mlx_pixel_put(image, ((j * img_width) + m), ((i * img_height) + n), 0x000080);
+					else
+						my_mlx_pixel_put(image, ((j * img_width) + m), ((i * img_height) + n), 0x98BF64);
 					m++;
 				}
 				n++;
@@ -65,12 +75,12 @@ void	start(t_play playground)
 	void	*mlx_win;
 	t_data	img;
 
-	img.size_x = 400;
-	img.size_y = 400;
+	calculate_window_size(playground, &img);
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, img.size_x, img.size_y, "So long");
+	mlx_win = mlx_new_window(mlx, img.width, img.height, "So long");
 
-	img.img = mlx_new_image(mlx, 400, 400);
+	img.img = mlx_new_image(mlx, img.width, img.height);
+
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	// offset = (y * img.line_length + x * (img.bits_per_pixel / 8));
 	draw_map(playground, &img);

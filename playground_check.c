@@ -25,12 +25,10 @@ t_play	is_playground_shape_valid(char **arr)
 {
 	int	i;
 	int	j;
-	int	width;
 	t_play	playground;
 
 	i = 0;
 	j = 0;
-	width = 0;
 	playground = empty_playground();
 	while (arr[i])
 	{
@@ -46,7 +44,7 @@ t_play	is_playground_shape_valid(char **arr)
 		}
 		else
 		{
-			if (arr[i][0] != '1' || arr[i][width - 1] != '1')
+			if (arr[i][0] != '1' || arr[i][playground.width - 1] != '1')
 				return (playground);
 			while (arr[i][j])
 			{
@@ -74,12 +72,13 @@ t_play	is_playground_shape_valid(char **arr)
 			}
 		}
 		if (i == 0)
-			width = j;
-		if (j != width)
+			playground.width = j;
+		if (j != playground.width)
 			return (playground);
 		i++;
 	}
-	if (i < 3 || width < 3)
+	playground.height = i;
+	if (i < 3 || playground.width < 3)
 		return (playground);
 	return (playground);
 }
@@ -113,9 +112,9 @@ void	test_playground_check()
 	// write_playground(STDOUT_FILENO, playground, 5);
 	// printf("expected: '0', actual result: '%d'\n", is_playground_shape_valid(playground));
 
-	print_playground(is_playground_shape_valid(read_file("maps/playground_detail.ber")));
-	print_playground(is_playground_shape_valid(read_file("maps/more_than_one_player.ber")));
-	print_playground(is_playground_shape_valid(read_file("maps/more_than_one_exit.ber")));
+	// print_playground(is_playground_shape_valid(read_file("maps/playground_detail.ber")));
+	// print_playground(is_playground_shape_valid(read_file("maps/more_than_one_player.ber")));
+	// print_playground(is_playground_shape_valid(read_file("maps/more_than_one_exit.ber")));
 }
 
 
