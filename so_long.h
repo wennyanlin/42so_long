@@ -24,6 +24,8 @@ typedef struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		size_x;
+	int		size_y;
 }	t_data;
 
 //string_utils
@@ -54,6 +56,7 @@ void 	print_playground(t_play playground);
 //frontend
 void	start();
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	draw_map(t_play playground_state, t_data *image);
 
 
 #endif

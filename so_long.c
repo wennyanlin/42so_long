@@ -73,13 +73,13 @@ int	main()
 	// test_split();
 	// test_playground_check();
 	// char	command;
-	// char 	**arr;
-	// t_play	playground_state;
+	char 	**arr;
+	t_play	playground_state;
 
 
-	// arr = read_file("maps/playground_detail.ber");
-	// playground_state = is_playground_shape_valid(arr);
-	// playground_state.playground = arr;
+	arr = read_file("maps/playground_detail.ber");
+	playground_state = is_playground_shape_valid(arr);
+	playground_state.playground = arr;
 	// while (playground_state.is_exit_open != 1)
 	// {
 	// 	write_playground(STDOUT_FILENO, playground_state.playground, 21);
@@ -89,7 +89,7 @@ int	main()
 	// 	printf("command after: '%c'\n", command);
 	// 	print_playground(playground_state);
 	// }
-	start();
+	start(playground_state);
 	/**
 	 * read the map
 	 * validate the map
