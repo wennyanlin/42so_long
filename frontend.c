@@ -119,5 +119,6 @@ int	render_next_frame(t_data *img)
 	draw_map(img->playground_state, img);
 	mlx_put_image_to_window(img->mlx, img->mlx_win, img->img, 0, 0);
 	img->playground_state = get_playground_new_status(img->playground_state, validate_direction_command(img->keycode));
+	img->keycode = -1;
 	return (0);
 }
