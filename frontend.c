@@ -1,6 +1,27 @@
 #include "so_long.h"
 
 
+
+int	close_window(int keycode, t_data *img)
+{
+	// mlx_destroy_window(vars->mlx, vars->win);
+	img->keycode = keycode;
+	printf("keycode: '%d'\n", keycode);
+
+	return (0);
+}
+
+// void	event_handler(void)
+// {
+// 	t_vars	vars;
+
+// 	vars.mlx = mlx_init();
+// 	vars.win = mlx_new_window(vars.mlx, 200, 400, "Hello world!");
+// 	mlx_hook(vars.win, 2, 1L<<0, close_window, &vars);
+// 	mlx_loop(vars.mlx);
+// }
+
+
 void	calculate_window_size(t_play playground, t_data *image)
 {
 	int WINDOW_SIZE = 800;
@@ -71,22 +92,18 @@ void	draw_map(t_play playground_state, t_data *image)
 
 void	start(t_play playground)
 {
-	void	*mlx;
-	void	*mlx_win;
 	t_data	img;
 
 	calculate_window_size(playground, &img);
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, img.width, img.height, "So long");
-
-	img.img = mlx_new_image(mlx, img.width, img.height);
-
+	img.playground_state = playground;
+	img.mlx = mlx_init();
+	img.mlx_win = mlx_new_window(img.mlx, img.width, img.height, "So long");
+	img.img = mlx_new_image(img.mlx, img.width, img.height);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	// offset = (y * img.line_length + x * (img.bits_per_pixel / 8));
-	draw_map(playground, &img);
-
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
+	mlx_hook(img.mlx_win, 2, 1L<<0, close_window, &img);
+	mlx_loop_hook(img.mlx, render_next_frame, &img);
+	mlx_loop(img.mlx);
+	// printf("keycode in the loop: %d\n", img.keycode);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
@@ -95,4 +112,13 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
+}
+
+int	render_next_frame(t_data *img)
+{
+	draw_map(img->playground_state, img);
+	mlx_put_image_to_window(img->mlx, img->mlx_win, img->img, 0, 0);
+	img->playground_state = get_playground_new_status(img->playground_state, validate_direction_command(img->keycode));
+	img->keycode = -1;
+	return (0);
 }
