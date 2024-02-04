@@ -1,107 +1,91 @@
 #include "so_long.h"
 
-
-
-int	close_window(int keycode, t_data *img)
+void	calculate_window_size(t_data *window)
 {
-	// mlx_destroy_window(vars->mlx, vars->win);
-	img->keycode = keycode;
-	printf("keycode: '%d'\n", keycode);
-
-	return (0);
+	int		img_width;
+	int		img_height;
+	void	*img;
+	img = mlx_xpm_file_to_image(window->mlx, "./game_assets/sand.xpm", &img_width, &img_height);
+	window->width = img_width * window->playground_state.width;
+	window->height = img_height * window->playground_state.height;
+	mlx_destroy_image(window->mlx, img);
 }
 
-// void	event_handler(void)
-// {
-// 	t_vars	vars;
-
-// 	vars.mlx = mlx_init();
-// 	vars.win = mlx_new_window(vars.mlx, 200, 400, "Hello world!");
-// 	mlx_hook(vars.win, 2, 1L<<0, close_window, &vars);
-// 	mlx_loop(vars.mlx);
-// }
-
-
-void	calculate_window_size(t_play playground, t_data *image)
+void	draw_map_background(t_data *image)
 {
-	int WINDOW_SIZE = 800;
-
-	if (playground.width < playground.height)
-	{
-		image->width = round(((float)playground.width / (float)playground.height) * WINDOW_SIZE);
-		image->height = WINDOW_SIZE;
-	}
-	else if (playground.height < playground.width)
-	{
-		image->height = round(((float)playground.height / (float)playground.width) * WINDOW_SIZE);
-		image->width = WINDOW_SIZE;
-	}
-	else
-	{
-		image->height = WINDOW_SIZE;
-		image->width = WINDOW_SIZE;
-	}
-}
-
-void	draw_map(t_play playground_state, t_data *image)
-{
-	char	**playground;
-	// void	*img;
+	void	*image_to_win;
 	int		i;
 	int		j;
-	int		m;
-	int		n;
-	int		img_height;
-	int		img_width;
+	char	**playground;
 
-	playground = playground_state.playground;
-	img_height = image->height / playground_state.height;
-	img_width = image->width / playground_state.width;
 	i = 0;
 	j = 0;
+	playground = image->playground_state.playground;
 	while (playground[i])
 	{
 		j = 0;
-		while(playground[i][j])
+		while (playground[i][j])
 		{
-			n = 0;
-			while (n < img_height)
+			image_to_win = mlx_xpm_file_to_image(image->mlx, "./game_assets/sand.xpm", &image->width, &image->height);
+			mlx_put_image_to_window(image->mlx, image->mlx_win, image_to_win, j * 50, i * 50);
+			if (playground[i][j] == '1')
 			{
-				m = 0;
-				while (m < img_width)
-				{
-					if (playground[i][j] == '1')
-						my_mlx_pixel_put(image, ((j * img_width) + m), ((i * img_height) + n), 0x00808080);
-					else if (playground[i][j] == 'C')
-						my_mlx_pixel_put(image, ((j * img_width) + m), ((i * img_height) + n), 0xFFDA03);
-					else if (playground[i][j] == 'E')
-					my_mlx_pixel_put(image, ((j * img_width) + m), ((i * img_height) + n), 0xCC7722);
-					else if (playground[i][j] == 'P')
-						my_mlx_pixel_put(image, ((j * img_width) + m), ((i * img_height) + n), 0x000080);
-					else
-						my_mlx_pixel_put(image, ((j * img_width) + m), ((i * img_height) + n), 0x98BF64);
-					m++;
-				}
-				n++;
+				image_to_win = mlx_xpm_file_to_image(image->mlx, "./game_assets/rock.xpm", &image->width, &image->height);
+				mlx_put_image_to_window(image->mlx, image->mlx_win, image_to_win, j * 50, i * 50);
+			}
+			else if (playground[i][j] == 'C')
+			{
+				image_to_win = mlx_xpm_file_to_image(image->mlx, "./game_assets/money.xpm", &image->width, &image->height);
+				mlx_put_image_to_window(image->mlx, image->mlx_win, image_to_win, j * 50, i * 50);
+			}
+			else if (playground[i][j] == 'P')
+			{
+				image_to_win = mlx_xpm_file_to_image(image->mlx, "./game_assets/crab.xpm", &image->width, &image->height);
+				mlx_put_image_to_window(image->mlx, image->mlx_win, image_to_win, j * 50, i * 50);
+			}
+			else if (playground[i][j] == 'E')
+			{
+				image_to_win = mlx_xpm_file_to_image(image->mlx, "./game_assets/boat.xpm", &image->width, &image->height);
+				mlx_put_image_to_window(image->mlx, image->mlx_win, image_to_win, j * 50, i * 50);
 			}
 			j++;
 		}
 		i++;
 	}
+
+	// image_to_win = mlx_xpm_file_to_image(image->mlx, "./game_assets/crab_idle.xpm", &image->width, &image->height);
+	// mlx_put_image_to_window(image->mlx, image->mlx_win, image_to_win, 0, 0);
+
+}
+
+int	close_window(int keycode, t_data *img)
+{
+	// mlx_destroy_window(vars->mlx, vars->win);
+	img->keycode = keycode;
+	img->playground_state = get_playground_new_status(img->playground_state, validate_direction_command(img->keycode));
+	draw_map_background(img);
+	// mlx_put_image_to_window(img->mlx, img->mlx_win, img->img, 0, 0);
+	img->keycode = -1;
+	printf("keycode: '%d'\n", keycode);
+	return (0);
 }
 
 void	start(t_play playground)
 {
 	t_data	img;
 
-	calculate_window_size(playground, &img);
 	img.playground_state = playground;
+
 	img.mlx = mlx_init();
+	calculate_window_size(&img);
+	// img.path = mlx_xpm_file_to_image(img.mlx, img.path, &img.width, &img.height);
 	img.mlx_win = mlx_new_window(img.mlx, img.width, img.height, "So long");
+
 	img.img = mlx_new_image(img.mlx, img.width, img.height);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	draw_map_background(&img);
 	mlx_hook(img.mlx_win, 2, 1L<<0, close_window, &img);
-	mlx_loop_hook(img.mlx, render_next_frame, &img);
+	// mlx_loop_hook(img.mlx, render_next_frame, &img);
 	mlx_loop(img.mlx);
 	// printf("keycode in the loop: %d\n", img.keycode);
 }
@@ -112,13 +96,4 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
-}
-
-int	render_next_frame(t_data *img)
-{
-	draw_map(img->playground_state, img);
-	mlx_put_image_to_window(img->mlx, img->mlx_win, img->img, 0, 0);
-	img->playground_state = get_playground_new_status(img->playground_state, validate_direction_command(img->keycode));
-	img->keycode = -1;
-	return (0);
 }

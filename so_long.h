@@ -22,6 +22,7 @@ typedef struct s_play
 typedef struct s_data
 {
 	void	*img;
+	char	*path;
 	void	*mlx;
 	void	*mlx_win;
 	int		keycode;
