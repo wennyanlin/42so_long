@@ -74,7 +74,7 @@ t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
 	return (playground_state);
 }
 
-int	main()
+int	main(int argc, char **argv)
 {
 	// test_read();
 	// test_string_utils();
@@ -84,8 +84,9 @@ int	main()
 	char 	**arr;
 	t_play	playground_state;
 
-
-	arr = read_file("maps/playground_detail.ber");
+	if (argc != 2)
+		return (0);
+	arr = read_file(argv[1]);
 	playground_state = is_playground_shape_valid(arr);
 	playground_state.playground = arr;
 	// while (playground_state.is_exit_open != 1)
