@@ -1,24 +1,44 @@
 #include "so_long.h"
-
-t_play empty_playground()
+void	validate_playground_wall(char **arr, t_play *playground, int row)
 {
-	t_play playground;
-	playground.playground = NULL;
-	playground.width = -1;
-	playground.num_collectable = 0;
-	playground.player_x = -1;
-	playground.player_y = -1;
-	playground.is_exit_open = -1;
+	int	j;
 
-	return (playground);
+	j = 0;
+	if (row == 0 || arr[row + 1] == NULL)
+	{
+		while (arr[row][j])
+		{
+			if (arr[row][j] != '1')
+				playground->is_valid = -2;
+			j++;
+		}
+	}
+	else if (arr[row][0] != '1' || arr[row][playground->width - 1] != '1')
+		playground->is_valid = -2;
 }
 
-void print_playground(t_play playground)
+void	validate_playground_objects(char **arr, t_play *playground, int row, int column)
 {
-	printf("num_collectable: %d\n", playground.num_collectable);
-	printf("player_x: %d\n", playground.player_x);
-	printf("player_x: %d\n", playground.player_y);
-	printf("is_exit_open: %d\n", playground.is_exit_open);
+	if (arr[row][column] == 'C')
+		playground->num_collectable++;
+	else if (arr[row][column] == 'P')
+	{
+		if (playground->player_x == -1) // is first player found?
+		{
+			playground->player_x = row;
+			playground->player_y = column;
+		} else { // else is more then one player
+			playground->player_x = -2;
+			playground->player_y = -2;
+		}
+	}
+	else if (arr[row][column] == 'E')
+	{
+		if (playground->is_exit_open == -1)
+			playground->is_exit_open = 0;
+		else
+			playground->is_exit_open = -2;
+	}
 }
 
 t_play	is_playground_shape_valid(char **arr)
@@ -30,47 +50,12 @@ t_play	is_playground_shape_valid(char **arr)
 	i = 0;
 	j = 0;
 	playground = empty_playground();
-	while (arr[i])
+	while (arr[i] && playground.is_valid != -2)
 	{
 		j = 0;
-		if (i == 0 || arr[i + 1] == NULL) //is first or last row?
-		{
-			while (arr[i][j])
-			{
-				if (arr[i][j] != '1')
-					return (playground);
-				j++;
-			}
-		}
-		else
-		{
-			if (arr[i][0] != '1' || arr[i][playground.width - 1] != '1')
-				return (playground);
-			while (arr[i][j])
-			{
-				 if (arr[i][j] == 'C')
-					playground.num_collectable++;
-				else if (arr[i][j] == 'P')
-				{
-					if (playground.player_x == -1) // is first player found?
-					{
-						playground.player_x = i;
-						playground.player_y = j;
-					} else { //more then one player
-						playground.player_x = -2;
-						playground.player_y = -2;
-					}
-				}
-				else if (arr[i][j] == 'E')
-				{
-					if (playground.is_exit_open == -1)
-						playground.is_exit_open = 0;
-					else
-						playground.is_exit_open = -2;
-				}
-				j++;
-			}
-		}
+		validate_playground_walls(arr, &playground, i);
+		while (arr[i][j])
+			validate_playground_objects(arr, &playground, i, j++);
 		if (i == 0)
 			playground.width = j;
 		if (j != playground.width)

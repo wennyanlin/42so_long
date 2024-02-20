@@ -25,8 +25,6 @@ char	validate_direction_command(int keycode)
 		return ('A');
 	else if (keycode == 2)
 		return ('D');
-	// if (command == 'W' || command == 'A' || command == 'S' || command == 'D')
-	// 	return (command);
 	return (0);
 }
 
@@ -57,6 +55,7 @@ t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
 
 	x = playground_state.player_x;
 	y = playground_state.player_y;
+	printf("player[i][j]: [%i][%i]\n", newplayer_y, newplayer_x);
 	num_collectable = playground_state.num_collectable;
 	playground = playground_state.playground;
 	if (playground[newplayer_x][newplayer_y] == '0' || playground[newplayer_x][newplayer_y] == 'C'
@@ -88,6 +87,7 @@ int	main(int argc, char **argv)
 		return (0);
 	arr = read_file(argv[1]);
 	playground_state = is_playground_shape_valid(arr);
+
 	playground_state.playground = arr;
 	// while (playground_state.is_exit_open != 1)
 	// {
