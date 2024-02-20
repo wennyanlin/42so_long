@@ -17,6 +17,7 @@ typedef struct s_play
 	int		player_y;
 	int		is_exit_open;
 	int 	num_collectable;
+	int		is_valid;
 }	t_play;
 
 typedef struct s_data
@@ -47,6 +48,8 @@ char	**read_file(char *filepath);
 
 //playground_check
 t_play	is_playground_shape_valid(char **arr);
+void	validate_playground_objects(char **arr, t_play *playground, int row, int column);
+void	validate_playground_wall(char **arr, t_play *playground, int row);
 
 //playground_utils
 char 	**buildPlayground(int height, int width);
