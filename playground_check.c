@@ -1,4 +1,5 @@
 #include "so_long.h"
+
 void	validate_playground_wall(char **arr, t_play *playground, int row)
 {
 	int	j;
@@ -53,7 +54,7 @@ t_play	is_playground_shape_valid(char **arr)
 	while (arr[i] && playground.is_valid != -2)
 	{
 		j = 0;
-		validate_playground_walls(arr, &playground, i);
+		validate_playground_wall(arr, &playground, i);
 		while (arr[i][j])
 			validate_playground_objects(arr, &playground, i, j++);
 		if (i == 0)

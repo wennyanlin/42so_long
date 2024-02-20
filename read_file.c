@@ -1,5 +1,21 @@
 #include "so_long.h"
 
+static int are_empty_lines(char *storage)
+{
+	int i;
+
+	i = 0;
+	while (storage[i])
+	{
+		if (storage[i + 1] && storage[i] == '\n' && storage[i + 1] == '\n')
+			return (1);
+		else if (storage[i] && (storage[i] != '1' || storage[i] != '0' || storage[i] != 'E' || storage[i] != 'C' || storage[i] != 'P'))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 char	**read_file(char *filepath)
 {
 	int     BUFFER_SIZE = 5;
@@ -33,12 +49,15 @@ char	**read_file(char *filepath)
 		buffer[bytes_read] = '\0';
 		storage = ft_strjoin(storage, buffer);
 	}
+	free(buffer);
+	if (are_empty_lines(storage))
+		return (free(storage), printf("Error\n"), NULL);
 	result = ft_split(storage, '\n');
 	free(storage);
-	free(buffer);
+	if (!result)
+		return (printf("Error\n"), NULL);
 	close(fd);
 	return (result);
-
 }
 
 void test_read()

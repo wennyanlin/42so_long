@@ -86,6 +86,9 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (0);
 	arr = read_file(argv[1]);
+	printf("arr: %p\n", arr);
+	if (!arr)
+		return (1);
 	playground_state = is_playground_shape_valid(arr);
 
 	playground_state.playground = arr;

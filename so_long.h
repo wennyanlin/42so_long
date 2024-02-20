@@ -42,6 +42,7 @@ int		string_contain(char *str, char target);
 char	*ft_strdup(char *str, int len);
 char	*ft_strjoin(char *str1, char *str2);
 char	**ft_split(char *str, char seperator);
+char	**free_matrix(char **matrix, size_t array_i);
 
 //read_file
 char	**read_file(char *filepath);
@@ -58,6 +59,7 @@ t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
 t_play	get_playground_new_status(t_play playground_state, char command);
 char	validate_direction_command(int keycode);
 t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y);
+t_play	empty_playground();
 
 //test functions
 void	test_read();

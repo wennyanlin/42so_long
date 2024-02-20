@@ -6,6 +6,21 @@ typedef struct s_word
 	char	*content;
 } t_word;
 
+char	**free_matrix(char **matrix, size_t array_i)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < array_i)
+	{
+		free(matrix[i]);
+		i++;
+	}
+	free(matrix);
+	return (NULL);
+}
+
+
 int	count_word(char *str, char seperator)
 {
 	int	i;

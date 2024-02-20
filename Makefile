@@ -12,7 +12,7 @@ OBJS = $(SRCS:.c=.o)
 
 COMPILER = gcc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 
 %.o: %.c
 	$(COMPILER) $(CFLAGS) -Imlx -c $< -o ${<:.c=.o}
