@@ -9,8 +9,12 @@ static int are_empty_lines(char *storage)
 	{
 		if (storage[i + 1] && storage[i] == '\n' && storage[i + 1] == '\n')
 			return (1);
-		else if (storage[i] && (storage[i] != '1' || storage[i] != '0' || storage[i] != 'E' || storage[i] != 'C' || storage[i] != 'P'))
+		else if (storage[i] && (storage[i] != '1' && storage[i] != '0' && storage[i] != 'E' && storage[i] != 'C' && storage[i] != 'P' && storage[i] != '\n'))
+		{
+			printf("storage[i]: %c\n", storage[i]);
+			printf("else if\n");
 			return (1);
+		}
 		i++;
 	}
 	return (0);
