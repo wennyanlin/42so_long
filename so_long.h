@@ -51,6 +51,7 @@ char	**read_file(char *filepath);
 t_play	is_playground_shape_valid(char **arr);
 void	validate_playground_objects(char **arr, t_play *playground, int row, int column);
 void	validate_playground_wall(char **arr, t_play *playground, int row);
+int are_empty_lines(char *storage);
 
 //playground_utils
 char 	**buildPlayground(int height, int width);

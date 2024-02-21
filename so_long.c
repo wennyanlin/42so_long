@@ -75,32 +75,25 @@ t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
 
 int	main(int argc, char **argv)
 {
-	// test_read();
-	// test_string_utils();
-	// test_split();
-	// test_playground_check();
-	// char	command;
-	char 	**arr;
 	t_play	playground_state;
+	char 	**arr;
+	char	*str;
 
 	if (argc != 2)
 		return (0);
-	arr = read_file(argv[1]);
-	printf("arr: %p\n", arr);
-	if (!arr)
+	str = read_file(argv[1]);
+	if (!str)
 		return (1);
-	playground_state = is_playground_shape_valid(arr);
+	if (are_empty_lines(str))
+	{
+		free(str);
+		printf("Error\n");
+		return (0);
+	}
+	arr = ft_split(str, '\n');
 
+	playground_state = is_playground_shape_valid(arr);
 	playground_state.playground = arr;
-	// while (playground_state.is_exit_open != 1)
-	// {
-	// 	write_playground(STDOUT_FILENO, playground_state.playground, 21);
-	// 	command = validate_direction_command(read_direction_command(STDIN_FILENO));
-	// 	printf("command before: '%c'\n", command);
-	// 	playground_state = get_playground_new_status(playground_state, command);
-	// 	printf("command after: '%c'\n", command);
-	// 	print_playground(playground_state);
-	// }
 	start(playground_state);
 	return (0);
 }
