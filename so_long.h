@@ -54,8 +54,7 @@ void	validate_playground_wall(char **arr, t_play *playground, int row);
 int are_empty_lines(char *storage);
 
 //playground_utils
-char 	**buildPlayground(int height, int width);
-void 	write_playground(int fd, char **playground, int width);
+// void 	write_playground(int fd, char **playground, int width);
 t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y);
 t_play	get_playground_new_status(t_play playground_state, char command);
 char	validate_direction_command(int keycode);
@@ -72,9 +71,7 @@ void 	print_playground(t_play playground);
 //frontend
 void	start(t_play playground);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void	draw_map(t_play playground_state, t_data *image);
-int		close_window(int keycode, t_data *img);
-void	event_handler(void);
-int		render_next_frame(t_data *img);
+void	draw_map_background(t_data *image);
+int		handle_command(int keycode, t_data *img);
 
 #endif

@@ -57,7 +57,7 @@ void	draw_map_background(t_data *image)
 	}
 }
 
-int	close_window(int keycode, t_data *img)
+int	handle_command(int keycode, t_data *img)
 {
 	img->keycode = keycode;
 	img->playground_state = get_playground_new_status(img->playground_state, validate_direction_command(img->keycode));
@@ -79,7 +79,7 @@ void	start(t_play playground)
 	img.img = mlx_new_image(img.mlx, img.width, img.height);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	draw_map_background(&img);
-	mlx_hook(img.mlx_win, 2, 1L<<0, close_window, &img);
+	mlx_hook(img.mlx_win, 2, 1L<<0, handle_command, &img);
 	mlx_loop(img.mlx);
 }
 

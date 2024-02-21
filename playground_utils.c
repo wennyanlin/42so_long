@@ -15,22 +15,22 @@ t_play empty_playground()
 	return (playground);
 }
 
-void print_playground(t_play playground)
-{
-	printf("num_collectable: %d\n", playground.num_collectable);
-	printf("player_x: %d\n", playground.player_x);
-	printf("player_x: %d\n", playground.player_y);
-	printf("is_exit_open: %d\n", playground.is_exit_open);
-}
+// void print_playground(t_play playground)
+// {
+// 	printf("num_collectable: %d\n", playground.num_collectable);
+// 	printf("player_x: %d\n", playground.player_x);
+// 	printf("player_x: %d\n", playground.player_y);
+// 	printf("is_exit_open: %d\n", playground.is_exit_open);
+// }
 
-void write_playground(int fd, char **playground, int width)
-{
-	int i = 0;
+// void write_playground(int fd, char **playground, int width)
+// {
+// 	int i = 0;
 
-	while(playground[i])
-	{
-		write(fd, playground[i], width);
-		write(fd, "\n", 1);
-		i++;
-	}
-}
+// 	while(playground[i])
+// 	{
+// 		write(fd, playground[i], width);
+// 		write(fd, "\n", 1);
+// 		i++;
+// 	}
+// }
