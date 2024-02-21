@@ -17,7 +17,7 @@ int are_empty_lines(char *storage)
 	}
 	return (0);
 }
-
+//read and append all btytes from the input file
 char *read_all_bytes(int fd, int BUFFER_SIZE, char *buffer, char *storage)
 {
 	int		bytes_read;
