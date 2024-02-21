@@ -1,6 +1,8 @@
 #include "so_long.h"
 
-static int are_empty_lines(char *storage)
+//Before splitting the input playground string into an array of string, check for the empty lines, spaces and other non-related characters.
+
+int are_empty_lines(char *storage)
 {
 	int i;
 
@@ -9,21 +11,20 @@ static int are_empty_lines(char *storage)
 	{
 		if (storage[i + 1] && storage[i] == '\n' && storage[i + 1] == '\n')
 			return (1);
-		else if (storage[i] && (storage[i] != '1' || storage[i] != '0' || storage[i] != 'E' || storage[i] != 'C' || storage[i] != 'P'))
+		else if (storage[i] && (storage[i] != '1' && storage[i] != '\n' && storage[i] != '0' && storage[i] != 'E' && storage[i] != 'C' && storage[i] != 'P'))
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-char	**read_file(char *filepath)
+char	*read_file(char *filepath)
 {
 	int     BUFFER_SIZE = 5;
 	int		fd;
 	int		bytes_read;
 	char	*buffer;
 	char	*storage;
-	char    **result;
 
 	fd = open(filepath, O_RDONLY);
 	if (fd == -1)
@@ -36,6 +37,7 @@ char	**read_file(char *filepath)
 	if (!buffer)
 		return (NULL);
 	buffer[0] = '\0';
+
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
@@ -49,28 +51,21 @@ char	**read_file(char *filepath)
 		buffer[bytes_read] = '\0';
 		storage = ft_strjoin(storage, buffer);
 	}
-	free(buffer);
-	if (are_empty_lines(storage))
-		return (free(storage), printf("Error\n"), NULL);
-	result = ft_split(storage, '\n');
-	free(storage);
-	if (!result)
-		return (printf("Error\n"), NULL);
 	close(fd);
-	return (result);
+	return (storage);
 }
 
-void test_read()
-{
-	int i;
-	// TODO handle file not exists AND don't have read permissions
-	// spaces in the map should be an error, user should fix the map
-	char **contents = read_file("./maps/test.ber");
+// void test_read()
+// {
+// 	int i;
+// 	// TODO handle file not exists AND don't have read permissions
+// 	// spaces in the map should be an error, user should fix the map
+// 	char *contents = read_file("./maps/test.ber");
 
-	i = 0;
-	while(contents[i])
-	{
-		printf("result: '%s'\n", contents[i]);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while(contents[i])
+// 	{
+// 		printf("result: '%s'\n", contents[i]);
+// 		i++;
+// 	}
+// }
