@@ -45,7 +45,7 @@ char	**ft_split(char *str, char seperator);
 char	**free_matrix(char **matrix, size_t array_i);
 
 //read_file
-char	**read_file(char *filepath);
+char	*read_file(char *filepath);
 
 //playground_check
 t_play	is_playground_shape_valid(char **arr);

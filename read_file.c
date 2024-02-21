@@ -18,25 +18,9 @@ int are_empty_lines(char *storage)
 	return (0);
 }
 
-char	*read_file(char *filepath)
+char *read_all_bytes(int fd, int BUFFER_SIZE, char *buffer, char *storage)
 {
-	int     BUFFER_SIZE = 5;
-	int		fd;
 	int		bytes_read;
-	char	*buffer;
-	char	*storage;
-
-	fd = open(filepath, O_RDONLY);
-	if (fd == -1)
-		return (NULL);
-	storage = malloc(sizeof(char));
-	if (!storage)
-		return (NULL);
-	storage[0] = '\0';
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer)
-		return (NULL);
-	buffer[0] = '\0';
 
 	bytes_read = 1;
 	while (bytes_read > 0)
@@ -52,6 +36,29 @@ char	*read_file(char *filepath)
 		storage = ft_strjoin(storage, buffer);
 	}
 	close(fd);
+	free(buffer);
+	return (storage);
+}
+
+char	*read_file(char *filepath)
+{
+	int     BUFFER_SIZE = 5;
+	int		fd;
+	char	*buffer;
+	char	*storage;
+
+	fd = open(filepath, O_RDONLY);
+	if (fd == -1)
+		return (NULL);
+	storage = malloc(sizeof(char));
+	if (!storage)
+		return (NULL);
+	storage[0] = '\0';
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (NULL);
+	buffer[0] = '\0';
+	storage = read_all_bytes(fd, BUFFER_SIZE, buffer, storage);
 	return (storage);
 }
 
