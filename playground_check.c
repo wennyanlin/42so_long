@@ -7,8 +7,8 @@ t_play empty_playground()
 	playground.width = -1;
 	playground.height = -1;
 	playground.num_collectable = 0;
-	playground.player_x = -1;
-	playground.player_y = -1;
+	playground.player_row = -1;
+	playground.player_column = -1;
 	playground.is_exit_open = -1;
 	playground.is_valid = -1;
 
@@ -39,13 +39,13 @@ void	validate_playground_objects(char **arr, t_play *playground, int row, int co
 		playground->num_collectable++;
 	else if (arr[row][column] == 'P')
 	{
-		if (playground->player_x == -1) // is first player found?
+		if (playground->player_row == -1) // is first player found?
 		{
-			playground->player_x = row;
-			playground->player_y = column;
+			playground->player_row = row;
+			playground->player_column = column;
 		} else { // else is more then one player
-			playground->player_x = -2;
-			playground->player_y = -2;
+			playground->player_row = -2;
+			playground->player_column = -2;
 		}
 	}
 	else if (arr[row][column] == 'E')
@@ -79,7 +79,7 @@ t_play	is_playground_shape_valid(char **arr)
 		i++;
 	}
 	playground.height = i;
-	if (playground.height < 3 || playground.width < 3 || playground.height > 17 || playground.width < 29)
+	if (playground.height < 3 || playground.width < 3 || playground.height > 17 || playground.width > 29)
 		playground.is_valid = -2;
 	return (playground);
 }

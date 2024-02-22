@@ -15,19 +15,19 @@ char	validate_direction_command(int keycode)
 
 t_play	get_playground_new_status(t_play playground_state, char command)
 {
-	int	x;
-	int	y;
+	int	row;
+	int	column;
 
-	x = playground_state.player_x;
-	y = playground_state.player_y;
+	row = playground_state.player_row;
+	column = playground_state.player_column;
 	if (command == 'W')
-		playground_state = update_command(playground_state, (x - 1), y);
+		playground_state = update_command(playground_state, (row - 1), column);
 	else if (command == 'S')
-		playground_state = update_command(playground_state, (x + 1), y);
+		playground_state = update_command(playground_state, (row + 1), column);
 	else if (command == 'A')
-		playground_state = update_command(playground_state, x, (y - 1));
+		playground_state = update_command(playground_state, row, (column - 1));
 	else if (command == 'D')
-		playground_state = update_command(playground_state, x, (y + 1));
+		playground_state = update_command(playground_state, row, (column + 1));
 	return (playground_state);
 }
 
@@ -35,12 +35,12 @@ t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
 {
 	char	**playground;
 	int		num_collectable;
-	int		x;
-	int		y;
+	int		row;
+	int		column;
 
-	x = playground_state.player_x;
-	y = playground_state.player_y;
-	printf("player[i][j]: [%i][%i]\n", newplayer_y, newplayer_x);
+	row = playground_state.player_row;
+	column = playground_state.player_column;
+	// printf("player[i][j]: [%i][%i]\n", newplayer_y, newplayer_x);
 	num_collectable = playground_state.num_collectable;
 	playground = playground_state.playground;
 	if (playground[newplayer_x][newplayer_y] == '0' || playground[newplayer_x][newplayer_y] == 'C'
@@ -50,10 +50,10 @@ t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
 			playground_state.num_collectable--;
 		if (playground[newplayer_x][newplayer_y] == 'E' && num_collectable == 0)
 			playground_state.is_exit_open = 1;
-		playground[x][y] = '0';
+		playground[row][column] = '0';
 		playground[newplayer_x][newplayer_y] = 'P';
-		playground_state.player_x = newplayer_x;
-		playground_state.player_y = newplayer_y;
+		playground_state.player_row = newplayer_x;
+		playground_state.player_column = newplayer_y;
 	}
 	return (playground_state);
 }
@@ -77,13 +77,17 @@ int	main(int argc, char **argv)
 		return (1);
 	if (are_empty_lines(str))
 	{
+		printf("empty_line");
 		free(str);
 		write_error_and_return();
 	}
 	arr = ft_split(str, '\n');
 	playground_state = is_playground_shape_valid(arr);
 	if (playground_state.is_valid == -2)
+	{
+		printf("playground_shape_no_valid");
 		write_error_and_return();
+	}
 	playground_state.playground = arr;
 	start(playground_state);
 	return (0);
