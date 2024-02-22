@@ -77,17 +77,13 @@ int	main(int argc, char **argv)
 		return (1);
 	if (are_empty_lines(str))
 	{
-		printf("empty_line");
 		free(str);
 		write_error_and_return();
 	}
 	arr = ft_split(str, '\n');
 	playground_state = is_playground_shape_valid(arr);
 	if (playground_state.is_valid == -2)
-	{
-		printf("playground_shape_no_valid");
 		write_error_and_return();
-	}
 	playground_state.playground = arr;
 	start(playground_state);
 	return (0);
