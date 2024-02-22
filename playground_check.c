@@ -57,6 +57,11 @@ void	validate_playground_objects(char **arr, t_play *playground, int row, int co
 	}
 }
 
+void	mark_playground_error_flag()
+{
+
+}
+
 t_play	is_playground_shape_valid(char **arr)
 {
 	int	i;
@@ -80,6 +85,9 @@ t_play	is_playground_shape_valid(char **arr)
 	}
 	playground.height = i;
 	if (playground.height < 3 || playground.width < 3 || playground.height > 17 || playground.width > 29)
+		playground.is_valid = -2;
+	else if (playground.player_row == -1 || playground.player_column == -1 || playground.num_collectable == 0 
+				|| playground.is_exit_open == -1)
 		playground.is_valid = -2;
 	return (playground);
 }
