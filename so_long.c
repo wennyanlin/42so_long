@@ -58,6 +58,12 @@ t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
 	return (playground_state);
 }
 
+int	write_error_and_return()
+{
+	write(1, "Error\n", 6);
+	exit(0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_play	playground_state;
@@ -72,12 +78,12 @@ int	main(int argc, char **argv)
 	if (are_empty_lines(str))
 	{
 		free(str);
-		printf("Error\n");
-		return (0);
+		write_error_and_return();
 	}
 	arr = ft_split(str, '\n');
-
 	playground_state = is_playground_shape_valid(arr);
+	if (playground_state.is_valid == -2)
+		write_error_and_return();
 	playground_state.playground = arr;
 	start(playground_state);
 	return (0);

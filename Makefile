@@ -5,7 +5,7 @@ INCLUDES = ./so_long.h \
 
 LIB = -Lmlx -lmlx -framework OpenGL -framework AppKit
 
-SRCS = so_long.c string_utils.c playground_check.c playground_utils.c read_file.c\
+SRCS = so_long.c string_utils.c playground_check.c read_file.c\
 		ft_split.c frontend.c\
 
 OBJS = $(SRCS:.c=.o)

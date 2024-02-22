@@ -72,11 +72,3 @@ char	*ft_strjoin(char *str1, char *str2)
 	result[i] = '\0';
 	return (result);
 }
-
-void	test_string_utils()
-{
-	printf("strjoin result: '%s'\n", ft_strjoin("Hello", " World!"));
-	printf("\nstring_contain result: %d expected: 1\n", string_contain("Hello,\nHow are you?", '\n'));
-	printf("\nstring_contain result: %d expected: 0\n", string_contain("Hello, How are you?", 'f'));
-	printf("\nft_strdup result: '%s' expected: '111111'\n", ft_strdup("111111\n234", 6));
-}
