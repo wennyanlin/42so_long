@@ -13,8 +13,8 @@ typedef struct s_play
 	char	**playground;
 	int 	width;
 	int		height;
-	int		player_x;
-	int		player_y;
+	int		player_row;
+	int		player_column;
 	int		is_exit_open;
 	int 	num_collectable;
 	int		is_valid;
@@ -22,15 +22,10 @@ typedef struct s_play
 
 typedef struct s_data
 {
-	void	*img;
 	char	*path;
 	void	*mlx;
 	void	*mlx_win;
 	int		keycode;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
 	int		width;
 	int		height;
 	t_play	playground_state;

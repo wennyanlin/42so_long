@@ -11,35 +11,36 @@ void	calculate_window_size(t_data *window)
 	mlx_destroy_image(window->mlx, img);
 }
 
-void	draw_tile(t_data *image, char **playground, int row, int column)
+void	draw_tile(t_data *frontend_state, char **playground, int row, int column)
 {
 	void	*image_to_draw;
 
-	image_to_draw = mlx_xpm_file_to_image(image->mlx, "./game_assets/sand.xpm", &image->width, &image->height);
-	mlx_put_image_to_window(image->mlx, image->mlx_win, image_to_draw, column * 50, row * 50);
+	printf("player[%i][%i]\n", row, column);
+	image_to_draw = mlx_xpm_file_to_image(frontend_state->mlx, "./game_assets/sand.xpm", &frontend_state->width, &frontend_state->height);
+	mlx_put_image_to_window(frontend_state->mlx, frontend_state->mlx_win, image_to_draw, column * 50, row * 50);
 	if (playground[row][column] == '1')
 	{
-		image_to_draw = mlx_xpm_file_to_image(image->mlx, "./game_assets/rock.xpm", &image->width, &image->height);
-		mlx_put_image_to_window(image->mlx, image->mlx_win, image_to_draw, column * 50, row * 50);
+		image_to_draw = mlx_xpm_file_to_image(frontend_state->mlx, "./game_assets/rock.xpm", &frontend_state->width, &frontend_state->height);
+		mlx_put_image_to_window(frontend_state->mlx, frontend_state->mlx_win, image_to_draw, column * 50, row * 50);
 	}
 	else if (playground[row][column] == 'C')
 	{
-		image_to_draw = mlx_xpm_file_to_image(image->mlx, "./game_assets/money.xpm", &image->width, &image->height);
-		mlx_put_image_to_window(image->mlx, image->mlx_win, image_to_draw, column * 50, row * 50);
+		image_to_draw = mlx_xpm_file_to_image(frontend_state->mlx, "./game_assets/money.xpm", &frontend_state->width, &frontend_state->height);
+		mlx_put_image_to_window(frontend_state->mlx, frontend_state->mlx_win, image_to_draw, column * 50, row * 50);
 	}
 	else if (playground[row][column] == 'P')
 	{
-		image_to_draw = mlx_xpm_file_to_image(image->mlx, "./game_assets/crab.xpm", &image->width, &image->height);
-		mlx_put_image_to_window(image->mlx, image->mlx_win, image_to_draw, column * 50, row * 50);
+		image_to_draw = mlx_xpm_file_to_image(frontend_state->mlx, "./game_assets/crab.xpm", &frontend_state->width, &frontend_state->height);
+		mlx_put_image_to_window(frontend_state->mlx, frontend_state->mlx_win, image_to_draw, column * 50, row * 50);
 	}
 	else if (playground[row][column] == 'E')
 	{
-		image_to_draw = mlx_xpm_file_to_image(image->mlx, "./game_assets/boat.xpm", &image->width, &image->height);
-		mlx_put_image_to_window(image->mlx, image->mlx_win, image_to_draw, column * 50, row * 50);
+		image_to_draw = mlx_xpm_file_to_image(frontend_state->mlx, "./game_assets/boat.xpm", &frontend_state->width, &frontend_state->height);
+		mlx_put_image_to_window(frontend_state->mlx, frontend_state->mlx_win, image_to_draw, column * 50, row * 50);
 	}
 }
 
-void	draw_map_background(t_data *image)
+void	draw_map_background(t_data *frontend_state)
 {
 	int		i;
 	int		j;
@@ -47,46 +48,47 @@ void	draw_map_background(t_data *image)
 
 	i = 0;
 	j = 0;
-	playground = image->playground_state.playground;
+	playground = frontend_state->playground_state.playground;
 	while (playground[i])
 	{
 		j = 0;
 		while (playground[i][j])
-			draw_tile(image, playground, i, j++);
+			draw_tile(frontend_state, playground, i, j++);
 		i++;
 	}
 }
 
-int	handle_command(int keycode, t_data *img)
+void	move_player(t_play old_playground_state, t_play new_playground_state, t_data *frontend_state)
 {
-	img->keycode = keycode;
-	img->playground_state = get_playground_new_status(img->playground_state, validate_direction_command(img->keycode));
-	draw_map_background(img);
-	img->keycode = -1;
+	draw_tile(frontend_state, new_playground_state.playground, old_playground_state.player_row, old_playground_state.player_column);
+	draw_tile(frontend_state, new_playground_state.playground, new_playground_state.player_row, new_playground_state.player_column);
+}
+
+int	handle_command(int keycode, t_data *frontend_state)
+{
+	t_play	old_playground_state;
+	t_play	new_playground_state;
+
+	frontend_state->keycode = keycode;
+	old_playground_state = frontend_state->playground_state;
+	frontend_state->playground_state = get_playground_new_status(frontend_state->playground_state, validate_direction_command(frontend_state->keycode));
+	new_playground_state = frontend_state->playground_state;
+	move_player(old_playground_state, new_playground_state, frontend_state);
+	frontend_state->keycode = -1;
 	printf("keycode: '%d'\n", keycode);
 	return (0);
 }
 
 void	start(t_play playground)
 {
-	t_data	img;
+	t_data	frontend_state;
 
-	img.playground_state = playground;
+	frontend_state.playground_state = playground;
 
-	img.mlx = mlx_init();
-	calculate_window_size(&img);
-	img.mlx_win = mlx_new_window(img.mlx, img.width, img.height, "So long");
-	img.img = mlx_new_image(img.mlx, img.width, img.height);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	draw_map_background(&img);
-	mlx_hook(img.mlx_win, 2, 1L<<0, handle_command, &img);
-	mlx_loop(img.mlx);
-}
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	frontend_state.mlx = mlx_init(); //to establish a connection to the correct graphical system and will return a void * which holds the location of our current MLX instance.
+	calculate_window_size(&frontend_state);
+	frontend_state.mlx_win = mlx_new_window(frontend_state.mlx, frontend_state.width, frontend_state.height, "So long");
+	draw_map_background(&frontend_state);
+	mlx_hook(frontend_state.mlx_win, 2, 1L<<0, handle_command, &frontend_state);
+	mlx_loop(frontend_state.mlx);
 }
