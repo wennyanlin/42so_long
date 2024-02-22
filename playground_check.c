@@ -79,7 +79,7 @@ t_play	is_playground_shape_valid(char **arr)
 		i++;
 	}
 	playground.height = i;
-	if (playground.height < 3 || playground.width < 3 || playground.height > 17 || playground.width < 29)
+	if (playground.height < 3 || playground.width < 3 || playground.height > 17 || playground.width > 29)
 		playground.is_valid = -2;
 	return (playground);
 }
