@@ -90,15 +90,3 @@ char	**ft_split(char *str, char seperator)
 	words[i] = NULL;
 	return (words);
 }
-
-void	test_split()
-{
-	// printf("result: '%s'; expected: 'Hello'\n", get_next_word("Hello how are you", ' ').content, );
-	int	i = 0;
-	char **result = ft_split("Hello how are you", ' ');
-	while (i < 4)
-	{
-		printf("result: ''%s'; whole string: 'Hello how are you'\n", result[i]);
-		i++;
-	}
-}

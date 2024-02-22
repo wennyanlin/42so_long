@@ -1,5 +1,20 @@
 #include "so_long.h"
 
+t_play empty_playground()
+{
+	t_play playground;
+	playground.playground = NULL;
+	playground.width = -1;
+	playground.height = -1;
+	playground.num_collectable = 0;
+	playground.player_x = -1;
+	playground.player_y = -1;
+	playground.is_exit_open = -1;
+	playground.is_valid = -1;
+
+	return (playground);
+}
+
 void	validate_playground_wall(char **arr, t_play *playground, int row)
 {
 	int	j;
@@ -64,8 +79,8 @@ t_play	is_playground_shape_valid(char **arr)
 		i++;
 	}
 	playground.height = i;
-	if (i < 3 || playground.width < 3)
-		return (playground);
+	if (playground.height < 3 || playground.width < 3 || playground.height > 17 || playground.width < 29)
+		playground.is_valid = -2;
 	return (playground);
 }
 
