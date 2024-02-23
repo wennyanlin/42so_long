@@ -15,7 +15,7 @@ void	draw_tile(t_data *frontend_state, char **playground, int row, int column)
 {
 	void	*image_to_draw;
 
-	printf("player[%i][%i]\n", row, column);
+	// printf("player[%i][%i]\n", row, column);
 	image_to_draw = mlx_xpm_file_to_image(frontend_state->mlx, "./game_assets/sand.xpm", &frontend_state->width, &frontend_state->height);
 	mlx_put_image_to_window(frontend_state->mlx, frontend_state->mlx_win, image_to_draw, column * 50, row * 50);
 	if (playground[row][column] == '1')
@@ -79,16 +79,26 @@ int	handle_command(int keycode, t_data *frontend_state)
 	return (0);
 }
 
-void	start(t_play playground)
+t_data	start(t_play playground)
 {
 	t_data	frontend_state;
 
 	frontend_state.playground_state = playground;
-
 	frontend_state.mlx = mlx_init(); //to establish a connection to the correct graphical system and will return a void * which holds the location of our current MLX instance.
+	frontend_state.img = mlx_new_image(frontend_state.mlx, frontend_state.width, frontend_state.height);
 	calculate_window_size(&frontend_state);
 	frontend_state.mlx_win = mlx_new_window(frontend_state.mlx, frontend_state.width, frontend_state.height, "So long");
 	draw_map_background(&frontend_state);
 	mlx_hook(frontend_state.mlx_win, 2, 1L<<0, handle_command, &frontend_state);
+	mlx_hook(frontend_state.mlx_win, 17, 1L<<2, final_exit, &frontend_state);
 	mlx_loop(frontend_state.mlx);
+	return (frontend_state);
+}
+
+int	final_exit(t_data *frontend_state)
+{
+	mlx_destroy_window(frontend_state->mlx, frontend_state->mlx_win);
+	mlx_destroy_image(frontend_state->mlx, frontend_state->img);
+	free_array(frontend_state->playground_state.playground);
+	exit(0);
 }

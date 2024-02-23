@@ -13,22 +13,24 @@ char	validate_direction_command(int keycode)
 	return (0);
 }
 
-t_play	get_playground_new_status(t_play playground_state, char command)
+t_play	get_playground_new_status(t_data frontend_state, char command)
 {
 	int	row;
 	int	column;
 
-	row = playground_state.player_row;
-	column = playground_state.player_column;
+	row = frontend_state.playground_state.player_row;
+	column = frontend_state.playground_state.player_column;
 	if (command == 'W')
-		playground_state = update_command(playground_state, (row - 1), column);
+		frontend_state.playground_state = update_command(frontend_state.playground_state, (row - 1), column);
 	else if (command == 'S')
-		playground_state = update_command(playground_state, (row + 1), column);
+		frontend_state.playground_state = update_command(frontend_state.playground_state, (row + 1), column);
 	else if (command == 'A')
-		playground_state = update_command(playground_state, row, (column - 1));
+		frontend_state.playground_state = update_command(frontend_state.playground_state, row, (column - 1));
 	else if (command == 'D')
-		playground_state = update_command(playground_state, row, (column + 1));
-	return (playground_state);
+		frontend_state.playground_state = update_command(frontend_state.playground_state, row, (column + 1));
+	else if (command == 'Q')
+		frontend_exit(frontend_state, 0);
+	return (frontend_state.playground_state);
 }
 
 t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
@@ -58,33 +60,64 @@ t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
 	return (playground_state);
 }
 
-int	write_error_and_return()
+int	string_playground_exit(char *string_playground)
 {
+	free(string_playground);
 	write(1, "Error\n", 6);
-	exit(0);
+	exit(1);
+}
+
+void	array_playground_exit(char **array_playground, int code)
+{
+	if (code == 0)
+	{
+		free_array(array_playground);
+		exit(EXIT_SUCCESS);
+	}
+	else if (code == 1)
+	{
+		free_array(array_playground);
+		write(1, "Error/n", 6);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	frontend_exit(t_data frontend_state, int code)
+{
+	int		i;
+	char	**playground;
+
+	i = 0;
+	playground = frontend_state.playground_state.playground;
+	if (frontend_state.mlx)
+		mlx_destroy_window(frontend_state.mlx, frontend_state.mlx_win);
+	free_array(playground);
+	if (code == 0)
+		exit(EXIT_SUCCESS);
+	else if (code == 1)
+		exit(EXIT_FAILURE);
 }
 
 int	main(int argc, char **argv)
 {
 	t_play	playground_state;
-	char 	**arr;
-	char	*str;
+	t_data	frontend_state;
+	char	*string_playground;
+	char 	**array_playground;
 
 	if (argc != 2)
 		return (0);
-	str = read_file(argv[1]);
-	if (!str)
-		return (1);
-	if (are_empty_lines(str))
-	{
-		free(str);
-		write_error_and_return();
-	}
-	arr = ft_split(str, '\n');
-	playground_state = is_playground_shape_valid(arr);
+	string_playground = read_file(argv[1]);
+	if (!string_playground || are_empty_lines(string_playground))
+		string_playground_exit(string_playground);
+	array_playground = ft_split(string_playground, '\n');
+	if (!array_playground)
+		array_playground_exit(playground_state.playground, 1);
+	playground_state = is_playground_shape_valid(array_playground);
 	if (playground_state.is_valid == -2)
-		write_error_and_return();
-	playground_state.playground = arr;
-	start(playground_state);
+		array_playground_exit(playground_state.playground, 1);
+	playground_state.playground = array_playground;
+	frontend_state = start(playground_state);
+	frontend_exit(frontend_state, 0);
 	return (0);
 }

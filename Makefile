@@ -19,7 +19,7 @@ CFLAGS = -Wall -Werror -Wextra -g
 
 $(NAME): $(OBJS) $(INCLUDES) Makefile
 		@make -C ./mlx all
-		@$(COMPILER) $(SRCS) $(LIB) mlx/libmlx.a  -g -fsanitize=address -o $(NAME)
+		@$(COMPILER) $(SRCS) $(LIB) mlx/libmlx.a  -o $(NAME)
 
 all: $(NAME)
 
@@ -33,3 +33,6 @@ fclean: clean
 re:		fclean all
 
 .PHONY: all clean fclean re
+
+#-g -fsanitize=address
+#leaks --atExit -- ./so_long maps/map1.ber
