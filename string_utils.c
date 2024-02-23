@@ -28,47 +28,75 @@ size_t	ft_strlen(char *str)
 	return (i);
 }
 
-char	*ft_strdup(char *str, int len)
+// char	*ft_strdup(char *str, int len)
+// {
+// 	int		i;
+// 	char	*result;
+
+// 	if (!str)
+// 		return (NULL);
+
+// 	i = 0;
+// 	result = malloc(sizeof(char) * (len + 1));
+// 	if (!result)
+// 		return (NULL);
+// 	while (str[i] && i < len)
+// 	{
+// 		result[i] = str[i];
+// 		i++;
+// 	}
+// 	result[i] = '\0';
+// 	return (result);
+// }
+
+void	*free_space(char **reserved_space)
 {
-	int		i;
-	char	*result;
-
-	if (!str)
-		return (NULL);
-
-	i = 0;
-	result = malloc(sizeof(char) * (len + 1));
-	if (!result)
-		return (NULL);
-	while (str[i] && i < len)
+	if (*reserved_space)
 	{
-		result[i] = str[i];
-		i++;
+		free(*reserved_space);
+		*reserved_space = NULL;
 	}
+	return (NULL);
+}
+
+char	*duplicate_storage(char *storage, char *buffer)
+{
+	char	*result;
+	int		i;
+
+	i = -1;
+	if (!storage || !buffer)
+		return (NULL);
+	result = malloc(ft_strlen(storage) + ft_strlen(buffer) + 1);
+	if (!result)
+		return (free_space(&storage));
+	while (storage[++i] != '\0')
+		result[i] = storage[i];
 	result[i] = '\0';
 	return (result);
 }
 
-char	*ft_strjoin(char *str1, char *str2)
+char	*ft_strjoin(char *storage, char *buffer)
 {
-	int		i;
-	int		str1_len;
-	int		str2_len;
 	char	*result;
+	int		i;
+	int		j;
 
-	i = 0;
-	str1_len = ft_strlen(str1);
-	str2_len = ft_strlen(str2);
-	result = malloc(sizeof(char) * (str1_len + str2_len + 1));
+	if (!storage)
+	{
+		storage = malloc(sizeof(char));
+		if (!storage)
+			return (NULL);
+		storage[0] = '\0';
+	}
+	i = ft_strlen(storage);
+	result = duplicate_storage(storage, buffer);
 	if (!result)
 		return (NULL);
-	str1_len = 0;
-	str2_len = 0;
-
-	while (str1[str1_len])
-		result[i++] = str1[str1_len++];
-	while (str2[str2_len])
-		result[i++] = str2[str2_len++];
-	result[i] = '\0';
+	j = -1;
+	while (buffer[++j] != '\0')
+		result[i + j] = buffer[j];
+	result[i + j] = '\0';
+	free(storage);
 	return (result);
 }

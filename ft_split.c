@@ -6,18 +6,14 @@ typedef struct s_word
 	char	*content;
 } t_word;
 
-char	**free_matrix(char **matrix, size_t array_i)
+void	free_array(char **array)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < array_i)
-	{
-		free(matrix[i]);
-		i++;
-	}
-	free(matrix);
-	return (NULL);
+	while (array[i])
+		free(array[i++]);
+	free(array);
 }
 
 
@@ -88,5 +84,7 @@ char	**ft_split(char *str, char seperator)
 		words[i++] = word.content;
 	}
 	words[i] = NULL;
+	if (!words[0])
+		array_playground_exit(words, 1);
 	return (words);
 }
