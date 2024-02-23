@@ -72,3 +72,4 @@ char	*ft_strjoin(char *str1, char *str2)
 	result[i] = '\0';
 	return (result);
 }
+

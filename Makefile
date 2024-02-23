@@ -19,7 +19,7 @@ CFLAGS = -Wall -Werror -Wextra -g
 
 $(NAME): $(OBJS) $(INCLUDES) Makefile
 		@make -C ./mlx all
-		@$(COMPILER) $(SRCS) $(LIB) mlx/libmlx.a  -g -fsanitize=address -o $(NAME)
+		@$(COMPILER) $(SRCS) $(LIB) mlx/libmlx.a -g -fsanitize=address -o $(NAME)
 
 all: $(NAME)
 

@@ -57,11 +57,6 @@ void	validate_playground_objects(char **arr, t_play *playground, int row, int co
 	}
 }
 
-void	mark_playground_error_flag()
-{
-
-}
-
 t_play	is_playground_shape_valid(char **arr)
 {
 	int	i;

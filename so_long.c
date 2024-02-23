@@ -10,25 +10,33 @@ char	validate_direction_command(int keycode)
 		return ('A');
 	else if (keycode == 2)
 		return ('D');
+	else if (keycode == 53)
+		return ('Q');
 	return (0);
 }
 
-t_play	get_playground_new_status(t_play playground_state, char command)
+t_play	get_playground_new_status(t_data frontend_state, char command)
 {
 	int	row;
 	int	column;
 
-	row = playground_state.player_row;
-	column = playground_state.player_column;
+	row = frontend_state.playground_state.player_row;
+	column = frontend_state.playground_state.player_column;
 	if (command == 'W')
-		playground_state = update_command(playground_state, (row - 1), column);
+		frontend_state.playground_state = update_command(frontend_state.playground_state, (row - 1), column);
 	else if (command == 'S')
-		playground_state = update_command(playground_state, (row + 1), column);
+		frontend_state.playground_state = update_command(frontend_state.playground_state, (row + 1), column);
 	else if (command == 'A')
-		playground_state = update_command(playground_state, row, (column - 1));
+		frontend_state.playground_state = update_command(frontend_state.playground_state, row, (column - 1));
 	else if (command == 'D')
-		playground_state = update_command(playground_state, row, (column + 1));
-	return (playground_state);
+		frontend_state.playground_state = update_command(frontend_state.playground_state, row, (column + 1));
+	else if (command == 'Q')
+	{
+
+		mlx_destroy_window(frontend_state.mlx, frontend_state.mlx_win);
+		exit(0);
+	}
+	return (frontend_state.playground_state);
 }
 
 t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
@@ -64,27 +72,45 @@ int	write_error_and_return()
 	exit(0);
 }
 
+void	ft_exit(t_data frontend_state)
+{
+	int		i;
+	char	**playground;
+
+	i = 0;
+	playground = frontend_state.playground_state.playground;
+	if (frontend_state.mlx)
+		mlx_destroy_window(frontend_state.mlx, frontend_state.mlx_win);
+	if (playground[i])
+	{
+		while (playground[i])
+			free(playground[i++]);
+		free(playground);
+	}
+	exit(0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_play	playground_state;
-	char 	**arr;
-	char	*str;
+	char	*string_playground;
+	char 	**array_playground;
 
 	if (argc != 2)
 		return (0);
-	str = read_file(argv[1]);
-	if (!str)
+	string_playground = read_file(argv[1]);
+	if (!string_playground)
 		return (1);
-	if (are_empty_lines(str))
+	if (are_empty_lines(string_playground))
 	{
-		free(str);
+		free(string_playground);
 		write_error_and_return();
 	}
-	arr = ft_split(str, '\n');
-	playground_state = is_playground_shape_valid(arr);
+	array_playground = ft_split(string_playground, '\n');
+	playground_state = is_playground_shape_valid(array_playground);
 	if (playground_state.is_valid == -2)
 		write_error_and_return();
-	playground_state.playground = arr;
+	playground_state.playground = array_playground;
 	start(playground_state);
 	return (0);
 }
