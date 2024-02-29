@@ -7,6 +7,7 @@ t_play empty_playground()
 	playground.width = -1;
 	playground.height = -1;
 	playground.num_collectable = 0;
+	// playground.num_move = 0;
 	playground.player_row = -1;
 	playground.player_column = -1;
 	playground.is_exit_open = -1;
@@ -55,11 +56,6 @@ void	validate_playground_objects(char **arr, t_play *playground, int row, int co
 		else
 			playground->is_exit_open = -2;
 	}
-}
-
-void	mark_playground_error_flag()
-{
-
 }
 
 t_play	is_playground_shape_valid(char **arr)

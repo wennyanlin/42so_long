@@ -10,6 +10,8 @@ char	validate_direction_command(int keycode)
 		return ('A');
 	else if (keycode == 2)
 		return ('D');
+	else if (keycode == 53)
+		return ('Q');
 	return (0);
 }
 
@@ -39,10 +41,10 @@ t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
 	int		num_collectable;
 	int		row;
 	int		column;
+	// char	str_num;
 
 	row = playground_state.player_row;
 	column = playground_state.player_column;
-	// printf("player[i][j]: [%i][%i]\n", newplayer_y, newplayer_x);
 	num_collectable = playground_state.num_collectable;
 	playground = playground_state.playground;
 	if (playground[newplayer_x][newplayer_y] == '0' || playground[newplayer_x][newplayer_y] == 'C'
@@ -51,11 +53,18 @@ t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
 		if (playground[newplayer_x][newplayer_y] == 'C')
 			playground_state.num_collectable--;
 		if (playground[newplayer_x][newplayer_y] == 'E' && num_collectable == 0)
+		{
 			playground_state.is_exit_open = 1;
+			//handle exit program!!!
+		}
 		playground[row][column] = '0';
 		playground[newplayer_x][newplayer_y] = 'P';
 		playground_state.player_row = newplayer_x;
 		playground_state.player_column = newplayer_y;
+		//handle moves count
+		// playground_state.num_move++;
+		// str_num = malloc(sizeof(char) * (playground_state.num_move + 1));
+		// str_num = ft_itoa(playground_state.num_move);
 	}
 	return (playground_state);
 }
@@ -77,7 +86,7 @@ void	array_playground_exit(char **array_playground, int code)
 	else if (code == 1)
 	{
 		free_array(array_playground);
-		write(1, "Error/n", 6);
+		write(1, "Error\n", 6);
 		exit(EXIT_FAILURE);
 	}
 }

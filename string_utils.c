@@ -100,3 +100,4 @@ char	*ft_strjoin(char *storage, char *buffer)
 	free(storage);
 	return (result);
 }
+

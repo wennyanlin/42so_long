@@ -36,3 +36,4 @@ re:		fclean all
 
 #-g -fsanitize=address
 #leaks --atExit -- ./so_long maps/map1.ber
+#mlx/libmlx.a -E

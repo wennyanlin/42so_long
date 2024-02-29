@@ -17,6 +17,7 @@ typedef struct s_play
 	int		player_column;
 	int		is_exit_open;
 	int 	num_collectable;
+	// int		num_move;
 	int		is_valid;
 }	t_play;
 
@@ -33,7 +34,7 @@ typedef struct s_data
 }	t_data;
 
 //string_utils
-size_t	ft_strlen(char *str);
+size_t	ft_strlen(char *s);
 int		string_contain(char *str, char target);
 char	*duplicate_storage(char *storage, char *buffer);
 char	*ft_strjoin(char *str1, char *str2);
@@ -52,7 +53,7 @@ int 	are_empty_lines(char *storage);
 //playground_utils
 // void 	write_playground(int fd, char **playground, int width);
 t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y);
-t_play	get_playground_new_status(t_play playground_state, char command);
+t_play	get_playground_new_status(t_data frontend_state, char command);
 char	validate_direction_command(int keycode);
 t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y);
 t_play	empty_playground();
@@ -72,5 +73,12 @@ t_data	start(t_play playground);
 void	draw_map_background(t_data *image);
 int		handle_command(int keycode, t_data *img);
 int		final_exit(t_data *frontend_state);
+
+//ft_itoa
+char	*ft_itoa(int n);
+int		ft_is_negative(int *n);
+char	*ft_caso_zero(char n);
+int		calculate_digits(int n);
+char	*ft_strdup(const char *s1);
 
 #endif
