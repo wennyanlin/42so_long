@@ -17,7 +17,7 @@ typedef struct s_play
 	int		player_column;
 	int		is_exit_open;
 	int 	num_collectable;
-	// int		num_move;
+	int		num_move;
 	int		is_valid;
 }	t_play;
 
@@ -40,6 +40,9 @@ char	*duplicate_storage(char *storage, char *buffer);
 char	*ft_strjoin(char *str1, char *str2);
 char	**ft_split(char *str, char seperator);
 void	free_array(char **array);
+void	ft_putnbr(int nbr);
+void	write_num_moves(int num_move);
+
 
 //read_file
 char	*read_file(char *filepath);

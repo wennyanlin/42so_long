@@ -61,10 +61,8 @@ t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
 		playground[newplayer_x][newplayer_y] = 'P';
 		playground_state.player_row = newplayer_x;
 		playground_state.player_column = newplayer_y;
-		//handle moves count
-		// playground_state.num_move++;
-		// str_num = malloc(sizeof(char) * (playground_state.num_move + 1));
-		// str_num = ft_itoa(playground_state.num_move);
+		playground_state.num_move++;
+		write_num_moves(playground_state.num_move);
 	}
 	return (playground_state);
 }

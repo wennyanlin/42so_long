@@ -7,7 +7,7 @@ t_play empty_playground()
 	playground.width = -1;
 	playground.height = -1;
 	playground.num_collectable = 0;
-	// playground.num_move = 0;
+	playground.num_move = 0;
 	playground.player_row = -1;
 	playground.player_column = -1;
 	playground.is_exit_open = -1;
