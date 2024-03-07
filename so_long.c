@@ -23,30 +23,31 @@ t_play	get_playground_new_status(t_data frontend_state, char command)
 	row = frontend_state.playground_state.player_row;
 	column = frontend_state.playground_state.player_column;
 	if (command == 'W')
-		frontend_state.playground_state = update_command(frontend_state.playground_state, (row - 1), column);
+		frontend_state.playground_state = update_command(frontend_state, (row - 1), column);
 	else if (command == 'S')
-		frontend_state.playground_state = update_command(frontend_state.playground_state, (row + 1), column);
+		frontend_state.playground_state = update_command(frontend_state, (row + 1), column);
 	else if (command == 'A')
-		frontend_state.playground_state = update_command(frontend_state.playground_state, row, (column - 1));
+		frontend_state.playground_state = update_command(frontend_state, row, (column - 1));
 	else if (command == 'D')
-		frontend_state.playground_state = update_command(frontend_state.playground_state, row, (column + 1));
+		frontend_state.playground_state = update_command(frontend_state, row, (column + 1));
 	else if (command == 'Q')
 		frontend_exit(frontend_state, 0);
 	return (frontend_state.playground_state);
 }
 
-t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
+t_play	update_command(t_data frontend_state, int newplayer_x, int newplayer_y)
 {
 	char	**playground;
 	int		num_collectable;
 	int		row;
 	int		column;
-	// char	str_num;
+	t_play	playground_state;
 
+	playground_state = frontend_state.playground_state;
+	playground = frontend_state.playground_state.playground;
 	row = playground_state.player_row;
 	column = playground_state.player_column;
 	num_collectable = playground_state.num_collectable;
-	playground = playground_state.playground;
 	if (playground[newplayer_x][newplayer_y] == '0' || playground[newplayer_x][newplayer_y] == 'C'
 		|| (playground[newplayer_x][newplayer_y] == 'E' && num_collectable == 0))
 	{
@@ -55,7 +56,7 @@ t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y)
 		if (playground[newplayer_x][newplayer_y] == 'E' && num_collectable == 0)
 		{
 			playground_state.is_exit_open = 1;
-			//handle exit program!!!
+			frontend_exit(frontend_state, 0);
 		}
 		playground[row][column] = '0';
 		playground[newplayer_x][newplayer_y] = 'P';

@@ -55,10 +55,10 @@ int 	are_empty_lines(char *storage);
 
 //playground_utils
 // void 	write_playground(int fd, char **playground, int width);
-t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y);
+t_play	update_command(t_data frontend_state, int newplayer_x, int newplayer_y);
 t_play	get_playground_new_status(t_data frontend_state, char command);
 char	validate_direction_command(int keycode);
-t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y);
+// t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y);
 t_play	empty_playground();
 void	frontend_exit(t_data frontend_state, int code);
 void	free_array(char **array);
