@@ -44,7 +44,9 @@ void	validate_playground_objects(char **arr, t_play *playground, int row, int co
 		{
 			playground->player_row = row;
 			playground->player_column = column;
-		} else { // else is more then one player
+		} 
+		else 
+		{ // else is more then one player
 			playground->player_row = -2;
 			playground->player_column = -2;
 		}

@@ -42,6 +42,7 @@ char	**ft_split(char *str, char seperator);
 void	free_array(char **array);
 void	ft_putnbr(int nbr);
 void	write_num_moves(int num_move);
+char	**ft_strdup_array(char **array);
 
 
 //read_file
@@ -76,12 +77,5 @@ t_data	start(t_play playground);
 void	draw_map_background(t_data *image);
 int		handle_command(int keycode, t_data *img);
 int		final_exit(t_data *frontend_state);
-
-//ft_itoa
-char	*ft_itoa(int n);
-int		ft_is_negative(int *n);
-char	*ft_caso_zero(char n);
-int		calculate_digits(int n);
-char	*ft_strdup(const char *s1);
 
 #endif

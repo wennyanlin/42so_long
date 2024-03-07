@@ -28,26 +28,45 @@ size_t	ft_strlen(char *str)
 	return (i);
 }
 
-// char	*ft_strdup(char *str, int len)
-// {
-// 	int		i;
-// 	char	*result;
+char	**ft_strdup_array(char **array)
+{
+	int		i;
+	int		j;
+	char	**result;
+	int		len_i;
+	int		len_j;
 
-// 	if (!str)
-// 		return (NULL);
-
-// 	i = 0;
-// 	result = malloc(sizeof(char) * (len + 1));
-// 	if (!result)
-// 		return (NULL);
-// 	while (str[i] && i < len)
-// 	{
-// 		result[i] = str[i];
-// 		i++;
-// 	}
-// 	result[i] = '\0';
-// 	return (result);
-// }
+	i = 0;
+	j = 0;
+	if (!array || !array[i])
+		return (NULL);
+	while (array[i])
+	{
+		while (array[i][j])
+			j++;
+		if (!array[i][j])
+			return (NULL);
+		i++;
+	}
+	len_i = i;
+	len_j = j;
+	result = malloc(sizeof(char *) * (len_i + 1));
+	if (!result)
+		return (NULL);
+	i = -1;
+	while (array[++i])
+	{
+		j = -1;
+		array[i] = malloc(sizeof(char) * (len_j + 1));
+		if (!array[i])
+			return (NULL);
+		while (array[i][++j])
+			result[i][j] = array[i][j];
+		result[i][j] = '\0';
+	}
+	result[i] = NULL;
+	return (result);
+}
 
 void	ft_putnbr(int nbr)
 {
