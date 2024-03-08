@@ -41,15 +41,9 @@ char	**ft_strdup_array(char **array)
 	if (!array || !array[i])
 		return (NULL);
 	while (array[i])
-	{
-		while (array[i][j])
-			j++;
-		if (!array[i][j])
-			return (NULL);
 		i++;
-	}
 	len_i = i;
-	len_j = j;
+	len_j = ft_strlen(array[0]);
 	result = malloc(sizeof(char *) * (len_i + 1));
 	if (!result)
 		return (NULL);
@@ -57,7 +51,7 @@ char	**ft_strdup_array(char **array)
 	while (array[++i])
 	{
 		j = -1;
-		array[i] = malloc(sizeof(char) * (len_j + 1));
+		result[i] = malloc(sizeof(char) * (len_j + 1));
 		if (!array[i])
 			return (NULL);
 		while (array[i][++j])
@@ -149,3 +143,4 @@ char	*ft_strjoin(char *storage, char *buffer)
 	return (result);
 }
 
+// -g -fsanitize='address,undefined'
