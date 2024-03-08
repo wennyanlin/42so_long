@@ -92,10 +92,8 @@ void	array_playground_exit(char **array_playground, int code)
 
 void	frontend_exit(t_data frontend_state, int code)
 {
-	int		i;
 	char	**playground;
 
-	i = 0;
 	playground = frontend_state.playground_state.playground;
 	if (frontend_state.mlx)
 		mlx_destroy_window(frontend_state.mlx, frontend_state.mlx_win);
@@ -112,7 +110,7 @@ int	main(int argc, char **argv)
 	t_data	frontend_state;
 	char	*string_playground;
 	char 	**array_playground;
-	char	**array_cpy;
+	// char	**array_cpy;
 
 	if (argc != 2)
 		return (0);
@@ -122,11 +120,6 @@ int	main(int argc, char **argv)
 	array_playground = ft_split(string_playground, '\n');
 	if (!array_playground)
 		array_playground_exit(playground_state.playground, 1);
-	array_cpy = ft_strdup_array(array_playground);
-	printf("%s\n", array_cpy[0]);
-	printf("%s\n", array_cpy[1]);
-	printf("%s\n", array_cpy[2]);
-	printf("%s\n", array_cpy[3]);	
 	playground_state = is_playground_shape_valid(array_playground);
 	if (playground_state.is_valid == -2)
 		array_playground_exit(playground_state.playground, 1);

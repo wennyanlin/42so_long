@@ -62,12 +62,39 @@ char	**ft_strdup_array(char **array)
 	return (result);
 }
 
+void	fill(char **array, t_play playground_state, int player_row, int player_column)
+{
+	int	width = playground_state.width;
+	int	height = playground_state.height;
+
+	if (player_column < 0 || player_column >= width || player_row < 0 \
+	|| player_row >= height || array[player_row][player_column] == '1')
+		return ;
+	array[player_row][player_column] = 'F';
+	fill(array, playground_state, player_row - 1, player_column);
+	fill(array, playground_state, player_row + 1, player_column);
+	fill(array, playground_state, player_row, player_column - 1);
+	fill(array, playground_state, player_row, player_column + 1);
+}
+
+char	**flood_fill(t_play playground_state)
+{
+	char **array_to_fill;
+	int	player_column;
+	int	player_row;
+
+	array_to_fill = ft_strdup_array(playground_state.playground);
+	player_column = playground_state.width;
+	player_row = playground_state.height;
+	array_to_fill = ft_strdup_array(playground_state.playground);
+	fill(array_to_fill, playground_state, player_row, player_column);
+	return (array_to_fill);
+}
+
 void	ft_putnbr(int nbr)
 {
-	int		i;
 	char	n;
 
-	i = 0;
 	if (nbr > 9)
 	{
 		ft_putnbr(nbr / 10);
@@ -82,7 +109,7 @@ void	ft_putnbr(int nbr)
 
 void	write_num_moves(int num_move)
 {
-	
+
 	write(1, "You made: ", 10);
 	ft_putnbr(num_move);
 	if (num_move == 1)

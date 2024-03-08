@@ -55,6 +55,9 @@ void	validate_playground_wall(char **arr, t_play *playground, int row);
 int 	are_empty_lines(char *storage);
 
 //playground_utils
+void	flood_fill(t_play playground_state);
+void	fill(char **array, t_play playground_state, int player_row, int player_column, char to_fill);
+
 // void 	write_playground(int fd, char **playground, int width);
 t_play	update_command(t_data frontend_state, int newplayer_x, int newplayer_y);
 t_play	get_playground_new_status(t_data frontend_state, char command);
