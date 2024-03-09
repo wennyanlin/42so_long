@@ -42,6 +42,7 @@ char	**ft_split(char *str, char seperator);
 void	free_array(char **array);
 void	ft_putnbr(int nbr);
 void	write_num_moves(int num_move);
+char	**ft_strdup_array(char **array);
 
 
 //read_file
@@ -52,8 +53,11 @@ t_play	is_playground_shape_valid(char **arr);
 void	validate_playground_objects(char **arr, t_play *playground, int row, int column);
 void	validate_playground_wall(char **arr, t_play *playground, int row);
 int 	are_empty_lines(char *storage);
-
+int		does_path_exist(t_play playground_state, char **array);
 //playground_utils
+char	**flood_fill(t_play playground_state, char **array);
+void	fill(char **array, t_play playground_state, int player_row, int player_column);
+t_play	empty_playground();
 // void 	write_playground(int fd, char **playground, int width);
 t_play	update_command(t_data frontend_state, int newplayer_x, int newplayer_y);
 t_play	get_playground_new_status(t_data frontend_state, char command);
@@ -76,12 +80,5 @@ t_data	start(t_play playground);
 void	draw_map_background(t_data *image);
 int		handle_command(int keycode, t_data *img);
 int		final_exit(t_data *frontend_state);
-
-//ft_itoa
-char	*ft_itoa(int n);
-int		ft_is_negative(int *n);
-char	*ft_caso_zero(char n);
-int		calculate_digits(int n);
-char	*ft_strdup(const char *s1);
 
 #endif

@@ -44,7 +44,9 @@ void	validate_playground_objects(char **arr, t_play *playground, int row, int co
 		{
 			playground->player_row = row;
 			playground->player_column = column;
-		} else { // else is more then one player
+		}
+		else
+		{ // else is more then one player
 			playground->player_row = -2;
 			playground->player_column = -2;
 		}
@@ -64,28 +66,63 @@ t_play	is_playground_shape_valid(char **arr)
 	int	j;
 	t_play	playground;
 
-	i = 0;
-	j = 0;
+	i = -1;
+	j = -1;
 	playground = empty_playground();
-	while (arr[i] && playground.is_valid != -2)
+	while (arr[++i] && playground.is_valid != -2)
 	{
-		j = 0;
+		j = -1;
 		validate_playground_wall(arr, &playground, i);
-		while (arr[i][j])
-			validate_playground_objects(arr, &playground, i, j++);
+		while (arr[i][++j])
+			validate_playground_objects(arr, &playground, i, j);
 		if (i == 0)
 			playground.width = j;
 		if (j != playground.width)
 			return (playground);
-		i++;
 	}
 	playground.height = i;
 	if (playground.height < 3 || playground.width < 3 || playground.height > 17 || playground.width > 29)
 		playground.is_valid = -2;
-	else if (playground.player_row == -1 || playground.player_column == -1 || playground.num_collectable == 0 
-				|| playground.is_exit_open == -1)
+	else if (playground.player_row == -1 || playground.player_column == -1 || playground.num_collectable == 0
+				|| playground.is_exit_open == -1 || does_path_exist(playground, arr) == -1)
 		playground.is_valid = -2;
 	return (playground);
+}
+
+int	does_path_exist(t_play playground_state, char **array)
+{
+	char **filled_array;
+	int	object_exit;
+	int	object_player;
+	int	object_collectable;
+	int	i;
+	int	j;
+
+	i = 0;
+	object_exit = 0;
+	object_player = 0;
+	object_collectable = 0;
+	filled_array = flood_fill(playground_state, array);
+	while (filled_array[i])
+	{
+		j = 0;
+		while (filled_array[i][j])
+		{
+			if (filled_array[i][j] == 'E')
+				object_exit++;
+			else if (filled_array[i][j] == 'P')
+				object_player++;
+			else if (filled_array[i][j] == 'C')
+				object_collectable++;
+			j++;
+		}
+		i++;
+	}
+	free_array(filled_array);
+	if (object_exit != 0 || object_player != 0 || object_collectable != 0)
+		return (-1);
+	else
+		return (1);
 }
 
 void	test_playground_check()
