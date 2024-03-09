@@ -122,7 +122,7 @@ int	main(int argc, char **argv)
 		array_playground_exit(playground_state.playground, 1);
 	playground_state = is_playground_shape_valid(array_playground);
 	if (playground_state.is_valid == -2)
-		array_playground_exit(playground_state.playground, 1);
+		array_playground_exit(array_playground, 1);
 	playground_state.playground = array_playground;
 	frontend_state = start(playground_state);
 	frontend_exit(frontend_state, 0);

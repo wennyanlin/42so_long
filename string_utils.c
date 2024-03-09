@@ -70,23 +70,22 @@ void	fill(char **array, t_play playground_state, int player_row, int player_colu
 	if (player_column < 0 || player_column >= width || player_row < 0 \
 	|| player_row >= height || array[player_row][player_column] == '1')
 		return ;
-	array[player_row][player_column] = 'F';
+	array[player_row][player_column] = '1';
 	fill(array, playground_state, player_row - 1, player_column);
 	fill(array, playground_state, player_row + 1, player_column);
 	fill(array, playground_state, player_row, player_column - 1);
 	fill(array, playground_state, player_row, player_column + 1);
 }
 
-char	**flood_fill(t_play playground_state)
+char	**flood_fill(t_play playground_state, char **array)
 {
 	char **array_to_fill;
 	int	player_column;
 	int	player_row;
 
-	array_to_fill = ft_strdup_array(playground_state.playground);
-	player_column = playground_state.width;
-	player_row = playground_state.height;
-	array_to_fill = ft_strdup_array(playground_state.playground);
+	player_column = playground_state.player_column;
+	player_row = playground_state.player_row;
+	array_to_fill = ft_strdup_array(array);
 	fill(array_to_fill, playground_state, player_row, player_column);
 	return (array_to_fill);
 }

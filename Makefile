@@ -12,14 +12,14 @@ OBJS = $(SRCS:.c=.o)
 
 COMPILER = gcc
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra
 
 %.o: %.c
 	$(COMPILER) $(CFLAGS) -Imlx -c $< -o ${<:.c=.o}
 
 $(NAME): $(OBJS) $(INCLUDES) Makefile
 		@make -C ./mlx all
-		@$(COMPILER) $(SRCS) $(LIB) mlx/libmlx.a  -o $(NAME)
+		@$(COMPILER) $(SRCS) $(LIB) mlx/libmlx.a -g -fsanitize=address -o $(NAME)
 
 all: $(NAME)
 

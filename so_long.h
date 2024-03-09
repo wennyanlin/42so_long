@@ -53,11 +53,11 @@ t_play	is_playground_shape_valid(char **arr);
 void	validate_playground_objects(char **arr, t_play *playground, int row, int column);
 void	validate_playground_wall(char **arr, t_play *playground, int row);
 int 	are_empty_lines(char *storage);
-
+int		does_path_exist(t_play playground_state, char **array);
 //playground_utils
-void	flood_fill(t_play playground_state);
-void	fill(char **array, t_play playground_state, int player_row, int player_column, char to_fill);
-
+char	**flood_fill(t_play playground_state, char **array);
+void	fill(char **array, t_play playground_state, int player_row, int player_column);
+t_play	empty_playground();
 // void 	write_playground(int fd, char **playground, int width);
 t_play	update_command(t_data frontend_state, int newplayer_x, int newplayer_y);
 t_play	get_playground_new_status(t_data frontend_state, char command);
