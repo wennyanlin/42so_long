@@ -1,23 +1,5 @@
 #include "so_long.h"
 
-//Before splitting the input playground string into an array of string, check for the empty lines, spaces and other non-related characters.
-
-int are_empty_lines(char *storage)
-{
-	int i;
-
-	i = 0;
-	while (storage[i])
-	{
-		if (storage[i + 1] && storage[i] == '\n' && storage[i + 1] == '\n')
-			return (1);
-		else if (storage[i] && (storage[i] != '1' && storage[i] != '\n' && storage[i] != '0'
-					&& storage[i] != 'E' && storage[i] != 'C' && storage[i] != 'P'))
-			return (1);
-		i++;
-	}
-	return (0);
-}
 //read and append all btytes from the input file
 char *read_all_bytes(int fd, int BUFFER_SIZE, char *buffer, char *storage)
 {
@@ -27,7 +9,7 @@ char *read_all_bytes(int fd, int BUFFER_SIZE, char *buffer, char *storage)
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read == -1)
+		if (bytes_read == NEGATIVE)
 		{
 			free(storage);
 			free(buffer);

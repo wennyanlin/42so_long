@@ -15,7 +15,6 @@ void	draw_tile(t_data *frontend_state, char **playground, int row, int column)
 {
 	void	*image_to_draw;
 
-	// printf("player[%i][%i]\n", row, column);
 	image_to_draw = mlx_xpm_file_to_image(frontend_state->mlx, "./game_assets/sand.xpm", &frontend_state->width, &frontend_state->height);
 	mlx_put_image_to_window(frontend_state->mlx, frontend_state->mlx_win, image_to_draw, column * 50, row * 50);
 	if (playground[row][column] == '1')
@@ -74,7 +73,7 @@ int	handle_command(int keycode, t_data *frontend_state)
 	frontend_state->playground_state = get_playground_new_status(*frontend_state, validate_direction_command(frontend_state->keycode));
 	new_playground_state = frontend_state->playground_state; 
 	move_player(old_playground_state, new_playground_state, frontend_state);
-	frontend_state->keycode = -1;
+	frontend_state->keycode = NEGATIVE;
 	return (0);
 }
 

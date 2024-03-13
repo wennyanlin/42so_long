@@ -1,6 +1,28 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+//MACROS
+#define MIN_MAP_SIZE 3
+#define MAX_MAP_HEIGHT 17
+#define MAX_MAP_WIDTH 29
+#define PLAYER 'P'
+#define COLLECTABLE 'C'
+#define EXIT 'E'
+#define PATH '0'
+#define WALL '1'
+#define UP 'W'
+#define DOWN 'S'
+#define LEFT 'A'
+#define RIGHT 'D'
+#define QUIT 'Q'
+#define NEWLINE '\n'
+#define exit_success 0
+#define exit_failure 1
+#define INVALID -2
+#define NEGATIVE -1
+#define POSITIVE 1
+
+//libraries
 # include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>

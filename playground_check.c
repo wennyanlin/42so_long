@@ -4,14 +4,14 @@ t_play empty_playground()
 {
 	t_play playground;
 	playground.playground = NULL;
-	playground.width = -1;
-	playground.height = -1;
+	playground.width = NEGATIVE;
+	playground.height = NEGATIVE;
 	playground.num_collectable = 0;
 	playground.num_move = 0;
-	playground.player_row = -1;
-	playground.player_column = -1;
-	playground.is_exit_open = -1;
-	playground.is_valid = -1;
+	playground.player_row = NEGATIVE;
+	playground.player_column = NEGATIVE;
+	playground.is_exit_open = NEGATIVE;
+	playground.is_valid = NEGATIVE;
 
 	return (playground);
 }
@@ -25,38 +25,38 @@ void	validate_playground_wall(char **arr, t_play *playground, int row)
 	{
 		while (arr[row][j])
 		{
-			if (arr[row][j] != '1')
-				playground->is_valid = -2;
+			if (arr[row][j] != WALL)
+				playground->is_valid = INVALID;
 			j++;
 		}
 	}
-	else if (arr[row][0] != '1' || arr[row][playground->width - 1] != '1')
-		playground->is_valid = -2;
+	else if (arr[row][0] != WALL || arr[row][playground->width - 1] != WALL)
+		playground->is_valid = INVALID;
 }
 
 void	validate_playground_objects(char **arr, t_play *playground, int row, int column)
 {
-	if (arr[row][column] == 'C')
+	if (arr[row][column] == COLLECTABLE)
 		playground->num_collectable++;
-	else if (arr[row][column] == 'P')
+	else if (arr[row][column] == PLAYER)
 	{
-		if (playground->player_row == -1) // is first player found?
+		if (playground->player_row == NEGATIVE) // is first player found?
 		{
 			playground->player_row = row;
 			playground->player_column = column;
 		}
 		else
 		{ // else is more then one player
-			playground->player_row = -2;
-			playground->player_column = -2;
+			playground->player_row = INVALID;
+			playground->player_column = INVALID;
 		}
 	}
-	else if (arr[row][column] == 'E')
+	else if (arr[row][column] == EXIT)
 	{
-		if (playground->is_exit_open == -1)
+		if (playground->is_exit_open == NEGATIVE)
 			playground->is_exit_open = 0;
 		else
-			playground->is_exit_open = -2;
+			playground->is_exit_open = INVALID;
 	}
 }
 
@@ -69,7 +69,7 @@ t_play	is_playground_shape_valid(char **arr)
 	i = -1;
 	j = -1;
 	playground = empty_playground();
-	while (arr[++i] && playground.is_valid != -2)
+	while (arr[++i] && playground.is_valid != INVALID)
 	{
 		j = -1;
 		validate_playground_wall(arr, &playground, i);
@@ -81,11 +81,11 @@ t_play	is_playground_shape_valid(char **arr)
 			return (playground);
 	}
 	playground.height = i;
-	if (playground.height < 3 || playground.width < 3 || playground.height > 17 || playground.width > 29)
-		playground.is_valid = -2;
-	else if (playground.player_row == -1 || playground.player_column == -1 || playground.num_collectable == 0
-				|| playground.is_exit_open == -1 || does_path_exist(playground, arr) == -1)
-		playground.is_valid = -2;
+	if (playground.height < MIN_MAP_SIZE || playground.width < MIN_MAP_SIZE || playground.height > MAX_MAP_HEIGHT || playground.width > MAX_MAP_WIDTH)
+		playground.is_valid = INVALID;
+	else if (playground.player_row == NEGATIVE || playground.player_column == NEGATIVE || playground.num_collectable == 0
+				|| playground.is_exit_open == NEGATIVE || does_path_exist(playground, arr) == NEGATIVE)
+		playground.is_valid = INVALID;
 	return (playground);
 }
 
@@ -108,11 +108,11 @@ int	does_path_exist(t_play playground_state, char **array)
 		j = 0;
 		while (filled_array[i][j])
 		{
-			if (filled_array[i][j] == 'E')
+			if (filled_array[i][j] == EXIT)
 				object_exit++;
-			else if (filled_array[i][j] == 'P')
+			else if (filled_array[i][j] == PLAYER)
 				object_player++;
-			else if (filled_array[i][j] == 'C')
+			else if (filled_array[i][j] == COLLECTABLE)
 				object_collectable++;
 			j++;
 		}

@@ -3,15 +3,15 @@
 char	validate_direction_command(int keycode)
 {
 	if (keycode == 13)
-		return ('W');
+		return (UP);
 	else if (keycode == 1)
-		return ('S');
+		return (DOWN);
 	else if (keycode == 0)
-		return ('A');
+		return (LEFT);
 	else if (keycode == 2)
-		return ('D');
+		return (RIGHT);
 	else if (keycode == 53)
-		return ('Q');
+		return (QUIT);
 	return (0);
 }
 
@@ -22,16 +22,16 @@ t_play	get_playground_new_status(t_data frontend_state, char command)
 
 	row = frontend_state.playground_state.player_row;
 	column = frontend_state.playground_state.player_column;
-	if (command == 'W')
+	if (command == UP)
 		frontend_state.playground_state = update_command(frontend_state, (row - 1), column);
-	else if (command == 'S')
+	else if (command == DOWN)
 		frontend_state.playground_state = update_command(frontend_state, (row + 1), column);
-	else if (command == 'A')
+	else if (command == LEFT)
 		frontend_state.playground_state = update_command(frontend_state, row, (column - 1));
-	else if (command == 'D')
+	else if (command == RIGHT)
 		frontend_state.playground_state = update_command(frontend_state, row, (column + 1));
-	else if (command == 'Q')
-		frontend_exit(frontend_state, 0);
+	else if (command == QUIT)
+		frontend_exit(frontend_state, exit_success);
 	return (frontend_state.playground_state);
 }
 
@@ -48,18 +48,18 @@ t_play	update_command(t_data frontend_state, int newplayer_x, int newplayer_y)
 	row = playground_state.player_row;
 	column = playground_state.player_column;
 	num_collectable = playground_state.num_collectable;
-	if (playground[newplayer_x][newplayer_y] == '0' || playground[newplayer_x][newplayer_y] == 'C'
-		|| (playground[newplayer_x][newplayer_y] == 'E' && num_collectable == 0))
+	if (playground[newplayer_x][newplayer_y] == PATH || playground[newplayer_x][newplayer_y] == COLLECTABLE
+		|| (playground[newplayer_x][newplayer_y] == EXIT && num_collectable == 0))
 	{
-		if (playground[newplayer_x][newplayer_y] == 'C')
+		if (playground[newplayer_x][newplayer_y] == COLLECTABLE)
 			playground_state.num_collectable--;
-		if (playground[newplayer_x][newplayer_y] == 'E' && num_collectable == 0)
+		if (playground[newplayer_x][newplayer_y] == EXIT && num_collectable == 0)
 		{
-			playground_state.is_exit_open = 1;
-			frontend_exit(frontend_state, 0);
+			playground_state.is_exit_open = POSITIVE;
+			frontend_exit(frontend_state, exit_success);
 		}
-		playground[row][column] = '0';
-		playground[newplayer_x][newplayer_y] = 'P';
+		playground[row][column] = PATH;
+		playground[newplayer_x][newplayer_y] = PLAYER;
 		playground_state.player_row = newplayer_x;
 		playground_state.player_column = newplayer_y;
 		playground_state.num_move++;
@@ -77,12 +77,12 @@ int	string_playground_exit(char *string_playground)
 
 void	array_playground_exit(char **array_playground, int code)
 {
-	if (code == 0)
+	if (code == exit_success)
 	{
 		free_array(array_playground);
 		exit(EXIT_SUCCESS);
 	}
-	else if (code == 1)
+	else if (code == exit_failure)
 	{
 		free_array(array_playground);
 		write(1, "Error\n", 6);
@@ -98,9 +98,9 @@ void	frontend_exit(t_data frontend_state, int code)
 	if (frontend_state.mlx)
 		mlx_destroy_window(frontend_state.mlx, frontend_state.mlx_win);
 	free_array(playground);
-	if (code == 0)
+	if (code == exit_success)
 		exit(EXIT_SUCCESS);
-	else if (code == 1)
+	else if (code == exit_failure)
 		exit(EXIT_FAILURE);
 }
 
@@ -110,7 +110,6 @@ int	main(int argc, char **argv)
 	t_data	frontend_state;
 	char	*string_playground;
 	char 	**array_playground;
-	// char	**array_cpy;
 
 	if (argc != 2)
 		return (0);
@@ -119,12 +118,16 @@ int	main(int argc, char **argv)
 		string_playground_exit(string_playground);
 	array_playground = ft_split(string_playground, '\n');
 	if (!array_playground)
-		array_playground_exit(playground_state.playground, 1);
+		array_playground_exit(playground_state.playground, exit_failure);
 	playground_state = is_playground_shape_valid(array_playground);
-	if (playground_state.is_valid == -2)
-		array_playground_exit(array_playground, 1);
+	if (playground_state.is_valid == INVALID)
+		array_playground_exit(array_playground, exit_failure);
 	playground_state.playground = array_playground;
 	frontend_state = start(playground_state);
-	frontend_exit(frontend_state, 0);
+	frontend_exit(frontend_state, exit_success);
 	return (0);
 }
+
+//functions to group and classify different check cases
+// -get_map();
+// -get_playground();
