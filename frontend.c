@@ -83,6 +83,7 @@ t_data	start(t_play playground)
 
 	frontend_state.playground_state = playground;
 	frontend_state.mlx = mlx_init(); //to establish a connection to the correct graphical system and will return a void * which holds the location of our current MLX instance.
+	calculate_window_size(&frontend_state);
 	frontend_state.img = mlx_new_image(frontend_state.mlx, frontend_state.width, frontend_state.height);
 	calculate_window_size(&frontend_state);
 	frontend_state.mlx_win = mlx_new_window(frontend_state.mlx, frontend_state.width, frontend_state.height, "So long");
