@@ -89,40 +89,26 @@ t_play	is_playground_shape_valid(char **arr)
 	return (playground);
 }
 
-int	does_path_exist(t_play playground_state, char **array)
+int	check_exist_path(t_play playground_state, char **array)
 {
-	char **filled_array;
-	int	object_exit;
-	int	object_player;
-	int	object_collectable;
-	int	i;
-	int	j;
+	char 	**filled_array;
+	int		i = 0;
+	int		j = 0;
 
-	i = 0;
-	object_exit = 0;
-	object_player = 0;
-	object_collectable = 0;
 	filled_array = flood_fill(playground_state, array);
 	while (filled_array[i])
 	{
 		j = 0;
 		while (filled_array[i][j])
 		{
-			if (filled_array[i][j] == EXIT)
-				object_exit++;
-			else if (filled_array[i][j] == PLAYER)
-				object_player++;
-			else if (filled_array[i][j] == COLLECTABLE)
-				object_collectable++;
+			if (filled_array[i][j] != WALL && filled_array[i][j] != PATH)
+				return (-1);
 			j++;
 		}
 		i++;
 	}
 	free_array(filled_array);
-	if (object_exit != 0 || object_player != 0 || object_collectable != 0)
-		return (-1);
-	else
-		return (1);
+	return (1);
 }
 
 void	test_playground_check()
