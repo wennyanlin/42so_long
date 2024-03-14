@@ -16,7 +16,7 @@ t_play empty_playground()
 	return (playground);
 }
 
-void	validate_playground_wall(char **arr, t_play *playground, int row)
+void	get_playground_wall(char **arr, t_play *playground, int row)
 {
 	int	j;
 
@@ -34,7 +34,7 @@ void	validate_playground_wall(char **arr, t_play *playground, int row)
 		playground->is_valid = INVALID;
 }
 
-void	validate_playground_objects(char **arr, t_play *playground, int row, int column)
+void	get_playground_objects(char **arr, t_play *playground, int row, int column)
 {
 	if (arr[row][column] == COLLECTABLE)
 		playground->num_collectable++;
@@ -60,7 +60,7 @@ void	validate_playground_objects(char **arr, t_play *playground, int row, int co
 	}
 }
 
-t_play	is_playground_shape_valid(char **arr)
+t_play	playground_validation(char **arr)
 {
 	int	i;
 	int	j;
@@ -72,9 +72,9 @@ t_play	is_playground_shape_valid(char **arr)
 	while (arr[++i] && playground.is_valid != INVALID)
 	{
 		j = -1;
-		validate_playground_wall(arr, &playground, i);
+		get_playground_wall(arr, &playground, i);
 		while (arr[i][++j])
-			validate_playground_objects(arr, &playground, i, j);
+			get_playground_objects(arr, &playground, i, j);
 		if (i == 0)
 			playground.width = j;
 		if (j != playground.width)
@@ -84,7 +84,7 @@ t_play	is_playground_shape_valid(char **arr)
 	if (playground.height < MIN_MAP_SIZE || playground.width < MIN_MAP_SIZE || playground.height > MAX_MAP_HEIGHT || playground.width > MAX_MAP_WIDTH)
 		playground.is_valid = INVALID;
 	else if (playground.player_row == NEGATIVE || playground.player_column == NEGATIVE || playground.num_collectable == 0
-				|| playground.is_exit_open == NEGATIVE || does_path_exist(playground, arr) == NEGATIVE)
+				|| playground.is_exit_open == NEGATIVE || check_exist_path(playground, arr) == NEGATIVE)
 		playground.is_valid = INVALID;
 	return (playground);
 }

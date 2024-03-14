@@ -77,14 +77,14 @@ int	handle_command(int keycode, t_data *frontend_state)
 	return (0);
 }
 
-t_data	start(t_play playground)
+t_data	start_game(t_play playground)
 {
 	t_data	frontend_state;
 
 	frontend_state.playground_state = playground;
 	frontend_state.mlx = mlx_init(); //to establish a connection to the correct graphical system and will return a void * which holds the location of our current MLX instance.
-	frontend_state.img = mlx_new_image(frontend_state.mlx, frontend_state.width, frontend_state.height);
 	calculate_window_size(&frontend_state);
+	frontend_state.img = mlx_new_image(frontend_state.mlx, frontend_state.width, frontend_state.height);
 	frontend_state.mlx_win = mlx_new_window(frontend_state.mlx, frontend_state.width, frontend_state.height, "So long");
 	draw_map_background(&frontend_state);
 	mlx_hook(frontend_state.mlx_win, 2, 1L<<0, handle_command, &frontend_state);
