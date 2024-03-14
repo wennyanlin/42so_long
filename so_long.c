@@ -104,26 +104,32 @@ void	frontend_exit(t_data frontend_state, int code)
 		exit(EXIT_FAILURE);
 }
 
+t_play	get_playground(char *filepath)
+{
+	char	*string_playground;
+	char 	**array_playground;
+	t_play	playground_state;
+	
+	string_playground = read_map_file(filepath);
+	if (!string_playground || are_empty_lines(string_playground))
+		string_playground_exit(string_playground);
+	array_playground = ft_split(string_playground, '\n');
+	playground_state = playground_validation(array_playground);
+	if (playground_state.is_valid == INVALID)
+		array_playground_exit(array_playground, exit_failure);
+	playground_state.playground = array_playground;
+	return (playground_state);
+}
+
 int	main(int argc, char **argv)
 {
 	t_play	playground_state;
 	t_data	frontend_state;
-	char	*string_playground;
-	char 	**array_playground;
 
 	if (argc != 2)
 		return (0);
-	string_playground = read_file(argv[1]);
-	if (!string_playground || are_empty_lines(string_playground))
-		string_playground_exit(string_playground);
-	array_playground = ft_split(string_playground, '\n');
-	if (!array_playground)
-		array_playground_exit(playground_state.playground, exit_failure);
-	playground_state = is_playground_shape_valid(array_playground);
-	if (playground_state.is_valid == INVALID)
-		array_playground_exit(array_playground, exit_failure);
-	playground_state.playground = array_playground;
-	frontend_state = start(playground_state);
+	playground_state = get_playground(argv[1]);
+	frontend_state = start_game(playground_state);
 	frontend_exit(frontend_state, exit_success);
 	return (0);
 }

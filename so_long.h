@@ -68,14 +68,14 @@ char	**ft_strdup_array(char **array);
 
 
 //read_file
-char	*read_file(char *filepath);
+char	*read_map_file(char *filepath);
 
 //playground_check
-t_play	is_playground_shape_valid(char **arr);
-void	validate_playground_objects(char **arr, t_play *playground, int row, int column);
-void	validate_playground_wall(char **arr, t_play *playground, int row);
+t_play	playground_validation(char **arr);
+void	get_playground_objects(char **arr, t_play *playground, int row, int column);
+void	get_playground_wall(char **arr, t_play *playground, int row);
 int 	are_empty_lines(char *storage);
-int		does_path_exist(t_play playground_state, char **array);
+int		check_exist_path(t_play playground_state, char **array);
 //playground_utils
 char	**flood_fill(t_play playground_state, char **array);
 void	fill(char **array, t_play playground_state, int player_row, int player_column);
@@ -98,9 +98,13 @@ void	test_playground_check();
 void 	print_playground(t_play playground);
 
 //frontend
-t_data	start(t_play playground);
+t_data	start_game(t_play playground);
 void	draw_map_background(t_data *image);
 int		handle_command(int keycode, t_data *img);
 int		final_exit(t_data *frontend_state);
+
+//
+t_play	get_playground(char *filepath);
+
 
 #endif
