@@ -28,6 +28,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include "./mlx/mlx.h"
+#include "./ft_printf/ft_printf.h"
 #include <math.h>
 
 typedef struct s_play

@@ -3,7 +3,7 @@ NAME = so_long
 INCLUDES = ./so_long.h \
 			./mlx/mlx.h
 
-LIB = -Lmlx -lmlx -framework OpenGL -framework AppKit
+LIB = -Lmlx -lmlx -Lft_printf -lftprintf -framework OpenGL -framework AppKit
 
 SRCS = so_long.c string_utils.c playground_check.c read_map_file.c\
 		ft_split.c frontend.c map_check.c\
