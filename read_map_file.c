@@ -51,7 +51,6 @@ char	*read_map_file(char *filepath)
 // 	// TODO handle file not exists AND don't have read permissions
 // 	// spaces in the map should be an error, user should fix the map
 // 	char *contents = read_file("./maps/test.ber");
-
 // 	i = 0;
 // 	while(contents[i])
 // 	{
