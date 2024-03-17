@@ -4,15 +4,15 @@ t_play empty_playground()
 {
 	t_play playground;
 	playground.playground = NULL;
-	playground.width = NEGATIVE;
-	playground.height = NEGATIVE;
+	playground.width = UNSET;
+	playground.height = UNSET;
 	playground.num_collectable = 0;
 	playground.num_move = 0;
-	playground.player_row = NEGATIVE;
-	playground.player_column = NEGATIVE;
-	playground.is_exit_open = NEGATIVE;
-	playground.is_valid = NEGATIVE;
-
+	playground.player_row = UNSET;
+	playground.player_column = UNSET;
+	playground.is_exit_open = UNSET;
+	playground.is_valid = UNSET;
+	playground.error.error_code = UNSET;
 	return (playground);
 }
 
@@ -26,12 +26,12 @@ void	get_playground_wall(char **arr, t_play *playground, int row)
 		while (arr[row][j])
 		{
 			if (arr[row][j] != WALL)
-				playground->is_valid = INVALID;
+				playground->error = error(INVALID, "Map border missing wall.");
 			j++;
 		}
 	}
 	else if (arr[row][0] != WALL || arr[row][playground->width - 1] != WALL)
-		playground->is_valid = INVALID;
+		playground->error = error(INVALID, "Map border missing wall.");
 }
 
 void	get_playground_objects(char **arr, t_play *playground, int row, int column)
@@ -40,55 +40,38 @@ void	get_playground_objects(char **arr, t_play *playground, int row, int column)
 		playground->num_collectable++;
 	else if (arr[row][column] == PLAYER)
 	{
-		if (playground->player_row == NEGATIVE) // is first player found?
+		if (playground->player_row == UNSET) // is first player found?
 		{
 			playground->player_row = row;
 			playground->player_column = column;
 		}
 		else
-		{ // else is more then one player
-			playground->player_row = INVALID;
-			playground->player_column = INVALID;
-		}
+			playground->error = error(INVALID, "Map contains more than one player.");
 	}
 	else if (arr[row][column] == EXIT)
 	{
-		if (playground->is_exit_open == NEGATIVE)
+		if (playground->is_exit_open == UNSET)
 			playground->is_exit_open = 0;
 		else
-			playground->is_exit_open = INVALID;
+			playground->error = error(INVALID, "Map contains more than one exit.");
 	}
 }
 
-t_play	playground_validation(char **arr)
+t_play	final_check(t_play playground)
 {
-	int	i;
-	int	j;
-	t_play	playground;
-
-	i = -1;
-	j = -1;
-	playground = empty_playground();
-	while (arr[++i] && playground.is_valid != INVALID)
-	{
-		j = -1;
-		get_playground_wall(arr, &playground, i);
-		while (arr[i][++j])
-			get_playground_objects(arr, &playground, i, j);
-		if (i == 0)
-			playground.width = j;
-		if (j != playground.width)
-			return (playground);
-	}
-	playground.height = i;
-	if (playground.height < MIN_MAP_SIZE || playground.width < MIN_MAP_SIZE || playground.height > MAX_MAP_HEIGHT || playground.width > MAX_MAP_WIDTH)
-		playground.is_valid = INVALID;
-	else if (playground.player_row == NEGATIVE || playground.player_column == NEGATIVE || playground.num_collectable == 0
-				|| playground.is_exit_open == NEGATIVE || check_exist_path(playground, arr) == NEGATIVE)
-		playground.is_valid = INVALID;
-	return (playground);
+	if (playground.height > MAX_MAP_HEIGHT || playground.width > MAX_MAP_WIDTH)
+		return (set_error(INVALID, "Map size exceed maximum size.", playground));
+	else if (playground.player_row == UNSET || playground.player_column == UNSET)
+		return (set_error(INVALID, "Map doesn't contain a player.", playground));
+	else if (playground.num_collectable == 0)
+	 	return (set_error(INVALID, "Map doesn't contain any collectable.", playground));
+	else if (playground.is_exit_open == UNSET)
+		return (set_error(INVALID, "Map doesn't contain any exit.", playground));
+	else if (check_exist_path(playground, playground.playground) == INVALID)
+		return (set_error(INVALID, "Map doesn't contain a valid route.", playground));
+	else
+		return (playground);
 }
-
 int	check_exist_path(t_play playground_state, char **array)
 {
 	char 	**filled_array;
@@ -102,7 +85,7 @@ int	check_exist_path(t_play playground_state, char **array)
 		while (filled_array[i][j])
 		{
 			if (filled_array[i][j] != WALL && filled_array[i][j] != PATH)
-				return (-1);
+				return (INVALID);
 			j++;
 		}
 		i++;
@@ -111,38 +94,27 @@ int	check_exist_path(t_play playground_state, char **array)
 	return (1);
 }
 
-void	test_playground_check()
+t_play	playground_validation(char **arr)
 {
-	// char **playground = buildPlayground(3, 4);
-	// printf("\nShould return success when playground is valid:\n");
-	// write_playground(STDOUT_FILENO, playground, 4);
-	// printf("expected: 1, actual result: %d\n", is_playground_shape_valid(playground));
+	int	i;
+	int	j;
+	t_play	playground;
 
-	// printf("\n");
-	// playground = buildPlayground(4, 2);
-	// printf("\nShould return error code when playground width is invalid:\n");
-	// write_playground(STDOUT_FILENO, playground, 2);
-	// printf("expected: 0, actual result: %d\n", is_playground_shape_valid(playground));
-
-	// playground = buildPlayground(2, 4);
-	// printf("\nShould return error code when playground height is invalid:\n");
-	// write_playground(STDOUT_FILENO, playground, 4);
-	// printf("expected: 0, actual result: %d\n", is_playground_shape_valid(playground));
-
-
-	// playground = read_file("maps/not_rectangle.ber");
-	// printf("\nShould return error code when playground is not a rectangle:\n");
-	// write_playground(STDOUT_FILENO, playground, 7);
-	// printf("expected: 0, actual result: %d\n", is_playground_shape_valid(playground));
-
-	// playground = read_file("maps/invalid_wall.ber");
-	// printf("\nShould return error code when playground wall is not valid:\n");
-	// write_playground(STDOUT_FILENO, playground, 5);
-	// printf("expected: '0', actual result: '%d'\n", is_playground_shape_valid(playground));
-
-	// print_playground(is_playground_shape_valid(read_file("maps/playground_detail.ber")));
-	// print_playground(is_playground_shape_valid(read_file("maps/more_than_one_player.ber")));
-	// print_playground(is_playground_shape_valid(read_file("maps/more_than_one_exit.ber")));
+	i = -1;
+	j = -1;
+	playground = empty_playground();
+	while (arr[++i] && playground.error.error_code != INVALID)
+	{
+		j = -1;
+		get_playground_wall(arr, &playground, i);
+		while (arr[i][++j])
+			get_playground_objects(arr, &playground, i, j);
+		if (i == 0)
+			playground.width = j;
+		if (j != playground.width)
+			return (set_error(INVALID, "Invalid width, all rows must have the same width.", playground));
+	}
+	playground.height = i;
+	playground.playground = arr;
+	return (final_check(playground));
 }
-
-

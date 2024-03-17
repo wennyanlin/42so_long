@@ -2,7 +2,6 @@
 # define SO_LONG_H
 
 //MACROS
-#define MIN_MAP_SIZE 3
 #define MAX_MAP_HEIGHT 17
 #define MAX_MAP_WIDTH 29
 #define PLAYER 'P'
@@ -19,7 +18,7 @@
 #define exit_success 0
 #define exit_failure 1
 #define INVALID -2
-#define NEGATIVE -1
+#define UNSET -1
 #define POSITIVE 1
 
 //libraries
@@ -33,6 +32,13 @@
 #include <errno.h>
 #include <string.h>
 
+//structs
+typedef struct s_error
+{
+	int		error_code;
+	char 	*error_message;
+}	t_error;
+
 typedef struct s_play
 {
 	char	**playground;
@@ -44,6 +50,7 @@ typedef struct s_play
 	int 	num_collectable;
 	int		num_move;
 	int		is_valid;
+	t_error	error;
 }	t_play;
 
 typedef struct s_data
@@ -58,6 +65,7 @@ typedef struct s_data
 	t_play	playground_state;
 }	t_data;
 
+//FUNCTION PROTOTYPES
 //string_utils
 size_t	ft_strlen(char *s);
 int		string_contain(char *str, char target);
@@ -91,7 +99,7 @@ char	validate_direction_command(int keycode);
 t_play	empty_playground();
 void	frontend_exit(t_data frontend_state, int code);
 void	free_array(char **array);
-void	array_playground_exit(char **array_playground, int code);
+void	array_playground_exit(char **array_playground, t_error error);
 
 //test functions
 void	test_read();
@@ -108,6 +116,9 @@ int		final_exit(t_data *frontend_state);
 
 //
 t_play	get_playground(char *filepath);
-int		string_playground_exit(char *string_playground, int code);
+int		string_playground_exit(char *string_playground, t_error error);
+t_error	error(int code, char *message);
+t_play	set_error(int code, char *message, t_play playground_state);
+int		check_file_extension(char *str);
 
 #endif

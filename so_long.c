@@ -68,57 +68,29 @@ t_play	update_command(t_data frontend_state, int newplayer_x, int newplayer_y)
 	return (playground_state);
 }
 
-// int	string_playground_exit(char *string_playground)
-// {
-// 	free(string_playground);
-// 	write(1, "Error\n", 6);
-// 	exit(1);
-// }
-
-// void	array_playground_exit(char **array_playground, int code)
-// {
-// 	if (code == exit_success)
-// 	{
-// 		free_array(array_playground);
-// 		exit(EXIT_SUCCESS);
-// 	}
-// 	else if (code == exit_failure)
-// 	{
-// 		free_array(array_playground);
-// 		write(1, "Error\n", 6);
-// 		exit(EXIT_FAILURE);
-// 	}
-// }
-
-// void	frontend_exit(t_data frontend_state, int code)
-// {
-// 	char	**playground;
-
-// 	playground = frontend_state.playground_state.playground;
-// 	if (frontend_state.mlx)
-// 		mlx_destroy_window(frontend_state.mlx, frontend_state.mlx_win);
-// 	free_array(playground);
-// 	if (code == exit_success)
-// 		exit(EXIT_SUCCESS);
-// 	else if (code == exit_failure)
-// 		exit(EXIT_FAILURE);
-// }
-
 t_play	get_playground(char *filepath)
 {
 	char	*string_playground;
 	char 	**array_playground;
 	t_play	playground_state;
-	
+
+	if (check_file_extension(filepath) == INVALID)
+	{
+		ft_printf("Error\n");
+		ft_printf("Not a valid file type\n");
+		exit(EXIT_FAILURE);
+	}
 	string_playground = read_map_file(filepath);
 	if (!string_playground)
-		string_playground_exit(string_playground, 0);
+		string_playground_exit(string_playground, error(INVALID,  strerror(errno)));
 	if (are_empty_lines(string_playground))
-		string_playground_exit(string_playground, 0);
+		string_playground_exit(string_playground, error(INVALID,  "Map contains a empty line."));
 	array_playground = ft_split(string_playground, '\n');
+	if (array_playground == NULL)
+		array_playground_exit(array_playground, error(INVALID, "Failed to parse the map"));
 	playground_state = playground_validation(array_playground);
-	if (playground_state.is_valid == INVALID)
-		array_playground_exit(array_playground, exit_failure);
+	if (playground_state.error.error_code == INVALID)
+		array_playground_exit(array_playground, playground_state.error);
 	playground_state.playground = array_playground;
 	return (playground_state);
 }
@@ -137,7 +109,3 @@ int	main(int argc, char **argv)
 	frontend_exit(frontend_state, exit_success);
 	return (0);
 }
-
-//functions to group and classify different check cases
-// -get_map();
-// -get_playground();
