@@ -4,15 +4,15 @@ t_play empty_playground()
 {
 	t_play playground;
 	playground.playground = NULL;
-	playground.width = NEGATIVE;
-	playground.height = NEGATIVE;
+	playground.width = UNSET;
+	playground.height = UNSET;
 	playground.num_collectable = 0;
 	playground.num_move = 0;
-	playground.player_row = NEGATIVE;
-	playground.player_column = NEGATIVE;
-	playground.is_exit_open = NEGATIVE;
-	playground.is_valid = NEGATIVE;
-	playground.error.error_code = NEGATIVE;
+	playground.player_row = UNSET;
+	playground.player_column = UNSET;
+	playground.is_exit_open = UNSET;
+	playground.is_valid = UNSET;
+	playground.error.error_code = UNSET;
 	return (playground);
 }
 
@@ -40,7 +40,7 @@ void	get_playground_objects(char **arr, t_play *playground, int row, int column)
 		playground->num_collectable++;
 	else if (arr[row][column] == PLAYER)
 	{
-		if (playground->player_row == NEGATIVE) // is first player found?
+		if (playground->player_row == UNSET) // is first player found?
 		{
 			playground->player_row = row;
 			playground->player_column = column;
@@ -50,11 +50,27 @@ void	get_playground_objects(char **arr, t_play *playground, int row, int column)
 	}
 	else if (arr[row][column] == EXIT)
 	{
-		if (playground->is_exit_open == NEGATIVE)
+		if (playground->is_exit_open == UNSET)
 			playground->is_exit_open = 0;
 		else
 			playground->error = error(INVALID, "Map contains more than one exit.");
 	}
+}
+
+t_play	final_check(t_play playground)
+{
+	if (playground.height > MAX_MAP_HEIGHT || playground.width > MAX_MAP_WIDTH)
+		return (set_error(INVALID, "Map size exceed maximum size.", playground));
+	else if (playground.player_row == UNSET || playground.player_column == UNSET)
+		return (set_error(INVALID, "Map doesn't contain a player.", playground));
+	else if (playground.num_collectable == 0)
+	 	return (set_error(INVALID, "Map doesn't contain any collectable.", playground));
+	else if (playground.is_exit_open == UNSET)
+		return (set_error(INVALID, "Map doesn't contain any exit.", playground));
+	else if (check_exist_path(playground, playground.playground) == INVALID)
+		return (set_error(INVALID, "Map doesn't contain a valid route.", playground));
+	else
+		return (playground);
 }
 
 t_play	playground_validation(char **arr)
@@ -78,12 +94,8 @@ t_play	playground_validation(char **arr)
 			return (set_error(INVALID, "Invalid width, all rows must have the same width.", playground));
 	}
 	playground.height = i;
-	if (playground.height < MIN_MAP_SIZE || playground.width < MIN_MAP_SIZE || playground.height > MAX_MAP_HEIGHT || playground.width > MAX_MAP_WIDTH)
-		playground.is_valid = INVALID;
-	else if (playground.player_row == NEGATIVE || playground.player_column == NEGATIVE || playground.num_collectable == 0
-				|| playground.is_exit_open == NEGATIVE || check_exist_path(playground, arr) == NEGATIVE)
-		playground.is_valid = INVALID;
-	return (playground);
+	playground.playground = arr;
+	return (final_check(playground));
 }
 
 int	check_exist_path(t_play playground_state, char **array)
@@ -99,7 +111,7 @@ int	check_exist_path(t_play playground_state, char **array)
 		while (filled_array[i][j])
 		{
 			if (filled_array[i][j] != WALL && filled_array[i][j] != PATH)
-				return (-1);
+				return (INVALID);
 			j++;
 		}
 		i++;

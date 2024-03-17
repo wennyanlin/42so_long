@@ -2,7 +2,6 @@
 # define SO_LONG_H
 
 //MACROS
-#define MIN_MAP_SIZE 3
 #define MAX_MAP_HEIGHT 17
 #define MAX_MAP_WIDTH 29
 #define PLAYER 'P'
@@ -19,7 +18,7 @@
 #define exit_success 0
 #define exit_failure 1
 #define INVALID -2
-#define NEGATIVE -1
+#define UNSET -1
 #define POSITIVE 1
 
 //libraries

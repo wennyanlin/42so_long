@@ -9,7 +9,7 @@ char *read_all_bytes(int fd, int BUFFER_SIZE, char *buffer, char *storage)
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read == NEGATIVE)
+		if (bytes_read == UNSET)
 		{
 			free(storage);
 			free(buffer);

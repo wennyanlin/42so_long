@@ -71,9 +71,9 @@ int	handle_command(int keycode, t_data *frontend_state)
 	frontend_state->keycode = keycode;
 	old_playground_state = frontend_state->playground_state;
 	frontend_state->playground_state = get_playground_new_status(*frontend_state, validate_direction_command(frontend_state->keycode));
-	new_playground_state = frontend_state->playground_state; 
+	new_playground_state = frontend_state->playground_state;
 	move_player(old_playground_state, new_playground_state, frontend_state);
-	frontend_state->keycode = NEGATIVE;
+	frontend_state->keycode = UNSET;
 	return (0);
 }
 
