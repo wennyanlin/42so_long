@@ -39,14 +39,10 @@ t_play	update_command(t_data frontend_state, int newplayer_x, int newplayer_y)
 {
 	char	**playground;
 	int		num_collectable;
-	int		row;
-	int		column;
 	t_play	playground_state;
 
 	playground_state = frontend_state.playground_state;
 	playground = frontend_state.playground_state.playground;
-	row = playground_state.player_row;
-	column = playground_state.player_column;
 	num_collectable = playground_state.num_collectable;
 	if (playground[newplayer_x][newplayer_y] == PATH || playground[newplayer_x][newplayer_y] == COLLECTABLE
 		|| (playground[newplayer_x][newplayer_y] == EXIT && num_collectable == 0))
@@ -58,7 +54,7 @@ t_play	update_command(t_data frontend_state, int newplayer_x, int newplayer_y)
 			playground_state.is_exit_open = POSITIVE;
 			frontend_exit(frontend_state, exit_success);
 		}
-		playground[row][column] = PATH;
+		playground[playground_state.player_row][playground_state.player_column] = PATH;
 		playground[newplayer_x][newplayer_y] = PLAYER;
 		playground_state.player_row = newplayer_x;
 		playground_state.player_column = newplayer_y;
