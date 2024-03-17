@@ -72,6 +72,27 @@ t_play	final_check(t_play playground)
 	else
 		return (playground);
 }
+int	check_exist_path(t_play playground_state, char **array)
+{
+	char 	**filled_array;
+	int		i = 0;
+	int		j = 0;
+
+	filled_array = flood_fill(playground_state, array);
+	while (filled_array[i])
+	{
+		j = 0;
+		while (filled_array[i][j])
+		{
+			if (filled_array[i][j] != WALL && filled_array[i][j] != PATH)
+				return (INVALID);
+			j++;
+		}
+		i++;
+	}
+	free_array(filled_array);
+	return (1);
+}
 
 t_play	playground_validation(char **arr)
 {
@@ -96,41 +117,4 @@ t_play	playground_validation(char **arr)
 	playground.height = i;
 	playground.playground = arr;
 	return (final_check(playground));
-}
-
-int	check_exist_path(t_play playground_state, char **array)
-{
-	char 	**filled_array;
-	int		i = 0;
-	int		j = 0;
-
-	filled_array = flood_fill(playground_state, array);
-	while (filled_array[i])
-	{
-		j = 0;
-		while (filled_array[i][j])
-		{
-			if (filled_array[i][j] != WALL && filled_array[i][j] != PATH)
-				return (INVALID);
-			j++;
-		}
-		i++;
-	}
-	free_array(filled_array);
-	return (1);
-}
-
-t_error	error(int code, char *message)
-{
-	t_error	error;
-
-	error.error_code = code;
-	error.error_message = message;
-	return (error);
-}
-
-t_play	set_error(int code, char *message, t_play playground_state)
-{
-	playground_state.error = error(code, message);
-	return (playground_state);
 }

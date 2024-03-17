@@ -1,5 +1,20 @@
 #include "so_long.h"
 
+t_error	error(int code, char *message)
+{
+	t_error	error;
+
+	error.error_code = code;
+	error.error_message = message;
+	return (error);
+}
+
+t_play	set_error(int code, char *message, t_play playground_state)
+{
+	playground_state.error = error(code, message);
+	return (playground_state);
+}
+
 void	frontend_exit(t_data frontend_state, int code)
 {
 	char	**playground;
@@ -16,28 +31,16 @@ void	frontend_exit(t_data frontend_state, int code)
 
 void	array_playground_exit(char **array_playground, t_error error)
 {
-	if (error.error_code == exit_success)
-	{
-		free_array(array_playground);
-		exit(EXIT_SUCCESS);
-	}
-	else if (error.error_code == INVALID)
-	{
-		free_array(array_playground);
-		write(1, "Error\n", 6);
-		ft_printf("%s\n", error.error_message);
-		exit(EXIT_FAILURE);
-	}
+	free_array(array_playground);
+	write(1, "Error\n", 6);
+	ft_printf("%s\n", error.error_message);
+	exit(EXIT_FAILURE);
 }
 
-int	string_playground_exit(char *string_playground, int code)
+int	string_playground_exit(char *string_playground, t_error error)
 {
-	int	failed_to_open;
-
-	failed_to_open = 1;
 	free(string_playground);
 	write(1, "Error\n", 6);
-	if (code == failed_to_open)
-		printf("%s\n", strerror(errno));
+	ft_printf("%s\n", error.error_message);
 	exit(1);
 }

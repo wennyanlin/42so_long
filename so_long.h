@@ -116,7 +116,7 @@ int		final_exit(t_data *frontend_state);
 
 //
 t_play	get_playground(char *filepath);
-int		string_playground_exit(char *string_playground, int code);
+int		string_playground_exit(char *string_playground, t_error error);
 t_error	error(int code, char *message);
 t_play	set_error(int code, char *message, t_play playground_state);
 
