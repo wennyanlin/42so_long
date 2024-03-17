@@ -46,17 +46,14 @@ void	get_playground_objects(char **arr, t_play *playground, int row, int column)
 			playground->player_column = column;
 		}
 		else
-		{ // else is more then one player
-			playground->player_row = INVALID;
-			playground->player_column = INVALID;
-		}
+			playground->error = error(INVALID, "Map contains more than one player.");
 	}
 	else if (arr[row][column] == EXIT)
 	{
 		if (playground->is_exit_open == NEGATIVE)
 			playground->is_exit_open = 0;
 		else
-			playground->is_exit_open = INVALID;
+			playground->error = error(INVALID, "Map contains more than one exit.");
 	}
 }
 
