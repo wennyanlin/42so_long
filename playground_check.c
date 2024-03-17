@@ -78,7 +78,7 @@ t_play	playground_validation(char **arr)
 		if (i == 0)
 			playground.width = j;
 		if (j != playground.width)
-			return (playground);
+			return (set_error(INVALID, "Invalid width, all rows must have the same width.", playground));
 	}
 	playground.height = i;
 	if (playground.height < MIN_MAP_SIZE || playground.width < MIN_MAP_SIZE || playground.height > MAX_MAP_HEIGHT || playground.width > MAX_MAP_WIDTH)
@@ -111,38 +111,17 @@ int	check_exist_path(t_play playground_state, char **array)
 	return (1);
 }
 
-void	test_playground_check()
+t_error	error(int code, char *message)
 {
-	// char **playground = buildPlayground(3, 4);
-	// printf("\nShould return success when playground is valid:\n");
-	// write_playground(STDOUT_FILENO, playground, 4);
-	// printf("expected: 1, actual result: %d\n", is_playground_shape_valid(playground));
+	t_error	error;
 
-	// printf("\n");
-	// playground = buildPlayground(4, 2);
-	// printf("\nShould return error code when playground width is invalid:\n");
-	// write_playground(STDOUT_FILENO, playground, 2);
-	// printf("expected: 0, actual result: %d\n", is_playground_shape_valid(playground));
-
-	// playground = buildPlayground(2, 4);
-	// printf("\nShould return error code when playground height is invalid:\n");
-	// write_playground(STDOUT_FILENO, playground, 4);
-	// printf("expected: 0, actual result: %d\n", is_playground_shape_valid(playground));
-
-
-	// playground = read_file("maps/not_rectangle.ber");
-	// printf("\nShould return error code when playground is not a rectangle:\n");
-	// write_playground(STDOUT_FILENO, playground, 7);
-	// printf("expected: 0, actual result: %d\n", is_playground_shape_valid(playground));
-
-	// playground = read_file("maps/invalid_wall.ber");
-	// printf("\nShould return error code when playground wall is not valid:\n");
-	// write_playground(STDOUT_FILENO, playground, 5);
-	// printf("expected: '0', actual result: '%d'\n", is_playground_shape_valid(playground));
-
-	// print_playground(is_playground_shape_valid(read_file("maps/playground_detail.ber")));
-	// print_playground(is_playground_shape_valid(read_file("maps/more_than_one_player.ber")));
-	// print_playground(is_playground_shape_valid(read_file("maps/more_than_one_exit.ber")));
+	error.error_code = code;
+	error.error_message = message;
+	return (error);
 }
 
-
+t_play	set_error(int code, char *message, t_play playground_state)
+{
+	playground_state.error = error(code, message);
+	return (playground_state);
+}

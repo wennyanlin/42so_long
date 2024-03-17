@@ -2,6 +2,7 @@ a.out
 so_long.dSYM
 test.txt
 *.o
+*.a
 .vscode
 maps
 so_long

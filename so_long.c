@@ -109,16 +109,18 @@ t_play	get_playground(char *filepath)
 	char	*string_playground;
 	char 	**array_playground;
 	t_play	playground_state;
-	
+
 	string_playground = read_map_file(filepath);
 	if (!string_playground)
 		string_playground_exit(string_playground, 0);
 	if (are_empty_lines(string_playground))
 		string_playground_exit(string_playground, 0);
 	array_playground = ft_split(string_playground, '\n');
+	if (array_playground == NULL)
+		array_playground_exit(array_playground, error(INVALID, "Failed to parse the map"));
 	playground_state = playground_validation(array_playground);
-	if (playground_state.is_valid == INVALID)
-		array_playground_exit(array_playground, exit_failure);
+	if (playground_state.error.error_code == INVALID)
+		array_playground_exit(array_playground, playground_state.error);
 	playground_state.playground = array_playground;
 	return (playground_state);
 }

@@ -85,6 +85,6 @@ char	**ft_split(char *str, char seperator)
 	}
 	words[i] = NULL;
 	if (!words[0])
-		array_playground_exit(words, 1);
+		return (NULL);
 	return (words);
 }

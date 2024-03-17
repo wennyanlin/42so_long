@@ -14,17 +14,18 @@ void	frontend_exit(t_data frontend_state, int code)
 		exit(EXIT_FAILURE);
 }
 
-void	array_playground_exit(char **array_playground, int code)
+void	array_playground_exit(char **array_playground, t_error error)
 {
-	if (code == exit_success)
+	if (error.error_code == exit_success)
 	{
 		free_array(array_playground);
 		exit(EXIT_SUCCESS);
 	}
-	else if (code == exit_failure)
+	else if (error.error_code == INVALID)
 	{
 		free_array(array_playground);
 		write(1, "Error\n", 6);
+		ft_printf("%s\n", error.error_message);
 		exit(EXIT_FAILURE);
 	}
 }
