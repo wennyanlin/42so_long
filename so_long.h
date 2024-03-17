@@ -28,7 +28,10 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include "./mlx/mlx.h"
+#include "./ft_printf/ft_printf.h"
 #include <math.h>
+#include <errno.h>
+#include <string.h>
 
 typedef struct s_play
 {
@@ -105,6 +108,6 @@ int		final_exit(t_data *frontend_state);
 
 //
 t_play	get_playground(char *filepath);
-
+int		string_playground_exit(char *string_playground, int code);
 
 #endif
