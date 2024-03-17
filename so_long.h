@@ -110,7 +110,7 @@ void 	print_playground(t_play playground);
 t_data	start_game(t_play playground);
 void	draw_map_background(t_data *image);
 int		handle_command(int keycode, t_data *img);
-int		final_exit(t_data *frontend_state);
+int		press_x_exit(t_data *frontend_state);
 
 //
 t_play	get_playground(char *filepath);
