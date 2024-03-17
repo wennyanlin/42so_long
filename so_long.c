@@ -31,7 +31,7 @@ t_play	get_playground_new_status(t_data frontend_state, char command)
 	else if (command == RIGHT)
 		frontend_state.playground_state = update_command(frontend_state, row, (column + 1));
 	else if (command == QUIT)
-		frontend_exit(frontend_state, exit_success);
+		frontend_exit(frontend_state, exit_failure);
 	return (frontend_state.playground_state);
 }
 
@@ -63,7 +63,7 @@ t_play	update_command(t_data frontend_state, int newplayer_x, int newplayer_y)
 		playground_state.player_row = newplayer_x;
 		playground_state.player_column = newplayer_y;
 		playground_state.num_move++;
-		write_num_moves(playground_state.num_move);
+		ft_printf("You made: %i step/s\n", playground_state.num_move);
 	}
 	return (playground_state);
 }
@@ -107,5 +107,4 @@ int	main(int argc, char **argv)
 	playground_state = get_playground(filepath);
 	frontend_state = start_game(playground_state);
 	frontend_exit(frontend_state, exit_success);
-	return (0);
 }

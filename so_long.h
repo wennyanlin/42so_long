@@ -73,8 +73,6 @@ char	*duplicate_storage(char *storage, char *buffer);
 char	*ft_strjoin(char *str1, char *str2);
 char	**ft_split(char *str, char seperator);
 void	free_array(char **array);
-void	ft_putnbr(int nbr);
-void	write_num_moves(int num_move);
 char	**ft_strdup_array(char **array);
 
 
