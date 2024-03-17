@@ -24,9 +24,15 @@ void	frontend_exit(t_data frontend_state, int code)
 		mlx_destroy_window(frontend_state.mlx, frontend_state.mlx_win);
 	free_array(playground);
 	if (code == exit_success)
+	{
+		ft_printf("\nIt’s money that makes the world go round!\n- Mr. Mini Krabs\n\nCongradulations!\n");
 		exit(EXIT_SUCCESS);
+	}
 	else if (code == exit_failure)
+	{
+		ft_printf("\nI’ll fill your life with misery and woe. Even if you quit.\n- Mr. Mini Krabs\n\nYou lost!\n");
 		exit(EXIT_FAILURE);
+	}
 }
 
 void	array_playground_exit(char **array_playground, t_error error)

@@ -88,15 +88,14 @@ t_data	start_game(t_play playground)
 	frontend_state.mlx_win = mlx_new_window(frontend_state.mlx, frontend_state.width, frontend_state.height, "So long");
 	draw_map_background(&frontend_state);
 	mlx_hook(frontend_state.mlx_win, 2, 1L<<0, handle_command, &frontend_state);
-	mlx_hook(frontend_state.mlx_win, 17, 1L<<2, final_exit, &frontend_state);
+	mlx_hook(frontend_state.mlx_win, 17, 1L<<2, press_x_exit, &frontend_state);
 	mlx_loop(frontend_state.mlx);
 	return (frontend_state);
 }
 
-int	final_exit(t_data *frontend_state)
+int	press_x_exit(t_data *frontend_state)
 {
-	mlx_destroy_window(frontend_state->mlx, frontend_state->mlx_win);
 	mlx_destroy_image(frontend_state->mlx, frontend_state->img);
-	free_array(frontend_state->playground_state.playground);
-	exit(0);
+	frontend_exit(*frontend_state, exit_failure);
+	return(1);
 }

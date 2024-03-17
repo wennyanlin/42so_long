@@ -90,33 +90,6 @@ char	**flood_fill(t_play playground_state, char **array)
 	return (array_to_fill);
 }
 
-void	ft_putnbr(int nbr)
-{
-	char	n;
-
-	if (nbr > 9)
-	{
-		ft_putnbr(nbr / 10);
-		ft_putnbr(nbr % 10);
-	}
-	else
-	{
-		n = nbr + '0';
-		write(1, &n, 1);
-	}
-}
-
-void	write_num_moves(int num_move)
-{
-
-	write(1, "You made: ", 10);
-	ft_putnbr(num_move);
-	if (num_move == 1)
-		write(1, " step\n", 6);
-	else
-		write(1, " steps\n", 7);
-}
-
 void	*free_space(char **reserved_space)
 {
 	if (*reserved_space)

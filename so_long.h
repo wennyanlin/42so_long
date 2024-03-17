@@ -73,8 +73,6 @@ char	*duplicate_storage(char *storage, char *buffer);
 char	*ft_strjoin(char *str1, char *str2);
 char	**ft_split(char *str, char seperator);
 void	free_array(char **array);
-void	ft_putnbr(int nbr);
-void	write_num_moves(int num_move);
 char	**ft_strdup_array(char **array);
 
 
@@ -112,7 +110,7 @@ void 	print_playground(t_play playground);
 t_data	start_game(t_play playground);
 void	draw_map_background(t_data *image);
 int		handle_command(int keycode, t_data *img);
-int		final_exit(t_data *frontend_state);
+int		press_x_exit(t_data *frontend_state);
 
 //
 t_play	get_playground(char *filepath);
