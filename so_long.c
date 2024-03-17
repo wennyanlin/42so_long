@@ -74,6 +74,12 @@ t_play	get_playground(char *filepath)
 	char 	**array_playground;
 	t_play	playground_state;
 
+	if (check_file_extension(filepath) == INVALID)
+	{
+		ft_printf("Error\n");
+		ft_printf("Not a valid file type\n");
+		exit(EXIT_FAILURE);
+	}
 	string_playground = read_map_file(filepath);
 	if (!string_playground)
 		string_playground_exit(string_playground, error(INVALID,  strerror(errno)));
