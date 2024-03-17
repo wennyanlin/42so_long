@@ -12,7 +12,7 @@ t_play empty_playground()
 	playground.player_column = NEGATIVE;
 	playground.is_exit_open = NEGATIVE;
 	playground.is_valid = NEGATIVE;
-
+	playground.error.error_code = NEGATIVE;
 	return (playground);
 }
 
@@ -26,12 +26,12 @@ void	get_playground_wall(char **arr, t_play *playground, int row)
 		while (arr[row][j])
 		{
 			if (arr[row][j] != WALL)
-				playground->is_valid = INVALID;
+				playground->error = error(INVALID, "Map border missing wall.");
 			j++;
 		}
 	}
 	else if (arr[row][0] != WALL || arr[row][playground->width - 1] != WALL)
-		playground->is_valid = INVALID;
+		playground->error = error(INVALID, "Map border missing wall.");
 }
 
 void	get_playground_objects(char **arr, t_play *playground, int row, int column)
@@ -69,7 +69,7 @@ t_play	playground_validation(char **arr)
 	i = -1;
 	j = -1;
 	playground = empty_playground();
-	while (arr[++i] && playground.is_valid != INVALID)
+	while (arr[++i] && playground.error.error_code != INVALID)
 	{
 		j = -1;
 		get_playground_wall(arr, &playground, i);
