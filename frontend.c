@@ -67,13 +67,17 @@ int	handle_command(int keycode, t_data *frontend_state)
 {
 	t_play	old_playground_state;
 	t_play	new_playground_state;
+	char	command;
 
-	frontend_state->keycode = keycode;
+	command = validate_direction_command(keycode);
+	if (command == QUIT)
+		frontend_exit(*frontend_state, exit_failure);
 	old_playground_state = frontend_state->playground_state;
-	frontend_state->playground_state = get_playground_new_status(*frontend_state, validate_direction_command(frontend_state->keycode));
+	frontend_state->playground_state = get_playground_new_status(old_playground_state, command);
 	new_playground_state = frontend_state->playground_state;
+	if (frontend_state->playground_state.game_state == PLAYER_WIN)
+		frontend_exit(*frontend_state, exit_success);
 	move_player(old_playground_state, new_playground_state, frontend_state);
-	frontend_state->keycode = UNSET;
 	return (0);
 }
 

@@ -20,6 +20,8 @@
 #define INVALID -2
 #define UNSET -1
 #define POSITIVE 1
+#define CLOSED 0
+#define PLAYER_WIN 1
 
 //libraries
 # include <unistd.h>
@@ -49,7 +51,7 @@ typedef struct s_play
 	int		is_exit_open;
 	int 	num_collectable;
 	int		num_move;
-	int		is_valid;
+	int		game_state;
 	t_error	error;
 }	t_play;
 
@@ -59,7 +61,6 @@ typedef struct s_data
 	char	*path;
 	void	*mlx;
 	void	*mlx_win;
-	int		keycode;
 	int		width;
 	int		height;
 	t_play	playground_state;
@@ -85,32 +86,23 @@ void	get_playground_objects(char **arr, t_play *playground, int row, int column)
 void	get_playground_wall(char **arr, t_play *playground, int row);
 int 	are_empty_lines(char *storage);
 int		check_exist_path(t_play playground_state, char **array);
+
 //playground_utils
 char	**flood_fill(t_play playground_state, char **array);
 void	fill(char **array, t_play playground_state, int player_row, int player_column);
 t_play	empty_playground();
-// void 	write_playground(int fd, char **playground, int width);
-t_play	update_command(t_data frontend_state, int newplayer_x, int newplayer_y);
-t_play	get_playground_new_status(t_data frontend_state, char command);
+t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y);
+t_play	get_playground_new_status(t_play playground, char command);
 char	validate_direction_command(int keycode);
-// t_play	update_command(t_play playground_state, int newplayer_x, int newplayer_y);
 t_play	empty_playground();
 void	frontend_exit(t_data frontend_state, int code);
 void	free_array(char **array);
 void	array_playground_exit(char **array_playground, t_error error);
 
-//test functions
-void	test_read();
-void	test_string_utils();
-void	test_split();
-void	test_playground_check();
-void 	print_playground(t_play playground);
-
 //frontend
 t_data	start_game(t_play playground);
 void	draw_map_background(t_data *image);
 int		handle_command(int keycode, t_data *img);
-int		press_x_exit(t_data *frontend_state);
 
 //
 t_play	get_playground(char *filepath);
@@ -118,5 +110,5 @@ int		string_playground_exit(char *string_playground, t_error error);
 t_error	error(int code, char *message);
 t_play	set_error(int code, char *message, t_play playground_state);
 int		check_file_extension(char *str);
-
+int		press_x_exit(t_data *frontend_state);
 #endif

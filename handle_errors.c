@@ -38,15 +38,13 @@ void	frontend_exit(t_data frontend_state, int code)
 void	array_playground_exit(char **array_playground, t_error error)
 {
 	free_array(array_playground);
-	write(1, "Error\n", 6);
-	ft_printf("%s\n", error.error_message);
+	ft_printf("Error\n%s\n", error.error_message);
 	exit(EXIT_FAILURE);
 }
 
 int	string_playground_exit(char *string_playground, t_error error)
 {
 	free(string_playground);
-	write(1, "Error\n", 6);
-	ft_printf("%s\n", error.error_message);
+	ft_printf("Error\n%s\n", error.error_message);
 	exit(1);
 }

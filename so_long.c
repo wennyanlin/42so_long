@@ -15,54 +15,64 @@ char	validate_direction_command(int keycode)
 	return (0);
 }
 
-t_play	get_playground_new_status(t_data frontend_state, char command)
+t_play	get_playground_new_status(t_play playground_state, char command)
 {
 	int	row;
 	int	column;
 
-	row = frontend_state.playground_state.player_row;
-	column = frontend_state.playground_state.player_column;
+	row = playground_state.player_row;
+	column = playground_state.player_column;
 	if (command == UP)
-		frontend_state.playground_state = update_command(frontend_state, (row - 1), column);
+		playground_state = update_command(playground_state, (row - 1), column);
 	else if (command == DOWN)
-		frontend_state.playground_state = update_command(frontend_state, (row + 1), column);
+		playground_state = update_command(playground_state, (row + 1), column);
 	else if (command == LEFT)
-		frontend_state.playground_state = update_command(frontend_state, row, (column - 1));
+		playground_state = update_command(playground_state, row, (column - 1));
 	else if (command == RIGHT)
-		frontend_state.playground_state = update_command(frontend_state, row, (column + 1));
-	else if (command == QUIT)
-		frontend_exit(frontend_state, exit_failure);
-	return (frontend_state.playground_state);
+		playground_state = update_command(playground_state, row, (column + 1));
+	return (playground_state);
 }
 
-t_play	update_command(t_data frontend_state, int newplayer_x, int newplayer_y)
+int	can_move(t_play playground_state, int newplayer_row, int newplayer_column)
+{
+	char	new_position;
+
+	new_position = playground_state.playground[newplayer_row][newplayer_column];
+	if (new_position == PATH || new_position == COLLECTABLE
+		|| (new_position == EXIT && playground_state.num_collectable == 0))
+		return (POSITIVE);
+	else
+		return (INVALID);
+}
+
+t_play	update_command(t_play playground_state, int newplayer_row, int newplayer_column)
 {
 	char	**playground;
-	int		num_collectable;
-	t_play	playground_state;
+	char	new_position;
 
-	playground_state = frontend_state.playground_state;
-	playground = frontend_state.playground_state.playground;
-	num_collectable = playground_state.num_collectable;
-	if (playground[newplayer_x][newplayer_y] == PATH || playground[newplayer_x][newplayer_y] == COLLECTABLE
-		|| (playground[newplayer_x][newplayer_y] == EXIT && num_collectable == 0))
+	playground = playground_state.playground;
+	new_position = playground[newplayer_row][newplayer_column];
+	if (can_move(playground_state, newplayer_row, newplayer_column) == POSITIVE)
 	{
-		if (playground[newplayer_x][newplayer_y] == COLLECTABLE)
+		if (new_position == EXIT && playground_state.num_collectable == 0)
+			playground_state.game_state = PLAYER_WIN;
+		if (new_position == COLLECTABLE)
 			playground_state.num_collectable--;
-		if (playground[newplayer_x][newplayer_y] == EXIT && num_collectable == 0)
-		{
-			playground_state.is_exit_open = POSITIVE;
-			frontend_exit(frontend_state, exit_success);
-		}
 		playground[playground_state.player_row][playground_state.player_column] = PATH;
-		playground[newplayer_x][newplayer_y] = PLAYER;
-		playground_state.player_row = newplayer_x;
-		playground_state.player_column = newplayer_y;
+		playground[newplayer_row][newplayer_column] = PLAYER;
+		playground_state.player_row = newplayer_row;
+		playground_state.player_column = newplayer_column;
 		playground_state.num_move++;
+		ft_printf("You made: %i step/s\n", playground_state.num_move);
 		ft_printf("You made: %i step/s\n", playground_state.num_move);
 	}
 	return (playground_state);
 }
+
+// t_play	update_player(t_data frontend_state, int newplayer_row, int newplayer_column)
+// {
+
+// }
 
 t_play	get_playground(char *filepath)
 {
@@ -72,8 +82,7 @@ t_play	get_playground(char *filepath)
 
 	if (check_file_extension(filepath) == INVALID)
 	{
-		ft_printf("Error\n");
-		ft_printf("Not a valid file type\n");
+		ft_printf("Error\nNot a valid file type\n");
 		exit(EXIT_FAILURE);
 	}
 	string_playground = read_map_file(filepath);

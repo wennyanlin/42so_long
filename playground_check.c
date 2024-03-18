@@ -11,7 +11,6 @@ t_play empty_playground()
 	playground.player_row = UNSET;
 	playground.player_column = UNSET;
 	playground.is_exit_open = UNSET;
-	playground.is_valid = UNSET;
 	playground.error.error_code = UNSET;
 	return (playground);
 }
@@ -51,7 +50,7 @@ void	get_playground_objects(char **arr, t_play *playground, int row, int column)
 	else if (arr[row][column] == EXIT)
 	{
 		if (playground->is_exit_open == UNSET)
-			playground->is_exit_open = 0;
+			playground->is_exit_open = CLOSED;
 		else
 			playground->error = error(INVALID, "Map contains more than one exit.");
 	}

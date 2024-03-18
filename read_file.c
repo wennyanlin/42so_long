@@ -44,18 +44,3 @@ char	*read_file(char *filepath)
 	storage = read_all_bytes(fd, BUFFER_SIZE, buffer, storage);
 	return (storage);
 }
-
-// void test_read()
-// {
-// 	int i;
-// 	// TODO handle file not exists AND don't have read permissions
-// 	// spaces in the map should be an error, user should fix the map
-// 	char *contents = read_file("./maps/test.ber");
-
-// 	i = 0;
-// 	while(contents[i])
-// 	{
-// 		printf("result: '%s'\n", contents[i]);
-// 		i++;
-// 	}
-// }
