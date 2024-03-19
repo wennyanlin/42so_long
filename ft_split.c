@@ -6,16 +6,6 @@ typedef struct s_word
 	char	*content;
 } t_word;
 
-void	free_array(char **array)
-{
-	size_t	i;
-
-	i = 0;
-	while (array[i])
-		free(array[i++]);
-	free(array);
-}
-
 
 int	count_word(char *str, char seperator)
 {
