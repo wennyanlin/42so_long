@@ -45,6 +45,15 @@ int	can_move(t_play playground_state, int newplayer_row, int newplayer_column)
 		return (INVALID);
 }
 
+
+void	update_player(t_play *playground_state, int newplayer_row, int newplayer_column)
+{
+	playground_state->playground[playground_state->player_row][playground_state->player_column] = PATH;
+	playground_state->playground[newplayer_row][newplayer_column] = PLAYER;
+	playground_state->player_row = newplayer_row;
+	playground_state->player_column = newplayer_column;
+}
+
 t_play	update_command(t_play playground_state, int newplayer_row, int newplayer_column)
 {
 	char	**playground;
@@ -56,23 +65,13 @@ t_play	update_command(t_play playground_state, int newplayer_row, int newplayer_
 	{
 		if (new_position == EXIT && playground_state.num_collectable == 0)
 			playground_state.game_state = PLAYER_WIN;
-		if (new_position == COLLECTABLE)
+		else if (new_position == COLLECTABLE)
 			playground_state.num_collectable--;
-		playground[playground_state.player_row][playground_state.player_column] = PATH;
-		playground[newplayer_row][newplayer_column] = PLAYER;
-		playground_state.player_row = newplayer_row;
-		playground_state.player_column = newplayer_column;
-		playground_state.num_move++;
-		ft_printf("You made: %i step/s\n", playground_state.num_move);
-		ft_printf("You made: %i step/s\n", playground_state.num_move);
+		update_player(&playground_state, newplayer_row, newplayer_column);
+		ft_printf("You made: %i step/s\n", ++playground_state.num_move);
 	}
 	return (playground_state);
 }
-
-// t_play	update_player(t_data frontend_state, int newplayer_row, int newplayer_column)
-// {
-
-// }
 
 t_play	get_playground(char *filepath)
 {
