@@ -28,16 +28,29 @@ size_t	ft_strlen(char *str)
 	return (i);
 }
 
-char	**ft_strdup_array(char **array)
+char *ft_strdup(char *src, int len)
 {
 	int		i;
-	int		j;
+	char 	*dest;
+
+	i = -1;
+	dest = malloc(sizeof(char) * (len + 1));
+	if (!dest)
+		return (NULL);
+	while (src[++i])
+		dest[i] = src[i];
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	**ft_arraydup(char **array)
+{
+	int		i;
 	char	**result;
 	int		len_i;
 	int		len_j;
 
 	i = 0;
-	j = 0;
 	if (!array || !array[i])
 		return (NULL);
 	while (array[i])
@@ -49,15 +62,7 @@ char	**ft_strdup_array(char **array)
 		return (NULL);
 	i = -1;
 	while (array[++i])
-	{
-		j = -1;
-		result[i] = malloc(sizeof(char) * (len_j + 1));
-		if (!array[i])
-			return (NULL);
-		while (array[i][++j])
-			result[i][j] = array[i][j];
-		result[i][j] = '\0';
-	}
+		result[i] = ft_strdup(array[i], len_j);
 	result[i] = NULL;
 	return (result);
 }
@@ -85,7 +90,7 @@ char	**flood_fill(t_play playground_state, char **array)
 
 	player_column = playground_state.player_column;
 	player_row = playground_state.player_row;
-	array_to_fill = ft_strdup_array(array);
+	array_to_fill = ft_arraydup(array);
 	fill(array_to_fill, playground_state, player_row, player_column);
 	return (array_to_fill);
 }

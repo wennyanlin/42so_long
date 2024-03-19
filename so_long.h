@@ -74,7 +74,7 @@ char	*duplicate_storage(char *storage, char *buffer);
 char	*ft_strjoin(char *str1, char *str2);
 char	**ft_split(char *str, char seperator);
 void	free_array(char **array);
-char	**ft_strdup_array(char **array);
+char	**ft_arraydup(char **array);
 
 //read_file
 char	*read_map_file(char *filepath);
