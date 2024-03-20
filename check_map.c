@@ -27,9 +27,24 @@ int are_empty_lines(char *raw_map)
 		if (raw_map[i + 1] && raw_map[i] == NEWLINE &&
 			raw_map[i + 1] == NEWLINE)
 			return (1);
-		else if (raw_map[i] && (raw_map[i] != WALL && raw_map[i] != NEWLINE &&
+		else if (raw_map[i] && (raw_map[i] <= 32))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	are_valid_map_objects(char *raw_map)
+{
+	int i;
+
+	i = 0;
+	while (raw_map[i])
+	{
+		if (raw_map[i] && (raw_map[i] != WALL && raw_map[i] != NEWLINE &&
 			 raw_map[i] != PATH && raw_map[i] != EXIT &&
-			 raw_map[i] != COLLECTABLE && raw_map[i] != PLAYER))
+			 raw_map[i] != COLLECTABLE && raw_map[i] != PLAYER) &&
+			 raw_map[i] > 32)
 			return (1);
 		i++;
 	}
@@ -44,7 +59,9 @@ char **validate_map(char *filepath)
 	raw_map = read_map_file(filepath);
 	if (!raw_map)
 		raw_map_exit(raw_map,  strerror(errno));
-	else if (are_empty_lines(raw_map))
+	if (are_valid_map_objects(raw_map))
+		raw_map_exit(raw_map,  "Map contains invalid objects.");
+	if (are_empty_lines(raw_map))
 		raw_map_exit(raw_map,  "Map can not contains empty lines.");
 	map = ft_split(raw_map, '\n');
 	free(raw_map);
