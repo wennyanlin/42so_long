@@ -101,6 +101,8 @@ t_play	validate_game(char **arr)
 		if (j != game.width)
 			return (set_error("All rows must have the same width.", game));
 	}
+	if (game.error != NULL)
+		return (game);
 	game.height = i;
 	game.map = arr;
 	return (final_check(game));

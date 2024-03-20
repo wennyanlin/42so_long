@@ -42,6 +42,11 @@ void	fill(char **array, t_play game, int player_row, int player_column)
 	if (player_column < 0 || player_column >= width || player_row < 0 \
 	|| player_row >= height || array[player_row][player_column] == '1')
 		return ;
+	if (array[player_row][player_column] == 'E')
+	{
+		array[player_row][player_column] = '1';
+		return ;
+	}
 	array[player_row][player_column] = '1';
 	fill(array, game, player_row - 1, player_column);
 	fill(array, game, player_row + 1, player_column);

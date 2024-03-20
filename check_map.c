@@ -17,50 +17,23 @@ t_play empty_game()
 }
 
 //Before splitting the input playground string into an array of string, check for the empty lines, spaces and other non-related characters.
-int are_empty_lines(char *storage)
+int are_empty_lines(char *raw_map)
 {
 	int i;
 
 	i = 0;
-	while (storage[i])
+	while (raw_map[i])
 	{
-		if (storage[i + 1] && storage[i] == NEWLINE &&
-			storage[i + 1] == NEWLINE)
+		if (raw_map[i + 1] && raw_map[i] == NEWLINE &&
+			raw_map[i + 1] == NEWLINE)
 			return (1);
-		else if (storage[i] && (storage[i] != WALL && storage[i] != NEWLINE &&
-			 storage[i] != PATH && storage[i] != EXIT &&
-			 storage[i] != COLLECTABLE && storage[i] != PLAYER))
+		else if (raw_map[i] && (raw_map[i] != WALL && raw_map[i] != NEWLINE &&
+			 raw_map[i] != PATH && raw_map[i] != EXIT &&
+			 raw_map[i] != COLLECTABLE && raw_map[i] != PLAYER))
 			return (1);
 		i++;
 	}
 	return (0);
-}
-
-int	are_same_width(char *raw_map)
-{
-	int	i;
-	int	len;
-	int	width;
-
-	i = 0;
-	len = 0;
-	width = -1;
-	while (raw_map[i])
-	{
-		len = 0;
-		while (raw_map[i] && raw_map[i] != '\n')
-		{
-			len++;
-			i++;
-		}
-		if (raw_map[i] != '\0')
-			i++;
-		if (width == -1)
-			width = len;
-		if (width != len)
-			return (0);
-	}
-	return (1);
 }
 
 char **validate_map(char *filepath)
@@ -71,10 +44,8 @@ char **validate_map(char *filepath)
 	raw_map = read_map_file(filepath);
 	if (!raw_map)
 		raw_map_exit(raw_map,  strerror(errno));
-	if (are_empty_lines(raw_map))
+	else if (are_empty_lines(raw_map))
 		raw_map_exit(raw_map,  "Map can not contains empty lines.");
-	if (!are_same_width(raw_map))
-		raw_map_exit(raw_map,  "All rows must have the same width.");
 	map = ft_split(raw_map, '\n');
 	free(raw_map);
 	if (map == NULL)
