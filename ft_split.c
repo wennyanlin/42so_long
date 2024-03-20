@@ -1,80 +1,80 @@
 #include "so_long.h"
 
-typedef struct s_word
+typedef struct s_row
 {
 	int		continue_from;
 	char	*content;
-} t_word;
+} t_row;
 
 
-int	count_word(char *str, char seperator)
+int	count_rows(char *str, char seperator)
 {
 	int	i;
-	int	count_words;
+	int	count_rows;
 	char *str_copy;
 
 	i = 0;
-	count_words = 0;
+	count_rows = 0;
 	str_copy = str;
 	while (str_copy[i])
 	{
 		while (str_copy[i] && str_copy[i] == seperator)
 			i++;
 		if (str_copy[i] && str_copy[i] != seperator)
-			count_words++;
+			count_rows++;
 		while (str_copy[i] && str_copy[i] != seperator)
 			i++;
 	}
-	return (count_words);
+	return (count_rows);
 }
-t_word	get_next_word(char *str, char seperator, int continue_from)
+t_row	get_next_row(char *str, char seperator, int continue_from)
 {
 	int		i;
 	int		j;
 	int		start;
-	char	*word;
-	t_word	result_word;
+	char	*row;
+	t_row	result_row;
 
 	i = continue_from;
 	j = 0;
-	result_word.content = NULL;
+	result_row.content = NULL;
 	while (str[i] && str[i] == seperator)
 		i++;
 	if (str[i] && str[i] != seperator)
 		start = i;
 	while (str[i] && str[i] != seperator)
 		i++;
-	word = malloc(sizeof(char) * (i - start + 1));
-	if (!word)
-		return (result_word);
+	row = malloc(sizeof(char) * (i - start + 1));
+	if (!row)
+		return (result_row);
 	while (start < i)
-		word[j++] = str[start++];
-	word[j] = '\0';
-	result_word.content = word;
-	result_word.continue_from = i;
-	return (result_word);
+		row[j++] = str[start++];
+	row[j] = '\0';
+	result_row.content = row;
+	result_row.continue_from = i;
+	return (result_row);
 }
 
 char	**ft_split(char *str, char seperator)
 {
-	char	**words;
+	char	**rows;
 	int		i;
-	int		num_words;
-	t_word	word;
+	int		num_rows;
+	t_row	row;
 
-	word.continue_from = 0;
-	num_words = count_word(str, seperator);
-	words = malloc(sizeof(char *) * (num_words + 1));
-	if (!words)
+	row.continue_from = 0;
+	num_rows = count_rows(str, seperator);
+	rows = malloc(sizeof(char *) * (num_rows + 1));
+	if (!rows)
 		return (NULL);
 	i = 0;
-	while (i < num_words)
+	while (i < num_rows)
 	{
-		word = get_next_word(str, seperator, word.continue_from);
-		words[i++] = word.content;
+		row = get_next_row(str, seperator, row.continue_from);
+		rows[i++] = row.content;
 	}
-	words[i] = NULL;
-	if (!words[0])
+	rows[i] = NULL;
+	if (!rows[0])
 		return (NULL);
-	return (words);
+	return (rows);
 }
