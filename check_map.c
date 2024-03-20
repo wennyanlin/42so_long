@@ -42,23 +42,26 @@ int	are_same_width(char *raw_map)
 	int	len;
 	int	width;
 
-	i = -1;
+	i = 0;
 	len = 0;
 	width = -1;
-	while (raw_map[++i])
+	while (raw_map[i])
 	{
-		while (raw_map[i] && raw_map[i + 1] != '\n')
+		len = 0;
+		while (raw_map[i] && raw_map[i] != '\n')
 		{
 			len++;
 			i++;
 		}
-		len--;
+		if (raw_map[i] != '\0')
+			i++;
 		if (width == -1)
 			width = len;
+		printf("len: %i; width: %i\n", len, width);
 		if (width != len)
-			return (1);
+			return (0);
 	}
-	return (0);
+	return (1);
 }
 
 char **validate_map(char *filepath)
@@ -71,7 +74,7 @@ char **validate_map(char *filepath)
 		raw_map_exit(raw_map,  strerror(errno));
 	if (are_empty_lines(raw_map))
 		raw_map_exit(raw_map,  "Map can not contains empty lines.");
-	if (are_same_width(raw_map))
+	if (!are_same_width(raw_map))
 		raw_map_exit(raw_map,  "All rows must have the same width.");
 	map = ft_split(raw_map, '\n');
 	free(raw_map);
