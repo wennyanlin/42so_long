@@ -1,5 +1,27 @@
 #include "so_long.h"
 
+int	check_file_extension(char *str)
+{
+	int	len;
+	int	i;
+	char *tmp;
+	char *ref;
+
+	ref = ".ber";
+	i = -1;
+	tmp = str;
+	len = ft_strlen(str);
+	while (++i < (len - 4))
+		tmp++;
+	i = -1;
+	while (tmp[++i])
+	{
+		if (tmp[i] != ref[i])
+			return (INVALID);
+	}
+	return (POSITIVE);
+}
+
 //read and append all btytes from the input file
 char *read_all_bytes(int fd, int BUFFER_SIZE, char *buffer, char *storage)
 {
@@ -23,12 +45,18 @@ char *read_all_bytes(int fd, int BUFFER_SIZE, char *buffer, char *storage)
 	return (storage);
 }
 
-char	*read_file(char *filepath)
+char	*read_map_file(char *filepath)
 {
 	int     BUFFER_SIZE = 5;
 	int		fd;
 	char	*buffer;
 	char	*storage;
+
+	if (check_file_extension(filepath) == INVALID)
+	{
+		ft_printf("Error\nNot a valid file type\n");
+		exit(EXIT_FAILURE);
+	}
 
 	fd = open(filepath, O_RDONLY);
 	if (fd == -1)
@@ -44,18 +72,3 @@ char	*read_file(char *filepath)
 	storage = read_all_bytes(fd, BUFFER_SIZE, buffer, storage);
 	return (storage);
 }
-
-// void test_read()
-// {
-// 	int i;
-// 	// TODO handle file not exists AND don't have read permissions
-// 	// spaces in the map should be an error, user should fix the map
-// 	char *contents = read_file("./maps/test.ber");
-
-// 	i = 0;
-// 	while(contents[i])
-// 	{
-// 		printf("result: '%s'\n", contents[i]);
-// 		i++;
-// 	}
-// }
