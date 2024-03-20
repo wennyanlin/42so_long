@@ -57,7 +57,6 @@ int	are_same_width(char *raw_map)
 			i++;
 		if (width == -1)
 			width = len;
-		printf("len: %i; width: %i\n", len, width);
 		if (width != len)
 			return (0);
 	}
