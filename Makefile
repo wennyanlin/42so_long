@@ -36,12 +36,14 @@ re:	fclean all
 
 .PHONY: all
 
-$(NAME): $(OBJ_FILES)
-	make -C $(SRC_DIR)/mlx
-	make -C $(SRC_DIR)/ft_printf
+$(NAME): $(OBJ_FILES) $(MLX) $(FT_PRINTF) Makefile src/so_long.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $(OBJ_FILES) -o $@
 	
-	
+$(MLX) :
+	make -C $(SRC_DIR)/mlx
+
+$(FT_PRINTF):
+	make -C $(SRC_DIR)/ft_printf
 #-g -fsanitize=address
 #leaks --atExit -- ./so_long maps/map1.ber
 #mlx/libmlx.a -E

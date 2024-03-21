@@ -11,12 +11,12 @@ void	validate_path(char *xpm)
 
 void	validate_game_assets(void)
 {
-	validate(game_assets_folder);
-	validate(boat);
-	validate(sand);
-	validate(rock);
-	validate(money);
-	validate(krab);
+	validate_path(game_assets_folder);
+	validate_path(boat);
+	validate_path(sand);
+	validate_path(rock);
+	validate_path(money);
+	validate_path(krab);
 }
 
 int	main(int argc, char **argv)
