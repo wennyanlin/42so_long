@@ -42,7 +42,7 @@ int	are_valid_map_objects(char *raw_map)
 		if (raw_map[i] && (raw_map[i] != WALL && raw_map[i] != NEWLINE &&
 			 raw_map[i] != PATH && raw_map[i] != EXIT &&
 			 raw_map[i] != COLLECTABLE && raw_map[i] != PLAYER) &&
-			 raw_map[i] > 32)
+			 raw_map[i] > 31)
 			return (0);
 		i++;
 	}

@@ -2,8 +2,8 @@
 # define SO_LONG_H
 
 //MACROS
-#define MAX_MAP_HEIGHT 17
-#define MAX_MAP_WIDTH 29
+#define MAX_MAP_HEIGHT 28
+#define MAX_MAP_WIDTH 55
 #define PLAYER 'P'
 #define COLLECTABLE 'C'
 #define EXIT 'E'
@@ -27,15 +27,15 @@
 #define rock "./game_assets/rock.xpm"
 #define money "./game_assets/money.xpm"
 #define krab "./game_assets/crab.xpm"
-
+#define game_assets_folder "./game_assets"
 
 //libraries
 # include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include "./mlx/mlx.h"
-#include "./ft_printf/ft_printf.h"
+#include "mlx.h"
+#include "ft_printf.h"
 #include <math.h>
 #include <errno.h>
 #include <string.h>

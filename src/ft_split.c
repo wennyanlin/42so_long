@@ -6,7 +6,6 @@ typedef struct s_row
 	char	*content;
 } t_row;
 
-
 int	count_rows(char *str, char seperator)
 {
 	int	i;

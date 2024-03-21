@@ -1,44 +1,47 @@
 NAME = so_long
 
-INCLUDES = ./so_long.h \
-			./mlx/mlx.h \
-			./ft_printf/ft_printf.h
+CC := gcc
+CFLAGS := -Wall -Wextra -Werror
+CPPFLAGS = -Iinclude -I$(SRC_DIR)/mlx -I$(SRC_DIR)/ft_printf
+LDFLAGS = -L$(SRC_DIR)/mlx -L$(SRC_DIR)/ft_printf
+LDLIBS := -framework OpenGL -framework AppKit -lmlx -lftprintf
 
-LIB = -Lmlx -lmlx -Lft_printf -lftprintf -framework OpenGL -framework AppKit
+SRC_DIR		:=	src
 
-SRCS = so_long.c utils_string.c check_game.c read_map.c\
-		ft_split.c backend_game.c frontend_game.c frontend_draw.c check_map.c\
-		handle_errors.c utils_array.c\
+SRC_FILES	:=	$(SRC_DIR)/so_long.c \
+				$(SRC_DIR)/utils_string.c \
+				$(SRC_DIR)/check_game.c \
+				$(SRC_DIR)/read_map.c \
+				$(SRC_DIR)/ft_split.c \
+				$(SRC_DIR)/backend_game.c \
+				$(SRC_DIR)/frontend_game.c \
+				$(SRC_DIR)/frontend_draw.c \
+				$(SRC_DIR)/check_map.c \
+				$(SRC_DIR)/handle_errors.c \
+				$(SRC_DIR)/utils_array.c
 
-OBJS = $(SRCS:.c=.o)
+OBJ_FILES	=	$(SRC_FILES:.c=.o)
 
-COMPILER = gcc
-
-CFLAGS = -Wall -Werror -Wextra
-
-%.o: %.
-	$(COMPILER) $(CFLAGS) -Imlx -Iftprintf -c $< -o ${<:.c=.o}
-
-$(NAME): $(OBJS) $(INCLUDES) Makefile
-		@make -C ./mlx all
-		@make -C ./ft_printf all
-		@$(COMPILER) $(SRCS) $(LIB) mlx/libmlx.a ft_printf/libftprintf.a -g -fsanitize=address -o $(NAME)
-
-all: $(NAME)
+all:	$(NAME)
 
 clean:
-		rm -f $(OBJS)
-		$(MAKE) -C ./mlx clean
-		$(MAKE) -C ./ft_printf clean
+		rm -f $(OBJ_FILES)
+		make -C $(SRC_DIR)/mlx clean
+		make -C $(SRC_DIR)/ft_printf clean
 
-
-fclean: clean
+fclean:	clean
 		rm -f $(NAME)
 
-re:		fclean all
+re:	fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all
 
+$(NAME): $(OBJ_FILES)
+	make -C $(SRC_DIR)/mlx
+	make -C $(SRC_DIR)/ft_printf
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $(OBJ_FILES) -o $@
+	
+	
 #-g -fsanitize=address
 #leaks --atExit -- ./so_long maps/map1.ber
 #mlx/libmlx.a -E

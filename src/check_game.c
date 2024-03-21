@@ -44,7 +44,7 @@ void	validate_map_objects(char **arr, t_play *game, int row, int column)
 
 t_play	final_check(t_play game)
 {
-	if (game.height < 4 || game.width < 4)
+	if (game.height < 4 && game.width < 4)
 		return (set_error("Map size smaller than minimum size.", game));
 	else if (game.height > MAX_MAP_HEIGHT || game.width > MAX_MAP_WIDTH)
 		return (set_error("Map size exceed maximum size.", game));
