@@ -5,7 +5,6 @@ CFLAGS := -Wall -Wextra -Werror
 CPPFLAGS = -Iinclude -I$(SRC_DIR)/mlx -I$(SRC_DIR)/ft_printf
 LDFLAGS = -L$(SRC_DIR)/mlx -L$(SRC_DIR)/ft_printf
 LDLIBS := -framework OpenGL -framework AppKit -lmlx -lftprintf
-
 SRC_DIR		:=	src
 
 SRC_FILES	:=	$(SRC_DIR)/so_long.c \
@@ -22,7 +21,10 @@ SRC_FILES	:=	$(SRC_DIR)/so_long.c \
 
 OBJ_FILES	=	$(SRC_FILES:.c=.o)
 
-all:	$(NAME)
+all: MLX FT_PRINTF $(NAME)
+
+$(NAME): $(OBJ_FILES)  Makefile src/so_long.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $(OBJ_FILES) -o $@
 
 clean:
 		rm -f $(OBJ_FILES)
@@ -34,16 +36,14 @@ fclean:	clean
 
 re:	fclean all
 
-.PHONY: all
+.PHONY: all clean fclean re MLX FT_PRINTF
 
-$(NAME): $(OBJ_FILES) $(MLX) $(FT_PRINTF) Makefile src/so_long.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $(OBJ_FILES) -o $@
-	
-$(MLX) :
-	make -C $(SRC_DIR)/mlx
+MLX:
+	make -C $(SRC_DIR)/mlx --no-print-directory
 
-$(FT_PRINTF):
-	make -C $(SRC_DIR)/ft_printf
+FT_PRINTF:
+	make -C $(SRC_DIR)/ft_printf --no-print-directory
+
 #-g -fsanitize=address
 #leaks --atExit -- ./so_long maps/map1.ber
 #mlx/libmlx.a -E
