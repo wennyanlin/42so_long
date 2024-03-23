@@ -25,15 +25,17 @@ int	main(int argc, char **argv)
 	t_data	state;
 	char 	*filepath;
 
-	if (argc != 2)
+	if (argc == 1)
+		write(2, RED "Error\nGame needed a map.\n" DEF, 40);
+	else if (argc > 2)
+		write(2, RED "Error\nToo many Arguments\n" DEF, 40);
+	else
 	{
-		ft_printf("Error\nGame needed a map.\n");
-		return (0);
+		validate_game_assets();
+		filepath = argv[1];
+		game = parse_map(filepath);
+		state = start_game(game);
+		quit_game(state, exit_success);
 	}
-	validate_game_assets();
-	filepath = argv[1];
-	game = parse_map(filepath);
-	state = start_game(game);
-	quit_game(state, exit_success);
-	return (0);
+	return (EXIT_FAILURE);
 }

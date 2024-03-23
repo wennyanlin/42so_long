@@ -1,6 +1,10 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+//COLORS
+#define RED "\033[0;31m"
+#define DEF "\033[0;37m"
+
 //MACROS
 #define MAX_MAP_HEIGHT 28
 #define MAX_MAP_WIDTH 55

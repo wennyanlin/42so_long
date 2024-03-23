@@ -73,7 +73,5 @@ char	**ft_split(char *str, char seperator)
 		rows[i++] = row.content;
 	}
 	rows[i] = NULL;
-	if (!rows[0])
-		return (NULL);
 	return (rows);
 }

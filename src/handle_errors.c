@@ -8,14 +8,19 @@ t_play	set_error(char *message, t_play game)
 
 void	raw_map_exit(char *raw_map, char *error_message)
 {
-	free(raw_map);
+	if (raw_map)
+	{
+		printf("free raw_map");
+		free(raw_map);
+	}
 	ft_printf("Error\n%s\n", error_message);
 	exit(EXIT_FAILURE);
 }
 
 void	map_exit(char **map, char *error_message)
 {
-	free_array(map);
+	if (map && *map)
+		free_array(map);
 	ft_printf("Error\n%s\n", error_message);
 	exit(EXIT_FAILURE);
 }

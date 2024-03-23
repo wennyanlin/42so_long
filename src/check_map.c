@@ -16,7 +16,6 @@ t_play empty_game()
 	return (game);
 }
 
-//Before splitting the input playground string into an array of string, check for the empty lines, spaces and other non-related characters.
 int are_empty_lines(char *raw_map)
 {
 	int i;
@@ -63,8 +62,10 @@ char **validate_map(char *filepath)
 		raw_map_exit(raw_map,  "Map can not contains empty lines.");
 	map = ft_split(raw_map, '\n');
 	free(raw_map);
-	if (map == NULL)
-		map_exit(map, "Failed to parse the map");
+	if (!map)
+		return (
+			ft_printf("Failed to Parse the map\n"), exit(EXIT_FAILURE), NULL
+		);
 	return map;
 }
 
