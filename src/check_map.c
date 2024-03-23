@@ -69,6 +69,8 @@ char	**validate_map(char *filepath)
 	raw_map = read_map_file(filepath);
 	if (!raw_map)
 		raw_map_exit(raw_map, strerror(errno));
+	if (*raw_map == '\0')
+		raw_map_exit(raw_map, "Map file is empty.");
 	if (!are_valid_map_objects(raw_map))
 		raw_map_exit(raw_map, "Map contains invalid objects.");
 	if (are_empty_lines(raw_map))

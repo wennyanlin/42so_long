@@ -45,7 +45,6 @@ char	*read_all_bytes(int fd, char *buffer, char *storage)
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == UNSET)
 		{
-			// ft_printf("Error\nFailed to parse the map.\n");
 			free(storage);
 			free(buffer);
 			return (NULL);
@@ -53,10 +52,6 @@ char	*read_all_bytes(int fd, char *buffer, char *storage)
 		buffer[bytes_read] = '\0';
 		storage = ft_strjoin(storage, buffer);
 	}
-	// if (bytes_read == 0)
-	// {
-	// 	ft_printf("Error\nEmpty map.\n");	
-	// }
 	close(fd);
 	free(buffer);
 	return (storage);
