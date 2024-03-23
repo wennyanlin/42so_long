@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   backend_game.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wlin <wlin@student.42barcelona.>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/23 16:06:15 by wlin              #+#    #+#             */
+/*   Updated: 2024/03/23 16:06:41 by wlin             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 char	validate_direction_command(int keycode)
@@ -44,7 +56,6 @@ int	can_move(t_play game, int newplayer_row, int newplayer_column)
 	else
 		return (INVALID);
 }
-
 
 void	update_player(t_play *game, int newplayer_row, int newplayer_column)
 {

@@ -1,16 +1,22 @@
-#include "so_long.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/23 16:31:12 by wlin              #+#    #+#             */
+/*   Updated: 2024/03/23 16:36:26 by wlin             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-typedef struct s_row
-{
-	int		continue_from;
-	char	*content;
-} t_row;
+#include "so_long.h"
 
 int	count_rows(char *str, char seperator)
 {
-	int	i;
-	int	count_rows;
-	char *str_copy;
+	int		i;
+	int		count_rows;
+	char	*str_copy;
 
 	i = 0;
 	count_rows = 0;
@@ -26,6 +32,7 @@ int	count_rows(char *str, char seperator)
 	}
 	return (count_rows);
 }
+
 t_row	get_next_row(char *str, char seperator, int continue_from)
 {
 	int		i;

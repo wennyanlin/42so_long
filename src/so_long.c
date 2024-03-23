@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/23 16:44:26 by wlin              #+#    #+#             */
+/*   Updated: 2024/03/23 16:53:49 by wlin             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 void	validate_path(char *xpm)
@@ -11,19 +23,19 @@ void	validate_path(char *xpm)
 
 void	validate_game_assets(void)
 {
-	validate_path(game_assets_folder);
-	validate_path(boat);
-	validate_path(sand);
-	validate_path(rock);
-	validate_path(money);
-	validate_path(krab);
+	validate_path(GAME_ASSETS_FOLDER);
+	validate_path(BOAT);
+	validate_path(SAND);
+	validate_path(ROCK);
+	validate_path(MONEY);
+	validate_path(KRAB);
 }
 
 int	main(int argc, char **argv)
 {
 	t_play	game;
 	t_data	state;
-	char 	*filepath;
+	char	*filepath;
 
 	if (argc == 1)
 		write(2, RED "Error\nGame needed a map.\n" DEF, 40);
@@ -35,7 +47,7 @@ int	main(int argc, char **argv)
 		filepath = argv[1];
 		game = parse_map(filepath);
 		state = start_game(game);
-		quit_game(state, exit_success);
+		quit_game(state, SUCCESS);
 	}
 	return (EXIT_FAILURE);
 }

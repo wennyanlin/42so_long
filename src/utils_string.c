@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_string.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wlin <wlin@student.42barcelona.>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/23 17:01:27 by wlin              #+#    #+#             */
+/*   Updated: 2024/03/23 17:03:15 by wlin             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 size_t	ft_strlen(char *str)
@@ -7,15 +19,15 @@ size_t	ft_strlen(char *str)
 	i = 0;
 	if (!str)
 		return (0);
-	while(str[i])
+	while (str[i])
 		i++;
 	return (i);
 }
 
-char *ft_strdup(char *src, int len)
+char	*ft_strdup(char *src, int len)
 {
 	int		i;
-	char 	*dest;
+	char	*dest;
 
 	i = -1;
 	dest = malloc(sizeof(char) * (len + 1));

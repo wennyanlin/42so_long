@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_array.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wlin <wlin@student.42barcelona.>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/23 16:59:14 by wlin              #+#    #+#             */
+/*   Updated: 2024/03/23 17:01:10 by wlin             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 void	free_array(char **array)
@@ -36,9 +48,11 @@ char	**ft_arraydup(char **array)
 
 void	fill(char **array, t_play game, int player_row, int player_column)
 {
-	int	width = game.width;
-	int	height = game.height;
+	int	width;
+	int	height;
 
+	width = game.width;
+	height = game.height;
 	if (player_column < 0 || player_column >= width || player_row < 0 \
 	|| player_row >= height || array[player_row][player_column] == '1')
 		return ;
@@ -56,9 +70,9 @@ void	fill(char **array, t_play game, int player_row, int player_column)
 
 char	**flood_fill(t_play game, char **array)
 {
-	char **array_to_fill;
-	int	player_column;
-	int	player_row;
+	char	**array_to_fill;
+	int		player_column;
+	int		player_row;
 
 	player_column = game.player_column;
 	player_row = game.player_row;

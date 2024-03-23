@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_game.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wlin <wlin@student.42barcelona.>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/23 16:10:56 by wlin              #+#    #+#             */
+/*   Updated: 2024/03/23 16:12:52 by wlin             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 void	validate_map_border(char **arr, t_play *game, int row)
@@ -17,7 +29,6 @@ void	validate_map_border(char **arr, t_play *game, int row)
 	else if (arr[row][0] != WALL || arr[row][game->width - 1] != WALL)
 		game->error = "Map border missing wall.";
 }
-
 
 void	validate_map_objects(char **arr, t_play *game, int row, int column)
 {
@@ -51,7 +62,7 @@ t_play	final_check(t_play game)
 	else if (game.player_row == UNSET || game.player_column == UNSET)
 		return (set_error("Map doesn't contain a player.", game));
 	else if (game.num_collectable == 0)
-	 	return (set_error("Map doesn't contain any collectable.", game));
+		return (set_error("Map doesn't contain any collectable.", game));
 	else if (game.is_exit_open == UNSET)
 		return (set_error("Map doesn't contain any exit.", game));
 	else if (check_exist_path(game, game.map) == INVALID)
@@ -59,12 +70,15 @@ t_play	final_check(t_play game)
 	else
 		return (game);
 }
+
 int	check_exist_path(t_play game, char **array)
 {
-	char 	**filled_array;
-	int		i = 0;
-	int		j = 0;
+	char	**filled_array;
+	int		i;
+	int		j;
 
+	i = 0;
+	j = 0;
 	filled_array = flood_fill(game, array);
 	while (filled_array[i])
 	{
@@ -83,8 +97,8 @@ int	check_exist_path(t_play game, char **array)
 
 t_play	validate_game(char **arr)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	t_play	game;
 
 	i = -1;

@@ -1,10 +1,10 @@
 NAME = so_long
 
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -MMD
+CFLAGS := -Wall -Wextra -Werror -MMD 
 CPPFLAGS = -Iinclude -I$(SRC_DIR)/mlx -I$(SRC_DIR)/ft_printf
 LDFLAGS = -L$(SRC_DIR)/mlx -L$(SRC_DIR)/ft_printf
-LDLIBS := -framework OpenGL -framework AppKit -lmlx -lftprintf
+LDLIBS := -framework OpenGL -framework AppKit -lmlx -lftprintf #-fsanitize=address 
 SRC_DIR		:=	src
 
 SRC_FILES	:=	$(SRC_DIR)/so_long.c \
@@ -25,7 +25,7 @@ DEP_FILES	=	$(SRC_FILES:.c=.d)
 all: MLX FT_PRINTF $(NAME)
 
 $(NAME): Makefile $(OBJ_FILES) src/so_long.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $(OBJ_FILES) -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(LDLIBS) $(OBJ_FILES) -o $@
 
 clean:
 		rm -f $(OBJ_FILES) $(DEP_FILES)
