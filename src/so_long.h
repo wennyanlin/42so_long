@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:45:25 by wlin              #+#    #+#             */
-/*   Updated: 2024/03/23 16:58:36 by wlin             ###   ########.fr       */
+/*   Updated: 2024/03/23 19:41:52 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdlib.h>
-# include "mlx.h"
-# include "ft_printf.h"
+# include "mlx/mlx.h"
+# include "ft_printf/ft_printf.h"
 # include <math.h>
 # include <errno.h>
 # include <string.h>

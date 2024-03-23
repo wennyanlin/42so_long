@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_game.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wlin <wlin@student.42barcelona.>           +#+  +:+       +#+        */
+/*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:10:56 by wlin              #+#    #+#             */
-/*   Updated: 2024/03/23 16:12:52 by wlin             ###   ########.fr       */
+/*   Updated: 2024/03/23 20:12:53 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ int	check_exist_path(t_play game, char **array)
 		while (filled_array[i][j])
 		{
 			if (filled_array[i][j] != WALL && filled_array[i][j] != PATH)
+			{
+				free_array(filled_array);
 				return (INVALID);
+			}
 			j++;
 		}
 		i++;
