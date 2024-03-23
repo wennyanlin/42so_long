@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:38:44 by wlin              #+#    #+#             */
-/*   Updated: 2024/03/23 18:22:51 by wlin             ###   ########.fr       */
+/*   Updated: 2024/03/23 20:30:29 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	*read_all_bytes(int fd, char *buffer, char *storage)
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == UNSET)
 		{
-			ft_printf("Error\nFailed to parse the map.\n");
 			free(storage);
 			free(buffer);
 			return (NULL);

@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:44:26 by wlin              #+#    #+#             */
-/*   Updated: 2024/03/23 16:53:49 by wlin             ###   ########.fr       */
+/*   Updated: 2024/03/23 20:28:16 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv)
 	if (argc == 1)
 		write(2, RED "Error\nGame needed a map.\n" DEF, 40);
 	else if (argc > 2)
-		write(2, RED "Error\nToo many Arguments\n" DEF, 40);
+		write(2, RED "Error\nToo many arguments\n" DEF, 40);
 	else
 	{
 		validate_game_assets();
